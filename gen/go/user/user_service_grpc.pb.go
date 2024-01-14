@@ -24,6 +24,8 @@ const (
 	User_UpdateUser_FullMethodName    = "/user.User/UpdateUser"
 	User_DeleteUser_FullMethodName    = "/user.User/DeleteUser"
 	User_Login_FullMethodName         = "/user.User/Login"
+	User_Logout_FullMethodName        = "/user.User/Logout"
+	User_CheckUserRole_FullMethodName = "/user.User/CheckUserRole"
 	User_GetUser_FullMethodName       = "/user.User/GetUser"
 	User_ListUsers_FullMethodName     = "/user.User/ListUsers"
 	User_VerifyEmail_FullMethodName   = "/user.User/VerifyEmail"
@@ -39,6 +41,8 @@ type UserClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
+	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	CheckUserRole(ctx context.Context, in *CheckUserRoleRequest, opts ...grpc.CallOption) (*CheckUserRoleResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -84,6 +88,24 @@ func (c *userClient) DeleteUser(ctx context.Context, in *DeleteUserRequest, opts
 func (c *userClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error) {
 	out := new(LoginResponse)
 	err := c.cc.Invoke(ctx, User_Login_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, User_Logout_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) CheckUserRole(ctx context.Context, in *CheckUserRoleRequest, opts ...grpc.CallOption) (*CheckUserRoleResponse, error) {
+	out := new(CheckUserRoleResponse)
+	err := c.cc.Invoke(ctx, User_CheckUserRole_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -143,6 +165,8 @@ type UserServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*empty.Empty, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
+	Logout(context.Context, *LogoutRequest) (*empty.Empty, error)
+	CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*empty.Empty, error)
@@ -166,6 +190,12 @@ func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteUserRequest) (
 }
 func (UnimplementedUserServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+}
+func (UnimplementedUserServer) Logout(context.Context, *LogoutRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
+}
+func (UnimplementedUserServer) CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckUserRole not implemented")
 }
 func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
@@ -263,6 +293,42 @@ func _User_Login_Handler(srv interface{}, ctx context.Context, dec func(interfac
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).Login(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).Logout(ctx, req.(*LogoutRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_CheckUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).CheckUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_CheckUserRole_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).CheckUserRole(ctx, req.(*CheckUserRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -379,6 +445,14 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Login",
 			Handler:    _User_Login_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _User_Logout_Handler,
+		},
+		{
+			MethodName: "CheckUserRole",
+			Handler:    _User_CheckUserRole_Handler,
 		},
 		{
 			MethodName: "GetUser",

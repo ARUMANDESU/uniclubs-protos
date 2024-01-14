@@ -11,6 +11,8 @@ service User{
     rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
     rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
     rpc Login(LoginRequest) returns (LoginResponse);
+    rpc Logout(LogoutRequest) returns (google.protobuf.Empty);
+    rpc CheckUserRole(CheckUserRoleRequest) returns (CheckUserRoleResponse);
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
     rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
     rpc VerifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
@@ -45,7 +47,7 @@ message UpdateUserRequest {
     int32 year = 8;
 }
 message UpdateUserResponse {
-    string token = 1;
+    int64 user_id = 1;
 }
 
 
@@ -60,13 +62,17 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string token = 1;
+    string session_token = 1;
 }
 
+message LogoutRequest{
+    string session_token = 1;
+}
 
 message GetUserRequest {
     int64 user_id = 1;
 }
+
 message GetUserResponse {
     int64 user_id = 1;
     string email = 2;
@@ -77,13 +83,22 @@ message GetUserResponse {
     string group_name = 7;
     int32 year = 8;
     string created_at = 9;
+    Role role = 10;
 }
 
+message CheckUserRoleRequest {
+    int64 user_id = 1;
+    repeated Role role = 2;
+}
+
+message CheckUserRoleResponse {
+    bool has_role = 1;
+}
 
 message ListUsersRequest {
     string filter_by_email = 1;
     string filter_by_first_name = 2;
-    string filter_by_second_name = 3;
+    string filter_by_last_name = 3;
     int32 page_number = 4;
     int32 page_size = 5;
 }
@@ -102,6 +117,15 @@ message UserObject {
     string group_name = 7;
     int32 year = 8;
     string created_at = 9;
+    Role role = 10;
+}
+
+enum Role {
+    GUEST = 0;
+    USER = 1;
+    MODER = 2;
+    ADMIN = 3;
+    DSVR = 4;
 }
 
 message VerifyEmailRequest {
