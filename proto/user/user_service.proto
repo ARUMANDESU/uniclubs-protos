@@ -18,6 +18,7 @@ service User{
     rpc VerifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
+    rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
 }
 
 message RegisterRequest {
@@ -137,5 +138,13 @@ message UnlockAccountRequest {
 }
 
 message LockAccountRequest {
+    int64 user_id = 1;
+}
+
+message AuthenticateRequest {
+    string session_token = 1;
+}
+
+message AuthenticateResponse {
     int64 user_id = 1;
 }
