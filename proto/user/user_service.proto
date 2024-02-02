@@ -5,6 +5,8 @@ package user;
 option go_package = "uniclubs.user_service.v1.userv1";
 
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
 
 service User{
     rpc Register(RegisterRequest) returns (RegisterResponse);
@@ -39,13 +41,12 @@ message RegisterResponse {
 
 message UpdateUserRequest {
     int64 user_id = 1;
-    string email = 2;
-    string first_name = 3;
-    string last_name = 4;
-    string barcode = 5;
-    string major = 6;
-    string group_name = 7;
-    int32 year = 8;
+    string first_name = 2;
+    string last_name = 3;
+    string major = 4;
+    string group_name = 5;
+    int32 year = 6;
+    google.protobuf.FieldMask update_mask = 7;
 }
 message UpdateUserResponse {
     int64 user_id = 1;
@@ -83,7 +84,7 @@ message GetUserResponse {
     string major = 6;
     string group_name = 7;
     int32 year = 8;
-    string created_at = 9;
+    google.protobuf.Timestamp created_at = 9;
     Role role = 10;
 }
 
@@ -117,7 +118,7 @@ message UserObject {
     string major = 6;
     string group_name = 7;
     int32 year = 8;
-    string created_at = 9;
+    google.protobuf.Timestamp created_at = 9;
     Role role = 10;
 }
 
