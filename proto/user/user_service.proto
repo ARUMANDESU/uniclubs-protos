@@ -17,7 +17,7 @@ service User{
     rpc CheckUserRole(CheckUserRoleRequest) returns (CheckUserRoleResponse);
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
     rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
-    rpc VerifyEmail(VerifyEmailRequest) returns (google.protobuf.Empty);
+    rpc ActivateUser(ActivateUserRequest) returns (google.protobuf.Empty);
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
     rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
@@ -130,7 +130,7 @@ enum Role {
     DSVR = 4;
 }
 
-message VerifyEmailRequest {
+message ActivateUserRequest {
     string verification_token = 1;
 }
 

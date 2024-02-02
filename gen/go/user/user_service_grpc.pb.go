@@ -31,7 +31,7 @@ type UserClient interface {
 	CheckUserRole(ctx context.Context, in *CheckUserRoleRequest, opts ...grpc.CallOption) (*CheckUserRoleResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
-	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	ActivateUser(ctx context.Context, in *ActivateUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UnlockAccount(ctx context.Context, in *UnlockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
@@ -117,9 +117,9 @@ func (c *userClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts .
 	return out, nil
 }
 
-func (c *userClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *userClient) ActivateUser(ctx context.Context, in *ActivateUserRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/user.User/VerifyEmail", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/user.User/ActivateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ type UserServer interface {
 	CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
-	VerifyEmail(context.Context, *VerifyEmailRequest) (*empty.Empty, error)
+	ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error)
 	UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error)
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
 	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
@@ -200,8 +200,8 @@ func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUs
 func (UnimplementedUserServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
 }
-func (UnimplementedUserServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
+func (UnimplementedUserServer) ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ActivateUser not implemented")
 }
 func (UnimplementedUserServer) UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnlockAccount not implemented")
@@ -369,20 +369,20 @@ func _User_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_VerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(VerifyEmailRequest)
+func _User_ActivateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ActivateUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).VerifyEmail(ctx, in)
+		return srv.(UserServer).ActivateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.User/VerifyEmail",
+		FullMethod: "/user.User/ActivateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).VerifyEmail(ctx, req.(*VerifyEmailRequest))
+		return srv.(UserServer).ActivateUser(ctx, req.(*ActivateUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -481,8 +481,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_ListUsers_Handler,
 		},
 		{
-			MethodName: "VerifyEmail",
-			Handler:    _User_VerifyEmail_Handler,
+			MethodName: "ActivateUser",
+			Handler:    _User_ActivateUser_Handler,
 		},
 		{
 			MethodName: "UnlockAccount",
