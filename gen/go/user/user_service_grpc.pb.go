@@ -30,7 +30,7 @@ type UserClient interface {
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	CheckUserRole(ctx context.Context, in *CheckUserRoleRequest, opts ...grpc.CallOption) (*CheckUserRoleResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
-	ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error)
+	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
 	ActivateUser(ctx context.Context, in *ActivateUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UnlockAccount(ctx context.Context, in *UnlockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -108,9 +108,9 @@ func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...gr
 	return out, nil
 }
 
-func (c *userClient) ListUsers(ctx context.Context, in *ListUsersRequest, opts ...grpc.CallOption) (*ListUsersResponse, error) {
-	out := new(ListUsersResponse)
-	err := c.cc.Invoke(ctx, "/user.User/ListUsers", in, out, opts...)
+func (c *userClient) SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error) {
+	out := new(SearchUsersResponse)
+	err := c.cc.Invoke(ctx, "/user.User/SearchUsers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -164,7 +164,7 @@ type UserServer interface {
 	Logout(context.Context, *LogoutRequest) (*empty.Empty, error)
 	CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
-	ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error)
+	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
 	ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error)
 	UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error)
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
@@ -197,8 +197,8 @@ func (UnimplementedUserServer) CheckUserRole(context.Context, *CheckUserRoleRequ
 func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedUserServer) ListUsers(context.Context, *ListUsersRequest) (*ListUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListUsers not implemented")
+func (UnimplementedUserServer) SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchUsers not implemented")
 }
 func (UnimplementedUserServer) ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActivateUser not implemented")
@@ -351,20 +351,20 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_ListUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListUsersRequest)
+func _User_SearchUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchUsersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).ListUsers(ctx, in)
+		return srv.(UserServer).SearchUsers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.User/ListUsers",
+		FullMethod: "/user.User/SearchUsers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).ListUsers(ctx, req.(*ListUsersRequest))
+		return srv.(UserServer).SearchUsers(ctx, req.(*SearchUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -477,8 +477,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_GetUser_Handler,
 		},
 		{
-			MethodName: "ListUsers",
-			Handler:    _User_ListUsers_Handler,
+			MethodName: "SearchUsers",
+			Handler:    _User_SearchUsers_Handler,
 		},
 		{
 			MethodName: "ActivateUser",

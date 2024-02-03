@@ -16,7 +16,7 @@ service User{
     rpc Logout(LogoutRequest) returns (google.protobuf.Empty);
     rpc CheckUserRole(CheckUserRoleRequest) returns (CheckUserRoleResponse);
     rpc GetUser(GetUserRequest) returns (GetUserResponse);
-    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+    rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse);
     rpc ActivateUser(ActivateUserRequest) returns (google.protobuf.Empty);
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
@@ -97,16 +97,23 @@ message CheckUserRoleResponse {
     bool has_role = 1;
 }
 
-message ListUsersRequest {
-    string filter_by_email = 1;
-    string filter_by_first_name = 2;
-    string filter_by_last_name = 3;
-    int32 page_number = 4;
-    int32 page_size = 5;
+message SearchUsersRequest {
+    string query = 1;
+    int32 page_number = 2;
+    int32 page_size = 3;
 }
-message ListUsersResponse {
+
+message SearchUsersResponse {
     repeated UserObject users = 1;
-    int32 total_users = 2;
+    SearchUsersMetadata metadata = 2;
+}
+
+message SearchUsersMetadata {
+    int32 current_page = 1;
+    int32 page_size = 2;
+    int32 first_page = 3;
+    int32 last_page = 4;
+    int32 total_records = 5;
 }
 
 message UserObject {
