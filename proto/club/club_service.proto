@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package club;
+
+option go_package = "uniclubs.club_service.v1.clubv1";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+
+service Club {
+  rpc CreateClub(CreateClubRequest) returns (google.protobuf.Empty);
+  rpc HandleClubCreateRequest(HandleClubRequest) returns (google.protobuf.Empty);
+  rpc DeleteClub(DeleteClubRequest) returns (google.protobuf.Empty);
+  rpc UpdateClub(UpdateClubRequest) returns (google.protobuf.Empty);
+  rpc GetClub(GetClubRequest) returns (GetClubResponse);
+}
+
+message CreateClubRequest {
+  string name = 1;
+  string description = 2;
+  string club_type = 3;
+  int64 owner_id = 4;
+}
+
+message HandleClubRequest {
+  int64 club_id = 1;
+  HandleClubAction action = 2;
+}
+
+enum HandleClubAction {
+  REJECT = 0;
+  APPROVE = 1;
+}
+
+message DeleteClubRequest {
+  int64 club_id = 1;
+}
+
+message UpdateClubRequest {
+  int64 club_id = 1;
+  string name = 2;
+  string description = 3;
+  string club_type = 4;
+  google.protobuf.FieldMask update_mask = 5;
+}
+
+message GetClubRequest {
+  int64 club_id = 1;
+}
+
+message GetClubResponse {
+  ClubObject club = 1;
+  repeated UserObject members = 2;
+}
+
+message ClubObject {
+  int64 club_id = 1;
+  string name = 2;
+  string description = 3;
+  string club_type = 4;
+  int32 number_of_members = 5;
+  int32 number_of_complete_events = 6;
+  string logo_url = 7;
+  string banner_url = 8;
+  google.protobuf.Timestamp created_at = 9;
+}
+
+message UserObject {
+  int64 user_id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  string barcode = 5;
+  string role = 6;
+}
