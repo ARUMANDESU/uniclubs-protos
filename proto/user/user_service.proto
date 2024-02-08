@@ -161,5 +161,6 @@ message AuthenticateResponse {
 }
 
 message UpdateAvatarRequest {
-    bytes image = 1;
+    int64 user_id = 1;
+    bytes image = 2;
 }
