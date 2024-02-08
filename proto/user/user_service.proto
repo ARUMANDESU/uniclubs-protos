@@ -21,6 +21,7 @@ service User{
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
     rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+    rpc UpdateAvatar(UpdateAvatarRequest) returns (google.protobuf.Empty);
 }
 
 message RegisterRequest {
@@ -84,8 +85,9 @@ message GetUserResponse {
     string major = 6;
     string group_name = 7;
     int32 year = 8;
-    google.protobuf.Timestamp created_at = 9;
-    Role role = 10;
+    string avatar_url = 9;
+    google.protobuf.Timestamp created_at = 10;
+    Role role = 11;
 }
 
 message CheckUserRoleRequest {
@@ -125,8 +127,9 @@ message UserObject {
     string major = 6;
     string group_name = 7;
     int32 year = 8;
-    google.protobuf.Timestamp created_at = 9;
-    Role role = 10;
+    string avatar_url = 9;
+    google.protobuf.Timestamp created_at = 10;
+    Role role = 11;
 }
 
 enum Role {
@@ -155,4 +158,8 @@ message AuthenticateRequest {
 
 message AuthenticateResponse {
     int64 user_id = 1;
+}
+
+message UpdateAvatarRequest {
+    bytes image = 1;
 }
