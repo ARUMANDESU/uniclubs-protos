@@ -78,7 +78,7 @@ message UserObject {
 
 message ListClubRequest {
   string query = 1;
-  string club_type = 2;
+  repeated string club_type = 2;
   int32 page_number = 3;
   int32 page_size = 4;
 }
@@ -91,7 +91,7 @@ message ListClubResponse {
 
 message ListNotActivatedClubsRequest {
   string query = 1;
-  string club_type = 2;
+  repeated string club_type = 2;
   int32 page_number = 3;
   int32 page_size = 4;
 }
