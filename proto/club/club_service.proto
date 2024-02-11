@@ -10,10 +10,14 @@ import "google/protobuf/field_mask.proto";
 
 service Club {
   rpc CreateClub(CreateClubRequest) returns (google.protobuf.Empty);
-  rpc HandleClubCreateRequest(HandleClubRequest) returns (google.protobuf.Empty);
-  rpc DeleteClub(DeleteClubRequest) returns (google.protobuf.Empty);
+  rpc HandleNewClub(HandleNewClubRequest) returns (google.protobuf.Empty);
+  rpc GetClub(GetClubRequest) returns (ClubObject);
+  rpc ListClubs(ListClubRequest) returns (ListClubResponse);
+  rpc ListNotActivatedClubs(ListNotActivatedClubsRequest) returns (ListNotActivatedClubsResponse);
+  rpc RequestToJoinClub(RequestToJoinClubRequest) returns (google.protobuf.Empty);
+  rpc HandleJoinClub(HandleJoinClubRequest) returns (google.protobuf.Empty);
+  rpc DeactivateClub(DeleteClubRequest) returns (google.protobuf.Empty);
   rpc UpdateClub(UpdateClubRequest) returns (google.protobuf.Empty);
-  rpc GetClub(GetClubRequest) returns (GetClubResponse);
 }
 
 message CreateClubRequest {
@@ -23,7 +27,7 @@ message CreateClubRequest {
   int64 owner_id = 4;
 }
 
-message HandleClubRequest {
+message HandleNewClubRequest {
   int64 club_id = 1;
   HandleClubAction action = 2;
 }
@@ -35,23 +39,20 @@ enum HandleClubAction {
 
 message DeleteClubRequest {
   int64 club_id = 1;
+  int64 user_id = 2;
 }
 
 message UpdateClubRequest {
   int64 club_id = 1;
-  string name = 2;
-  string description = 3;
-  string club_type = 4;
-  google.protobuf.FieldMask update_mask = 5;
+  int64 user_id = 2;
+  string name = 3;
+  string description = 4;
+  string club_type = 5;
+  google.protobuf.FieldMask update_mask = 6;
 }
 
 message GetClubRequest {
   int64 club_id = 1;
-}
-
-message GetClubResponse {
-  ClubObject club = 1;
-  repeated UserObject members = 2;
 }
 
 message ClubObject {
@@ -59,11 +60,10 @@ message ClubObject {
   string name = 2;
   string description = 3;
   string club_type = 4;
-  int32 number_of_members = 5;
-  int32 number_of_complete_events = 6;
-  string logo_url = 7;
-  string banner_url = 8;
-  google.protobuf.Timestamp created_at = 9;
+  string logo_url = 5;
+  string banner_url = 6;
+  int64 number_of_members = 7;
+  google.protobuf.Timestamp created_at = 8;
 }
 
 message UserObject {
@@ -72,5 +72,53 @@ message UserObject {
   string first_name = 3;
   string last_name = 4;
   string barcode = 5;
-  string role = 6;
+  string avatar_url = 6;
+  string role = 7;
+}
+
+message ListClubRequest {
+  string query = 1;
+  string club_type = 2;
+  int32 page_number = 3;
+  int32 page_size = 4;
+}
+
+message ListClubResponse {
+  repeated ClubObject clubs = 1;
+  PaginationMetadata metadata = 2;
+}
+
+
+message ListNotActivatedClubsRequest {
+  string query = 1;
+  string club_type = 2;
+  int32 page_number = 3;
+  int32 page_size = 4;
+}
+
+message ListNotActivatedClubsResponse {
+  repeated NotActivatedClubsList list = 1;
+  PaginationMetadata metadata = 2;
+}
+
+message NotActivatedClubsList {
+  ClubObject clubs = 1;
+  UserObject owner = 2;
+}
+
+message PaginationMetadata {
+  int32 current_page = 1;
+  int32 page_size = 2;
+  int32 first_page = 3;
+  int32 last_page = 4;
+  int32 total_records = 5;
+}
+
+message RequestToJoinClubRequest {
+  int64 user_id = 1;
+  int64 club_id = 2;
+}
+
+message HandleJoinClubRequest {
+
 }

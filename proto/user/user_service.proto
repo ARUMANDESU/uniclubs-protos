@@ -22,6 +22,7 @@ service User{
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
     rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
     rpc UpdateAvatar(UpdateAvatarRequest) returns (google.protobuf.Empty);
+    rpc ChangeUserRole(ChangeUserRoleRequest) returns (google.protobuf.Empty);
 }
 
 message RegisterRequest {
@@ -163,4 +164,10 @@ message AuthenticateResponse {
 message UpdateAvatarRequest {
     int64 user_id = 1;
     bytes image = 2;
+}
+
+message ChangeUserRoleRequest{
+    int64 user_id = 1;
+    int64 target_id = 2;
+    Role role = 3;
 }

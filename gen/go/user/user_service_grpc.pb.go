@@ -36,6 +36,7 @@ type UserClient interface {
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type userClient struct {
@@ -163,6 +164,15 @@ func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, 
 	return out, nil
 }
 
+func (c *userClient) ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/user.User/ChangeUserRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -180,6 +190,7 @@ type UserServer interface {
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
 	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*empty.Empty, error)
+	ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -225,6 +236,9 @@ func (UnimplementedUserServer) Authenticate(context.Context, *AuthenticateReques
 }
 func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
+}
+func (UnimplementedUserServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeUserRole not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -473,6 +487,24 @@ func _User_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ChangeUserRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeUserRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ChangeUserRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/user.User/ChangeUserRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ChangeUserRole(ctx, req.(*ChangeUserRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -531,6 +563,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAvatar",
 			Handler:    _User_UpdateAvatar_Handler,
+		},
+		{
+			MethodName: "ChangeUserRole",
+			Handler:    _User_ChangeUserRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

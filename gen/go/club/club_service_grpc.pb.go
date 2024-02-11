@@ -24,10 +24,14 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ClubClient interface {
 	CreateClub(ctx context.Context, in *CreateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	HandleClubCreateRequest(ctx context.Context, in *HandleClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	DeleteClub(ctx context.Context, in *DeleteClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	HandleNewClub(ctx context.Context, in *HandleNewClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	GetClub(ctx context.Context, in *GetClubRequest, opts ...grpc.CallOption) (*ClubObject, error)
+	ListClubs(ctx context.Context, in *ListClubRequest, opts ...grpc.CallOption) (*ListClubResponse, error)
+	ListNotActivatedClubs(ctx context.Context, in *ListNotActivatedClubsRequest, opts ...grpc.CallOption) (*ListNotActivatedClubsResponse, error)
+	RequestToJoinClub(ctx context.Context, in *RequestToJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	HandleJoinClub(ctx context.Context, in *HandleJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	DeactivateClub(ctx context.Context, in *DeleteClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	GetClub(ctx context.Context, in *GetClubRequest, opts ...grpc.CallOption) (*GetClubResponse, error)
 }
 
 type clubClient struct {
@@ -47,18 +51,63 @@ func (c *clubClient) CreateClub(ctx context.Context, in *CreateClubRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) HandleClubCreateRequest(ctx context.Context, in *HandleClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *clubClient) HandleNewClub(ctx context.Context, in *HandleNewClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/club.Club/HandleClubCreateRequest", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/club.Club/HandleNewClub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *clubClient) DeleteClub(ctx context.Context, in *DeleteClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *clubClient) GetClub(ctx context.Context, in *GetClubRequest, opts ...grpc.CallOption) (*ClubObject, error) {
+	out := new(ClubObject)
+	err := c.cc.Invoke(ctx, "/club.Club/GetClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) ListClubs(ctx context.Context, in *ListClubRequest, opts ...grpc.CallOption) (*ListClubResponse, error) {
+	out := new(ListClubResponse)
+	err := c.cc.Invoke(ctx, "/club.Club/ListClubs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) ListNotActivatedClubs(ctx context.Context, in *ListNotActivatedClubsRequest, opts ...grpc.CallOption) (*ListNotActivatedClubsResponse, error) {
+	out := new(ListNotActivatedClubsResponse)
+	err := c.cc.Invoke(ctx, "/club.Club/ListNotActivatedClubs", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) RequestToJoinClub(ctx context.Context, in *RequestToJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
 	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/club.Club/DeleteClub", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/club.Club/RequestToJoinClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) HandleJoinClub(ctx context.Context, in *HandleJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/HandleJoinClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) DeactivateClub(ctx context.Context, in *DeleteClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/DeactivateClub", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,24 +123,19 @@ func (c *clubClient) UpdateClub(ctx context.Context, in *UpdateClubRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) GetClub(ctx context.Context, in *GetClubRequest, opts ...grpc.CallOption) (*GetClubResponse, error) {
-	out := new(GetClubResponse)
-	err := c.cc.Invoke(ctx, "/club.Club/GetClub", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ClubServer is the server API for Club service.
 // All implementations must embed UnimplementedClubServer
 // for forward compatibility
 type ClubServer interface {
 	CreateClub(context.Context, *CreateClubRequest) (*empty.Empty, error)
-	HandleClubCreateRequest(context.Context, *HandleClubRequest) (*empty.Empty, error)
-	DeleteClub(context.Context, *DeleteClubRequest) (*empty.Empty, error)
+	HandleNewClub(context.Context, *HandleNewClubRequest) (*empty.Empty, error)
+	GetClub(context.Context, *GetClubRequest) (*ClubObject, error)
+	ListClubs(context.Context, *ListClubRequest) (*ListClubResponse, error)
+	ListNotActivatedClubs(context.Context, *ListNotActivatedClubsRequest) (*ListNotActivatedClubsResponse, error)
+	RequestToJoinClub(context.Context, *RequestToJoinClubRequest) (*empty.Empty, error)
+	HandleJoinClub(context.Context, *HandleJoinClubRequest) (*empty.Empty, error)
+	DeactivateClub(context.Context, *DeleteClubRequest) (*empty.Empty, error)
 	UpdateClub(context.Context, *UpdateClubRequest) (*empty.Empty, error)
-	GetClub(context.Context, *GetClubRequest) (*GetClubResponse, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -102,17 +146,29 @@ type UnimplementedClubServer struct {
 func (UnimplementedClubServer) CreateClub(context.Context, *CreateClubRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateClub not implemented")
 }
-func (UnimplementedClubServer) HandleClubCreateRequest(context.Context, *HandleClubRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method HandleClubCreateRequest not implemented")
+func (UnimplementedClubServer) HandleNewClub(context.Context, *HandleNewClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleNewClub not implemented")
 }
-func (UnimplementedClubServer) DeleteClub(context.Context, *DeleteClubRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteClub not implemented")
+func (UnimplementedClubServer) GetClub(context.Context, *GetClubRequest) (*ClubObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClub not implemented")
+}
+func (UnimplementedClubServer) ListClubs(context.Context, *ListClubRequest) (*ListClubResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListClubs not implemented")
+}
+func (UnimplementedClubServer) ListNotActivatedClubs(context.Context, *ListNotActivatedClubsRequest) (*ListNotActivatedClubsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListNotActivatedClubs not implemented")
+}
+func (UnimplementedClubServer) RequestToJoinClub(context.Context, *RequestToJoinClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RequestToJoinClub not implemented")
+}
+func (UnimplementedClubServer) HandleJoinClub(context.Context, *HandleJoinClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleJoinClub not implemented")
+}
+func (UnimplementedClubServer) DeactivateClub(context.Context, *DeleteClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateClub not implemented")
 }
 func (UnimplementedClubServer) UpdateClub(context.Context, *UpdateClubRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateClub not implemented")
-}
-func (UnimplementedClubServer) GetClub(context.Context, *GetClubRequest) (*GetClubResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetClub not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -145,56 +201,20 @@ func _Club_CreateClub_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Club_HandleClubCreateRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HandleClubRequest)
+func _Club_HandleNewClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleNewClubRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ClubServer).HandleClubCreateRequest(ctx, in)
+		return srv.(ClubServer).HandleNewClub(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/club.Club/HandleClubCreateRequest",
+		FullMethod: "/club.Club/HandleNewClub",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).HandleClubCreateRequest(ctx, req.(*HandleClubRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Club_DeleteClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DeleteClubRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ClubServer).DeleteClub(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/club.Club/DeleteClub",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).DeleteClub(ctx, req.(*DeleteClubRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Club_UpdateClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateClubRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ClubServer).UpdateClub(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/club.Club/UpdateClub",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).UpdateClub(ctx, req.(*UpdateClubRequest))
+		return srv.(ClubServer).HandleNewClub(ctx, req.(*HandleNewClubRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -217,6 +237,114 @@ func _Club_GetClub_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_ListClubs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).ListClubs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/ListClubs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).ListClubs(ctx, req.(*ListClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_ListNotActivatedClubs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListNotActivatedClubsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).ListNotActivatedClubs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/ListNotActivatedClubs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).ListNotActivatedClubs(ctx, req.(*ListNotActivatedClubsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_RequestToJoinClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RequestToJoinClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).RequestToJoinClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/RequestToJoinClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).RequestToJoinClub(ctx, req.(*RequestToJoinClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_HandleJoinClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleJoinClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).HandleJoinClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/HandleJoinClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).HandleJoinClub(ctx, req.(*HandleJoinClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_DeactivateClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).DeactivateClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/DeactivateClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).DeactivateClub(ctx, req.(*DeleteClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_UpdateClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).UpdateClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/UpdateClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).UpdateClub(ctx, req.(*UpdateClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Club_ServiceDesc is the grpc.ServiceDesc for Club service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -229,20 +357,36 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Club_CreateClub_Handler,
 		},
 		{
-			MethodName: "HandleClubCreateRequest",
-			Handler:    _Club_HandleClubCreateRequest_Handler,
-		},
-		{
-			MethodName: "DeleteClub",
-			Handler:    _Club_DeleteClub_Handler,
-		},
-		{
-			MethodName: "UpdateClub",
-			Handler:    _Club_UpdateClub_Handler,
+			MethodName: "HandleNewClub",
+			Handler:    _Club_HandleNewClub_Handler,
 		},
 		{
 			MethodName: "GetClub",
 			Handler:    _Club_GetClub_Handler,
+		},
+		{
+			MethodName: "ListClubs",
+			Handler:    _Club_ListClubs_Handler,
+		},
+		{
+			MethodName: "ListNotActivatedClubs",
+			Handler:    _Club_ListNotActivatedClubs_Handler,
+		},
+		{
+			MethodName: "RequestToJoinClub",
+			Handler:    _Club_RequestToJoinClub_Handler,
+		},
+		{
+			MethodName: "HandleJoinClub",
+			Handler:    _Club_HandleJoinClub_Handler,
+		},
+		{
+			MethodName: "DeactivateClub",
+			Handler:    _Club_DeactivateClub_Handler,
+		},
+		{
+			MethodName: "UpdateClub",
+			Handler:    _Club_UpdateClub_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
