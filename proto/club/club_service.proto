@@ -16,7 +16,7 @@ service Club {
   rpc ListNotActivatedClubs(ListNotActivatedClubsRequest) returns (ListNotActivatedClubsResponse);
   rpc RequestToJoinClub(RequestToJoinClubRequest) returns (google.protobuf.Empty);
   rpc HandleJoinClub(HandleJoinClubRequest) returns (google.protobuf.Empty);
-  rpc DeactivateClub(DeleteClubRequest) returns (google.protobuf.Empty);
+  rpc DeactivateClub(DeactivateClubRequest) returns (google.protobuf.Empty);
   rpc UpdateClub(UpdateClubRequest) returns (google.protobuf.Empty);
 }
 
@@ -37,7 +37,7 @@ enum HandleClubAction {
   APPROVE = 1;
 }
 
-message DeleteClubRequest {
+message DeactivateClubRequest {
   int64 club_id = 1;
   int64 user_id = 2;
 }
@@ -120,5 +120,7 @@ message RequestToJoinClubRequest {
 }
 
 message HandleJoinClubRequest {
-
+  int64 club_id = 1;
+  int64 user_id = 2;
+  HandleClubAction action = 3;
 }
