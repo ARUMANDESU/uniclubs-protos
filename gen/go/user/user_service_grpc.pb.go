@@ -24,18 +24,18 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserObject, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Logout(ctx context.Context, in *LogoutRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	CheckUserRole(ctx context.Context, in *CheckUserRoleRequest, opts ...grpc.CallOption) (*CheckUserRoleResponse, error)
-	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
+	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserObject, error)
 	SearchUsers(ctx context.Context, in *SearchUsersRequest, opts ...grpc.CallOption) (*SearchUsersResponse, error)
 	ActivateUser(ctx context.Context, in *ActivateUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UnlockAccount(ctx context.Context, in *UnlockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
-	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UserObject, error)
 	ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -56,8 +56,8 @@ func (c *userClient) Register(ctx context.Context, in *RegisterRequest, opts ...
 	return out, nil
 }
 
-func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
-	out := new(UpdateUserResponse)
+func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserObject, error) {
+	out := new(UserObject)
 	err := c.cc.Invoke(ctx, "/user.User/UpdateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -101,8 +101,8 @@ func (c *userClient) CheckUserRole(ctx context.Context, in *CheckUserRoleRequest
 	return out, nil
 }
 
-func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
-	out := new(GetUserResponse)
+func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*UserObject, error) {
+	out := new(UserObject)
 	err := c.cc.Invoke(ctx, "/user.User/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -155,8 +155,8 @@ func (c *userClient) Authenticate(ctx context.Context, in *AuthenticateRequest, 
 	return out, nil
 }
 
-func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UserObject, error) {
+	out := new(UserObject)
 	err := c.cc.Invoke(ctx, "/user.User/UpdateAvatar", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -178,18 +178,18 @@ func (c *userClient) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReque
 // for forward compatibility
 type UserServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UserObject, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*empty.Empty, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Logout(context.Context, *LogoutRequest) (*empty.Empty, error)
 	CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error)
-	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
+	GetUser(context.Context, *GetUserRequest) (*UserObject, error)
 	SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error)
 	ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error)
 	UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error)
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
 	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
-	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*empty.Empty, error)
+	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error)
 	ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -201,7 +201,7 @@ type UnimplementedUserServer struct {
 func (UnimplementedUserServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error) {
+func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserRequest) (*UserObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
 func (UnimplementedUserServer) DeleteUser(context.Context, *DeleteUserRequest) (*empty.Empty, error) {
@@ -216,7 +216,7 @@ func (UnimplementedUserServer) Logout(context.Context, *LogoutRequest) (*empty.E
 func (UnimplementedUserServer) CheckUserRole(context.Context, *CheckUserRoleRequest) (*CheckUserRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckUserRole not implemented")
 }
-func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
+func (UnimplementedUserServer) GetUser(context.Context, *GetUserRequest) (*UserObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
 func (UnimplementedUserServer) SearchUsers(context.Context, *SearchUsersRequest) (*SearchUsersResponse, error) {
@@ -234,7 +234,7 @@ func (UnimplementedUserServer) LockAccount(context.Context, *LockAccountRequest)
 func (UnimplementedUserServer) Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
 }
-func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*empty.Empty, error) {
+func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
 }
 func (UnimplementedUserServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error) {

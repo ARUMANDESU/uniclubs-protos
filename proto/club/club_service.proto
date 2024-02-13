@@ -13,11 +13,13 @@ service Club {
   rpc HandleNewClub(HandleNewClubRequest) returns (google.protobuf.Empty);
   rpc GetClub(GetClubRequest) returns (ClubObject);
   rpc ListClubs(ListClubRequest) returns (ListClubResponse);
-  rpc ListNotActivatedClubs(ListNotActivatedClubsRequest) returns (ListNotActivatedClubsResponse);
+  rpc ListNotApprovedClubs(ListNotApprovedClubsRequest) returns (ListNotApprovedClubsResponse);
   rpc RequestToJoinClub(RequestToJoinClubRequest) returns (google.protobuf.Empty);
   rpc HandleJoinClub(HandleJoinClubRequest) returns (google.protobuf.Empty);
   rpc DeactivateClub(DeactivateClubRequest) returns (google.protobuf.Empty);
   rpc UpdateClub(UpdateClubRequest) returns (google.protobuf.Empty);
+  rpc GetUserClubs(GetUserClubsRequest) returns (GetUserClubsResponse);
+  rpc ListClubMembers(ListClubMembersRequest) returns (ListClubMembersResponse);
 }
 
 message CreateClubRequest {
@@ -64,6 +66,7 @@ message ClubObject {
   string banner_url = 6;
   int64 number_of_members = 7;
   google.protobuf.Timestamp created_at = 8;
+  repeated string roles = 9;
 }
 
 message UserObject {
@@ -89,14 +92,14 @@ message ListClubResponse {
 }
 
 
-message ListNotActivatedClubsRequest {
+message ListNotApprovedClubsRequest {
   string query = 1;
   repeated string club_type = 2;
   int32 page_number = 3;
   int32 page_size = 4;
 }
 
-message ListNotActivatedClubsResponse {
+message ListNotApprovedClubsResponse {
   repeated NotActivatedClubsList list = 1;
   PaginationMetadata metadata = 2;
 }
@@ -124,4 +127,25 @@ message HandleJoinClubRequest {
   int64 user_id = 2;
   int64 member_id = 3;
   HandleClubAction action = 4;
+}
+
+message GetUserClubsRequest {
+  int64 user_id = 1;
+}
+
+message GetUserClubsResponse {
+  repeated ClubObject clubs = 1;
+  PaginationMetadata metadata = 2;
+}
+
+
+message ListClubMembersRequest {
+  int64 club_id = 1;
+  int32 page_number = 3;
+  int32 page_size = 4;
+}
+
+message ListClubMembersResponse {
+  repeated UserObject users = 1;
+  PaginationMetadata metadata = 2;
 }
