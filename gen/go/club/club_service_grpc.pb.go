@@ -34,6 +34,7 @@ type ClubClient interface {
 	UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetUserClubs(ctx context.Context, in *GetUserClubsRequest, opts ...grpc.CallOption) (*GetUserClubsResponse, error)
 	ListClubMembers(ctx context.Context, in *ListClubMembersRequest, opts ...grpc.CallOption) (*ListClubMembersResponse, error)
+	LeaveClub(ctx context.Context, in *LeaveClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type clubClient struct {
@@ -143,6 +144,15 @@ func (c *clubClient) ListClubMembers(ctx context.Context, in *ListClubMembersReq
 	return out, nil
 }
 
+func (c *clubClient) LeaveClub(ctx context.Context, in *LeaveClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/LeaveClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClubServer is the server API for Club service.
 // All implementations must embed UnimplementedClubServer
 // for forward compatibility
@@ -158,6 +168,7 @@ type ClubServer interface {
 	UpdateClub(context.Context, *UpdateClubRequest) (*empty.Empty, error)
 	GetUserClubs(context.Context, *GetUserClubsRequest) (*GetUserClubsResponse, error)
 	ListClubMembers(context.Context, *ListClubMembersRequest) (*ListClubMembersResponse, error)
+	LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -197,6 +208,9 @@ func (UnimplementedClubServer) GetUserClubs(context.Context, *GetUserClubsReques
 }
 func (UnimplementedClubServer) ListClubMembers(context.Context, *ListClubMembersRequest) (*ListClubMembersResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClubMembers not implemented")
+}
+func (UnimplementedClubServer) LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LeaveClub not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -409,6 +423,24 @@ func _Club_ListClubMembers_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_LeaveClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LeaveClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).LeaveClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/LeaveClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).LeaveClub(ctx, req.(*LeaveClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Club_ServiceDesc is the grpc.ServiceDesc for Club service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -459,6 +491,10 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListClubMembers",
 			Handler:    _Club_ListClubMembers_Handler,
+		},
+		{
+			MethodName: "LeaveClub",
+			Handler:    _Club_LeaveClub_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
