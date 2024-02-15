@@ -67,7 +67,12 @@ message ClubObject {
   string banner_url = 6;
   int64 number_of_members = 7;
   google.protobuf.Timestamp created_at = 8;
-  repeated string roles = 9;
+  repeated Role roles = 9;
+}
+
+message Role {
+  string name = 1;
+  repeated string permissions = 2;
 }
 
 message UserObject {
@@ -77,7 +82,7 @@ message UserObject {
   string last_name = 4;
   string barcode = 5;
   string avatar_url = 6;
-  string role = 7;
+  Role role = 7;
 }
 
 message ListClubRequest {
