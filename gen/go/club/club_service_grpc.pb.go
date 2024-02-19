@@ -36,6 +36,7 @@ type ClubClient interface {
 	ListClubMembers(ctx context.Context, in *ListClubMembersRequest, opts ...grpc.CallOption) (*ListClubMembersResponse, error)
 	LeaveClub(ctx context.Context, in *LeaveClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*ClubObject, error)
+	ListJoinRequests(ctx context.Context, in *ListJoinRequestsRequest, opts ...grpc.CallOption) (*ListJoinRequestsResponse, error)
 }
 
 type clubClient struct {
@@ -163,6 +164,15 @@ func (c *clubClient) UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts
 	return out, nil
 }
 
+func (c *clubClient) ListJoinRequests(ctx context.Context, in *ListJoinRequestsRequest, opts ...grpc.CallOption) (*ListJoinRequestsResponse, error) {
+	out := new(ListJoinRequestsResponse)
+	err := c.cc.Invoke(ctx, "/club.Club/ListJoinRequests", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClubServer is the server API for Club service.
 // All implementations must embed UnimplementedClubServer
 // for forward compatibility
@@ -180,6 +190,7 @@ type ClubServer interface {
 	ListClubMembers(context.Context, *ListClubMembersRequest) (*ListClubMembersResponse, error)
 	LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error)
 	UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error)
+	ListJoinRequests(context.Context, *ListJoinRequestsRequest) (*ListJoinRequestsResponse, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -225,6 +236,9 @@ func (UnimplementedClubServer) LeaveClub(context.Context, *LeaveClubRequest) (*e
 }
 func (UnimplementedClubServer) UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLogo not implemented")
+}
+func (UnimplementedClubServer) ListJoinRequests(context.Context, *ListJoinRequestsRequest) (*ListJoinRequestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListJoinRequests not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -473,6 +487,24 @@ func _Club_UpdateLogo_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_ListJoinRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListJoinRequestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).ListJoinRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/ListJoinRequests",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).ListJoinRequests(ctx, req.(*ListJoinRequestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Club_ServiceDesc is the grpc.ServiceDesc for Club service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -531,6 +563,10 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateLogo",
 			Handler:    _Club_UpdateLogo_Handler,
+		},
+		{
+			MethodName: "ListJoinRequests",
+			Handler:    _Club_ListJoinRequests_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

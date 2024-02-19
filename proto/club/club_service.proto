@@ -22,6 +22,7 @@ service Club {
   rpc ListClubMembers(ListClubMembersRequest) returns (ListClubMembersResponse);
   rpc LeaveClub(LeaveClubRequest) returns(google.protobuf.Empty);
   rpc UpdateLogo(UpdateLogoRequest) returns(ClubObject);
+  rpc ListJoinRequests(ListJoinRequestsRequest) returns(ListJoinRequestsResponse);
 }
 
 message CreateClubRequest {
@@ -85,7 +86,7 @@ message UserObject {
   string last_name = 4;
   string barcode = 5;
   string avatar_url = 6;
-  Role role = 7;
+  repeated Role role = 7;
 }
 
 message ListClubRequest {
@@ -166,4 +167,15 @@ message UpdateLogoRequest {
   bytes logo = 1;
   int64 user_id = 2;
   int64 club_id = 3;
+}
+
+message ListJoinRequestsRequest {
+  int64 club_id = 1;
+  int32 page_number = 3;
+  int32 page_size = 4;
+}
+
+message ListJoinRequestsResponse {
+  repeated UserObject users = 1;
+  PaginationMetadata metadata = 2;
 }
