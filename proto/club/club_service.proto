@@ -21,6 +21,7 @@ service Club {
   rpc GetUserClubs(GetUserClubsRequest) returns (GetUserClubsResponse);
   rpc ListClubMembers(ListClubMembersRequest) returns (ListClubMembersResponse);
   rpc LeaveClub(LeaveClubRequest) returns(google.protobuf.Empty);
+  rpc UpdateLogo(UpdateLogoRequest) returns(ClubObject);
 }
 
 message CreateClubRequest {
@@ -73,6 +74,8 @@ message ClubObject {
 message Role {
   string name = 1;
   repeated string permissions = 2;
+  int32 position = 3;
+  int32 color = 4;
 }
 
 message UserObject {
@@ -157,4 +160,10 @@ message ListClubMembersResponse {
 message LeaveClubRequest {
   int64 user_id = 1;
   int64 club_id = 2;
+}
+
+message UpdateLogoRequest {
+  bytes logo = 1;
+  int64 user_id = 2;
+  int64 club_id = 3;
 }
