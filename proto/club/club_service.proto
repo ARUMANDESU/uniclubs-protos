@@ -156,8 +156,8 @@ message GetUserClubsResponse {
 
 message ListClubMembersRequest {
   int64 club_id = 1;
-  int32 page_number = 3;
-  int32 page_size = 4;
+  int32 page_number = 2;
+  int32 page_size = 3;
 }
 
 message ListClubMembersResponse {
@@ -167,6 +167,7 @@ message ListClubMembersResponse {
 
 message ListMembershipRequestsRequest {
   int64 club_id = 1;
+  int64 user_id = 2;
   int32 page_number = 3;
   int32 page_size = 4;
 }
