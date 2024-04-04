@@ -38,7 +38,6 @@ type ClubClient interface {
 	LeaveClub(ctx context.Context, in *LeaveClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*ClubObject, error)
 	UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*ClubObject, error)
-	ListJoinRequests(ctx context.Context, in *ListJoinRequestsRequest, opts ...grpc.CallOption) (*ListJoinRequestsResponse, error)
 	GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error)
 	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -189,15 +188,6 @@ func (c *clubClient) UpdateBanner(ctx context.Context, in *UpdateBannerRequest, 
 	return out, nil
 }
 
-func (c *clubClient) ListJoinRequests(ctx context.Context, in *ListJoinRequestsRequest, opts ...grpc.CallOption) (*ListJoinRequestsResponse, error) {
-	out := new(ListJoinRequestsResponse)
-	err := c.cc.Invoke(ctx, "/club.Club/ListJoinRequests", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *clubClient) GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error) {
 	out := new(GetUserRolesResponse)
 	err := c.cc.Invoke(ctx, "/club.Club/GetUserRoles", in, out, opts...)
@@ -262,7 +252,6 @@ type ClubServer interface {
 	LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error)
 	UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error)
 	UpdateBanner(context.Context, *UpdateBannerRequest) (*ClubObject, error)
-	ListJoinRequests(context.Context, *ListJoinRequestsRequest) (*ListJoinRequestsResponse, error)
 	GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error)
 	CreateRole(context.Context, *CreateRoleRequest) (*empty.Empty, error)
 	UpdateRole(context.Context, *UpdateRoleRequest) (*empty.Empty, error)
@@ -319,9 +308,6 @@ func (UnimplementedClubServer) UpdateLogo(context.Context, *UpdateLogoRequest) (
 }
 func (UnimplementedClubServer) UpdateBanner(context.Context, *UpdateBannerRequest) (*ClubObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBanner not implemented")
-}
-func (UnimplementedClubServer) ListJoinRequests(context.Context, *ListJoinRequestsRequest) (*ListJoinRequestsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListJoinRequests not implemented")
 }
 func (UnimplementedClubServer) GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
@@ -621,24 +607,6 @@ func _Club_UpdateBanner_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Club_ListJoinRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListJoinRequestsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ClubServer).ListJoinRequests(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/club.Club/ListJoinRequests",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).ListJoinRequests(ctx, req.(*ListJoinRequestsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Club_GetUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserRolesRequest)
 	if err := dec(in); err != nil {
@@ -795,10 +763,6 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateBanner",
 			Handler:    _Club_UpdateBanner_Handler,
-		},
-		{
-			MethodName: "ListJoinRequests",
-			Handler:    _Club_ListJoinRequests_Handler,
 		},
 		{
 			MethodName: "GetUserRoles",

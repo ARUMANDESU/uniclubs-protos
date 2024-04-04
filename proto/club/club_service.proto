@@ -24,7 +24,6 @@ service Club {
   rpc LeaveClub(LeaveClubRequest) returns(google.protobuf.Empty);
   rpc UpdateLogo(UpdateLogoRequest) returns(ClubObject);
   rpc UpdateBanner(UpdateBannerRequest) returns(ClubObject);
-  rpc ListJoinRequests(ListJoinRequestsRequest) returns(ListJoinRequestsResponse);
   rpc GetUserRoles(GetUserRolesRequest) returns(GetUserRolesResponse);
   rpc CreateRole(CreateRoleRequest) returns(google.protobuf.Empty);
   rpc UpdateRole(UpdateRoleRequest) returns(google.protobuf.Empty);
@@ -194,16 +193,6 @@ message UpdateBannerRequest {
   int64 club_id = 3;
 }
 
-message ListJoinRequestsRequest {
-  int64 club_id = 1;
-  int32 page_number = 3;
-  int32 page_size = 4;
-}
-
-message ListJoinRequestsResponse {
-  repeated UserObject users = 1;
-  PaginationMetadata metadata = 2;
-}
 
 message GetUserRolesRequest {
   int64 club_id = 1;
