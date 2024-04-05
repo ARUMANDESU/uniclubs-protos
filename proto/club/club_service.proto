@@ -152,7 +152,6 @@ message GetUserClubsRequest {
 
 message GetUserClubsResponse {
   repeated ClubObject clubs = 1;
-  bool is_owner = 2;
 }
 
 message ListClubMembersRequest {
@@ -203,6 +202,7 @@ message GetUserRolesRequest {
 
 message GetUserRolesResponse {
   repeated Role roles = 1;
+  bool is_owner = 2;
 }
 
 
