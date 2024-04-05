@@ -31,7 +31,7 @@ type ClubClient interface {
 	RequestToJoinClub(ctx context.Context, in *RequestToJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	HandleJoinClub(ctx context.Context, in *HandleJoinClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	DeactivateClub(ctx context.Context, in *DeactivateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*ClubObject, error)
 	GetUserClubs(ctx context.Context, in *GetUserClubsRequest, opts ...grpc.CallOption) (*GetUserClubsResponse, error)
 	ListClubMembers(ctx context.Context, in *ListClubMembersRequest, opts ...grpc.CallOption) (*ListClubMembersResponse, error)
 	ListMembershipRequests(ctx context.Context, in *ListMembershipRequestsRequest, opts ...grpc.CallOption) (*ListMembershipRequestsResponse, error)
@@ -125,8 +125,8 @@ func (c *clubClient) DeactivateClub(ctx context.Context, in *DeactivateClubReque
 	return out, nil
 }
 
-func (c *clubClient) UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *clubClient) UpdateClub(ctx context.Context, in *UpdateClubRequest, opts ...grpc.CallOption) (*ClubObject, error) {
+	out := new(ClubObject)
 	err := c.cc.Invoke(ctx, "/club.Club/UpdateClub", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -245,7 +245,7 @@ type ClubServer interface {
 	RequestToJoinClub(context.Context, *RequestToJoinClubRequest) (*empty.Empty, error)
 	HandleJoinClub(context.Context, *HandleJoinClubRequest) (*empty.Empty, error)
 	DeactivateClub(context.Context, *DeactivateClubRequest) (*empty.Empty, error)
-	UpdateClub(context.Context, *UpdateClubRequest) (*empty.Empty, error)
+	UpdateClub(context.Context, *UpdateClubRequest) (*ClubObject, error)
 	GetUserClubs(context.Context, *GetUserClubsRequest) (*GetUserClubsResponse, error)
 	ListClubMembers(context.Context, *ListClubMembersRequest) (*ListClubMembersResponse, error)
 	ListMembershipRequests(context.Context, *ListMembershipRequestsRequest) (*ListMembershipRequestsResponse, error)
@@ -288,7 +288,7 @@ func (UnimplementedClubServer) HandleJoinClub(context.Context, *HandleJoinClubRe
 func (UnimplementedClubServer) DeactivateClub(context.Context, *DeactivateClubRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeactivateClub not implemented")
 }
-func (UnimplementedClubServer) UpdateClub(context.Context, *UpdateClubRequest) (*empty.Empty, error) {
+func (UnimplementedClubServer) UpdateClub(context.Context, *UpdateClubRequest) (*ClubObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateClub not implemented")
 }
 func (UnimplementedClubServer) GetUserClubs(context.Context, *GetUserClubsRequest) (*GetUserClubsResponse, error) {

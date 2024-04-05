@@ -17,7 +17,7 @@ service Club {
   rpc RequestToJoinClub(RequestToJoinClubRequest) returns (google.protobuf.Empty);
   rpc HandleJoinClub(HandleJoinClubRequest) returns (google.protobuf.Empty);
   rpc DeactivateClub(DeactivateClubRequest) returns (google.protobuf.Empty);
-  rpc UpdateClub(UpdateClubRequest) returns (google.protobuf.Empty);
+  rpc UpdateClub(UpdateClubRequest) returns (ClubObject);
   rpc GetUserClubs(GetUserClubsRequest) returns (GetUserClubsResponse);
   rpc ListClubMembers(ListClubMembersRequest) returns (ListClubMembersResponse);
   rpc ListMembershipRequests(ListMembershipRequestsRequest) returns (ListMembershipRequestsResponse);
@@ -188,7 +188,7 @@ message UpdateLogoRequest {
 }
 
 message UpdateBannerRequest {
-  bytes logo = 1;
+  bytes banner = 1;
   int64 user_id = 2;
   int64 club_id = 3;
 }
