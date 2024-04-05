@@ -76,6 +76,7 @@ message ClubObject {
   int64 number_of_members = 7;
   google.protobuf.Timestamp created_at = 8;
   repeated Role roles = 9;
+  int64 owner_id = 10;
 }
 
 message Role {
