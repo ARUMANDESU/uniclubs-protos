@@ -152,6 +152,7 @@ message GetUserClubsRequest {
 
 message GetUserClubsResponse {
   repeated ClubObject clubs = 1;
+  bool is_owner = 2;
 }
 
 message ListClubMembersRequest {
