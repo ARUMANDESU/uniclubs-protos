@@ -39,10 +39,11 @@ type ClubClient interface {
 	UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*ClubObject, error)
 	UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*ClubObject, error)
 	GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error)
-	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*Role, error)
+	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*Role, error)
+	ChangeRolesPosition(ctx context.Context, in *ChangeRolesPositionRequest, opts ...grpc.CallOption) (*ChangeRolesPositionResponse, error)
 	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	ChangeUserRoles(ctx context.Context, in *ChangeUserRolesRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*AddRoleMembersResponses, error)
 }
 
 type clubClient struct {
@@ -197,8 +198,8 @@ func (c *clubClient) GetUserRoles(ctx context.Context, in *GetUserRolesRequest, 
 	return out, nil
 }
 
-func (c *clubClient) CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *clubClient) CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
 	err := c.cc.Invoke(ctx, "/club.Club/CreateRole", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -206,9 +207,18 @@ func (c *clubClient) CreateRole(ctx context.Context, in *CreateRoleRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *clubClient) UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*Role, error) {
+	out := new(Role)
 	err := c.cc.Invoke(ctx, "/club.Club/UpdateRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) ChangeRolesPosition(ctx context.Context, in *ChangeRolesPositionRequest, opts ...grpc.CallOption) (*ChangeRolesPositionResponse, error) {
+	out := new(ChangeRolesPositionResponse)
+	err := c.cc.Invoke(ctx, "/club.Club/ChangeRolesPosition", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -224,9 +234,9 @@ func (c *clubClient) DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) ChangeUserRoles(ctx context.Context, in *ChangeUserRolesRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/club.Club/ChangeUserRoles", in, out, opts...)
+func (c *clubClient) AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*AddRoleMembersResponses, error) {
+	out := new(AddRoleMembersResponses)
+	err := c.cc.Invoke(ctx, "/club.Club/AddRoleMembers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -253,10 +263,11 @@ type ClubServer interface {
 	UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error)
 	UpdateBanner(context.Context, *UpdateBannerRequest) (*ClubObject, error)
 	GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error)
-	CreateRole(context.Context, *CreateRoleRequest) (*empty.Empty, error)
-	UpdateRole(context.Context, *UpdateRoleRequest) (*empty.Empty, error)
+	CreateRole(context.Context, *CreateRoleRequest) (*Role, error)
+	UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error)
+	ChangeRolesPosition(context.Context, *ChangeRolesPositionRequest) (*ChangeRolesPositionResponse, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*empty.Empty, error)
-	ChangeUserRoles(context.Context, *ChangeUserRolesRequest) (*empty.Empty, error)
+	AddRoleMembers(context.Context, *AddRoleMembersRequest) (*AddRoleMembersResponses, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -312,17 +323,20 @@ func (UnimplementedClubServer) UpdateBanner(context.Context, *UpdateBannerReques
 func (UnimplementedClubServer) GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserRoles not implemented")
 }
-func (UnimplementedClubServer) CreateRole(context.Context, *CreateRoleRequest) (*empty.Empty, error) {
+func (UnimplementedClubServer) CreateRole(context.Context, *CreateRoleRequest) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
 }
-func (UnimplementedClubServer) UpdateRole(context.Context, *UpdateRoleRequest) (*empty.Empty, error) {
+func (UnimplementedClubServer) UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRole not implemented")
+}
+func (UnimplementedClubServer) ChangeRolesPosition(context.Context, *ChangeRolesPositionRequest) (*ChangeRolesPositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeRolesPosition not implemented")
 }
 func (UnimplementedClubServer) DeleteRole(context.Context, *DeleteRoleRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
 }
-func (UnimplementedClubServer) ChangeUserRoles(context.Context, *ChangeUserRolesRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangeUserRoles not implemented")
+func (UnimplementedClubServer) AddRoleMembers(context.Context, *AddRoleMembersRequest) (*AddRoleMembersResponses, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddRoleMembers not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -661,6 +675,24 @@ func _Club_UpdateRole_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_ChangeRolesPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeRolesPositionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).ChangeRolesPosition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/ChangeRolesPosition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).ChangeRolesPosition(ctx, req.(*ChangeRolesPositionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Club_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteRoleRequest)
 	if err := dec(in); err != nil {
@@ -679,20 +711,20 @@ func _Club_DeleteRole_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Club_ChangeUserRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ChangeUserRolesRequest)
+func _Club_AddRoleMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddRoleMembersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ClubServer).ChangeUserRoles(ctx, in)
+		return srv.(ClubServer).AddRoleMembers(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/club.Club/ChangeUserRoles",
+		FullMethod: "/club.Club/AddRoleMembers",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).ChangeUserRoles(ctx, req.(*ChangeUserRolesRequest))
+		return srv.(ClubServer).AddRoleMembers(ctx, req.(*AddRoleMembersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -777,12 +809,16 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Club_UpdateRole_Handler,
 		},
 		{
+			MethodName: "ChangeRolesPosition",
+			Handler:    _Club_ChangeRolesPosition_Handler,
+		},
+		{
 			MethodName: "DeleteRole",
 			Handler:    _Club_DeleteRole_Handler,
 		},
 		{
-			MethodName: "ChangeUserRoles",
-			Handler:    _Club_ChangeUserRoles_Handler,
+			MethodName: "AddRoleMembers",
+			Handler:    _Club_AddRoleMembers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

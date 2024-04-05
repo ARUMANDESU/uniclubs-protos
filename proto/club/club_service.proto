@@ -25,10 +25,11 @@ service Club {
   rpc UpdateLogo(UpdateLogoRequest) returns(ClubObject);
   rpc UpdateBanner(UpdateBannerRequest) returns(ClubObject);
   rpc GetUserRoles(GetUserRolesRequest) returns(GetUserRolesResponse);
-  rpc CreateRole(CreateRoleRequest) returns(google.protobuf.Empty);
-  rpc UpdateRole(UpdateRoleRequest) returns(google.protobuf.Empty);
+  rpc CreateRole(CreateRoleRequest) returns(Role);
+  rpc UpdateRole(UpdateRoleRequest) returns(Role);
+  rpc ChangeRolesPosition(ChangeRolesPositionRequest) returns(ChangeRolesPositionResponse);
   rpc DeleteRole(DeleteRoleRequest) returns(google.protobuf.Empty);
-  rpc ChangeUserRoles(ChangeUserRolesRequest) returns(google.protobuf.Empty);
+  rpc AddRoleMembers(AddRoleMembersRequest) returns(AddRoleMembersResponses);
 }
 
 message CreateClubRequest {
@@ -80,10 +81,11 @@ message ClubObject {
 }
 
 message Role {
-  string name = 1;
-  repeated string permissions = 2;
-  int32 position = 3;
-  int32 color = 4;
+  int64 id = 1;
+  string name = 2;
+  repeated string permissions = 3;
+  int32 position = 4;
+  int32 color = 5;
 }
 
 message UserObject {
@@ -233,9 +235,28 @@ message DeleteRoleRequest {
   int64 role_id = 3;
 }
 
-message ChangeUserRolesRequest {
+message AddRoleMembersRequest {
+  int64 club_id = 1;
+  int64 role_id = 2;
+  int64 user_id = 3;
+  repeated int64 users_id = 4;
+}
+
+message AddRoleMembersResponses {
+  repeated UserObject members = 1;
+}
+
+message ChangeRolesPositionRequest {
   int64 club_id = 1;
   int64 user_id = 2;
-  repeated int64 roles = 3;
+  repeated ChangeRolesPositionItems roles = 3;
+}
 
+message ChangeRolesPositionItems {
+  int32 id = 1;
+  int32 position = 2;
+}
+
+message ChangeRolesPositionResponse {
+  repeated Role roles = 1;
 }
