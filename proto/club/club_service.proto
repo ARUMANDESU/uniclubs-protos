@@ -223,9 +223,8 @@ message UpdateRoleRequest {
   int64 role_id = 3;
   string name = 4;
   repeated string permissions = 5;
-  int32 position = 6;
-  int32 color = 7;
-  google.protobuf.FieldMask update_mask = 8;
+  int32 color = 6;
+  google.protobuf.FieldMask update_mask = 7;
 }
 
 
