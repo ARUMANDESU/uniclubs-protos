@@ -43,7 +43,7 @@ type ClubClient interface {
 	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*Role, error)
 	ChangeRolesPosition(ctx context.Context, in *ChangeRolesPositionRequest, opts ...grpc.CallOption) (*ChangeRolesPositionResponse, error)
 	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*AddRoleMembersResponses, error)
+	AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type clubClient struct {
@@ -234,8 +234,8 @@ func (c *clubClient) DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*AddRoleMembersResponses, error) {
-	out := new(AddRoleMembersResponses)
+func (c *clubClient) AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/club.Club/AddRoleMembers", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -267,7 +267,7 @@ type ClubServer interface {
 	UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error)
 	ChangeRolesPosition(context.Context, *ChangeRolesPositionRequest) (*ChangeRolesPositionResponse, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*empty.Empty, error)
-	AddRoleMembers(context.Context, *AddRoleMembersRequest) (*AddRoleMembersResponses, error)
+	AddRoleMembers(context.Context, *AddRoleMembersRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -335,7 +335,7 @@ func (UnimplementedClubServer) ChangeRolesPosition(context.Context, *ChangeRoles
 func (UnimplementedClubServer) DeleteRole(context.Context, *DeleteRoleRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteRole not implemented")
 }
-func (UnimplementedClubServer) AddRoleMembers(context.Context, *AddRoleMembersRequest) (*AddRoleMembersResponses, error) {
+func (UnimplementedClubServer) AddRoleMembers(context.Context, *AddRoleMembersRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddRoleMembers not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
