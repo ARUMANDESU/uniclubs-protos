@@ -44,6 +44,7 @@ type ClubClient interface {
 	ChangeRolesPosition(ctx context.Context, in *ChangeRolesPositionRequest, opts ...grpc.CallOption) (*ChangeRolesPositionResponse, error)
 	DeleteRole(ctx context.Context, in *DeleteRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	RemoveRoleMembers(ctx context.Context, in *RemoveRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type clubClient struct {
@@ -243,6 +244,15 @@ func (c *clubClient) AddRoleMembers(ctx context.Context, in *AddRoleMembersReque
 	return out, nil
 }
 
+func (c *clubClient) RemoveRoleMembers(ctx context.Context, in *RemoveRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/RemoveRoleMembers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClubServer is the server API for Club service.
 // All implementations must embed UnimplementedClubServer
 // for forward compatibility
@@ -268,6 +278,7 @@ type ClubServer interface {
 	ChangeRolesPosition(context.Context, *ChangeRolesPositionRequest) (*ChangeRolesPositionResponse, error)
 	DeleteRole(context.Context, *DeleteRoleRequest) (*empty.Empty, error)
 	AddRoleMembers(context.Context, *AddRoleMembersRequest) (*empty.Empty, error)
+	RemoveRoleMembers(context.Context, *RemoveRoleMembersRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -337,6 +348,9 @@ func (UnimplementedClubServer) DeleteRole(context.Context, *DeleteRoleRequest) (
 }
 func (UnimplementedClubServer) AddRoleMembers(context.Context, *AddRoleMembersRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddRoleMembers not implemented")
+}
+func (UnimplementedClubServer) RemoveRoleMembers(context.Context, *RemoveRoleMembersRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveRoleMembers not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -729,6 +743,24 @@ func _Club_AddRoleMembers_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_RemoveRoleMembers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveRoleMembersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).RemoveRoleMembers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/RemoveRoleMembers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).RemoveRoleMembers(ctx, req.(*RemoveRoleMembersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Club_ServiceDesc is the grpc.ServiceDesc for Club service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -819,6 +851,10 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddRoleMembers",
 			Handler:    _Club_AddRoleMembers_Handler,
+		},
+		{
+			MethodName: "RemoveRoleMembers",
+			Handler:    _Club_RemoveRoleMembers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
