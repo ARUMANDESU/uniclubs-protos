@@ -86,7 +86,7 @@ message ClubObject {
 message Role {
   int64 id = 1;
   string name = 2;
-  repeated string permissions = 3;
+  uint64 permissions = 3;
   int32 position = 4;
   int32 color = 5;
 }
@@ -223,7 +223,7 @@ message UpdateRoleRequest {
   int64 user_id = 2;
   int64 role_id = 3;
   string name = 4;
-  repeated string permissions = 5;
+  uint64 permissions = 5;
   int32 color = 6;
   google.protobuf.FieldMask update_mask = 7;
 }
