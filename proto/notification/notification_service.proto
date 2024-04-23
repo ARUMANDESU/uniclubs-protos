@@ -19,7 +19,7 @@ message NotificationResponse {
   string status = 4;
   string severity = 5;
   string source = 6;
-  string displayType = 7;
-  string createdAt = 8;
-  string expiryAt = 9;
+  string display_type = 7;
+  string created_at = 8;
+  string expiry_at = 9;
 }
