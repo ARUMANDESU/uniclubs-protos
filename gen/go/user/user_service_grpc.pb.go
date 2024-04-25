@@ -34,7 +34,7 @@ type UserClient interface {
 	ActivateUser(ctx context.Context, in *ActivateUserRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	UnlockAccount(ctx context.Context, in *UnlockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error)
+	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UserObject, error)
 	ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
@@ -146,9 +146,9 @@ func (c *userClient) LockAccount(ctx context.Context, in *LockAccountRequest, op
 	return out, nil
 }
 
-func (c *userClient) Authenticate(ctx context.Context, in *AuthenticateRequest, opts ...grpc.CallOption) (*AuthenticateResponse, error) {
-	out := new(AuthenticateResponse)
-	err := c.cc.Invoke(ctx, "/user.User/Authenticate", in, out, opts...)
+func (c *userClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error) {
+	out := new(RefreshTokenResponse)
+	err := c.cc.Invoke(ctx, "/user.User/RefreshToken", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -188,7 +188,7 @@ type UserServer interface {
 	ActivateUser(context.Context, *ActivateUserRequest) (*empty.Empty, error)
 	UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error)
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
-	Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error)
+	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error)
 	ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServer()
@@ -231,8 +231,8 @@ func (UnimplementedUserServer) UnlockAccount(context.Context, *UnlockAccountRequ
 func (UnimplementedUserServer) LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LockAccount not implemented")
 }
-func (UnimplementedUserServer) Authenticate(context.Context, *AuthenticateRequest) (*AuthenticateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Authenticate not implemented")
+func (UnimplementedUserServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
 func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
@@ -451,20 +451,20 @@ func _User_LockAccount_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _User_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AuthenticateRequest)
+func _User_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshTokenRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServer).Authenticate(ctx, in)
+		return srv.(UserServer).RefreshToken(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/user.User/Authenticate",
+		FullMethod: "/user.User/RefreshToken",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServer).Authenticate(ctx, req.(*AuthenticateRequest))
+		return srv.(UserServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -557,8 +557,8 @@ var User_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _User_LockAccount_Handler,
 		},
 		{
-			MethodName: "Authenticate",
-			Handler:    _User_Authenticate_Handler,
+			MethodName: "RefreshToken",
+			Handler:    _User_RefreshToken_Handler,
 		},
 		{
 			MethodName: "UpdateAvatar",

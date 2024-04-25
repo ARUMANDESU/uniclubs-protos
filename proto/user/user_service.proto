@@ -20,7 +20,7 @@ service User{
     rpc ActivateUser(ActivateUserRequest) returns (google.protobuf.Empty);
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
-    rpc Authenticate(AuthenticateRequest) returns (AuthenticateResponse);
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
     rpc UpdateAvatar(UpdateAvatarRequest) returns (UserObject);
     rpc ChangeUserRole(ChangeUserRoleRequest) returns (google.protobuf.Empty);
 }
@@ -62,12 +62,13 @@ message LoginRequest {
 }
 
 message LoginResponse {
-    string session_token = 1;
-    UserObject user = 2;
+    string jwt_token = 1;
+    string rt_token = 2;
+    UserObject user = 3;
 }
 
 message LogoutRequest{
-    string session_token = 1;
+    string rt_token = 1;
 }
 
 message GetUserRequest {
@@ -137,14 +138,6 @@ message LockAccountRequest {
     int64 user_id = 1;
 }
 
-message AuthenticateRequest {
-    string session_token = 1;
-}
-
-message AuthenticateResponse {
-    int64 user_id = 1;
-}
-
 message UpdateAvatarRequest {
     int64 user_id = 1;
     bytes image = 2;
@@ -154,4 +147,15 @@ message ChangeUserRoleRequest{
     int64 user_id = 1;
     int64 target_id = 2;
     Role role = 3;
+}
+
+message RefreshTokenRequest {
+    string rt_token = 1;
+    string jwt_token = 2;
+}
+
+message RefreshTokenResponse {
+    string jwt_token = 1;
+    string rt_token = 2;
+    UserObject user = 3;
 }
