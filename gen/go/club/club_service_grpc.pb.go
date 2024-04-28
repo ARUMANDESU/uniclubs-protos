@@ -48,6 +48,9 @@ type ClubClient interface {
 	AddRoleMembers(ctx context.Context, in *AddRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	RemoveRoleMembers(ctx context.Context, in *RemoveRoleMembersRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	KickMemberFromClub(ctx context.Context, in *KickMemberFromClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	BanMemberFromClub(ctx context.Context, in *BanMemberFromClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	UnbanUserFromClub(ctx context.Context, in *UnbanUserFromClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	ListBannedUsers(ctx context.Context, in *ListBannedUsersRequest, opts ...grpc.CallOption) (*ListBannedUsersResponse, error)
 }
 
 type clubClient struct {
@@ -283,6 +286,33 @@ func (c *clubClient) KickMemberFromClub(ctx context.Context, in *KickMemberFromC
 	return out, nil
 }
 
+func (c *clubClient) BanMemberFromClub(ctx context.Context, in *BanMemberFromClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/BanMemberFromClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) UnbanUserFromClub(ctx context.Context, in *UnbanUserFromClubRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/club.Club/UnbanUserFromClub", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *clubClient) ListBannedUsers(ctx context.Context, in *ListBannedUsersRequest, opts ...grpc.CallOption) (*ListBannedUsersResponse, error) {
+	out := new(ListBannedUsersResponse)
+	err := c.cc.Invoke(ctx, "/club.Club/ListBannedUsers", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ClubServer is the server API for Club service.
 // All implementations must embed UnimplementedClubServer
 // for forward compatibility
@@ -312,6 +342,9 @@ type ClubServer interface {
 	AddRoleMembers(context.Context, *AddRoleMembersRequest) (*empty.Empty, error)
 	RemoveRoleMembers(context.Context, *RemoveRoleMembersRequest) (*empty.Empty, error)
 	KickMemberFromClub(context.Context, *KickMemberFromClubRequest) (*empty.Empty, error)
+	BanMemberFromClub(context.Context, *BanMemberFromClubRequest) (*empty.Empty, error)
+	UnbanUserFromClub(context.Context, *UnbanUserFromClubRequest) (*empty.Empty, error)
+	ListBannedUsers(context.Context, *ListBannedUsersRequest) (*ListBannedUsersResponse, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -393,6 +426,15 @@ func (UnimplementedClubServer) RemoveRoleMembers(context.Context, *RemoveRoleMem
 }
 func (UnimplementedClubServer) KickMemberFromClub(context.Context, *KickMemberFromClubRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method KickMemberFromClub not implemented")
+}
+func (UnimplementedClubServer) BanMemberFromClub(context.Context, *BanMemberFromClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BanMemberFromClub not implemented")
+}
+func (UnimplementedClubServer) UnbanUserFromClub(context.Context, *UnbanUserFromClubRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnbanUserFromClub not implemented")
+}
+func (UnimplementedClubServer) ListBannedUsers(context.Context, *ListBannedUsersRequest) (*ListBannedUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListBannedUsers not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
 
@@ -857,6 +899,60 @@ func _Club_KickMemberFromClub_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Club_BanMemberFromClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BanMemberFromClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).BanMemberFromClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/BanMemberFromClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).BanMemberFromClub(ctx, req.(*BanMemberFromClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_UnbanUserFromClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnbanUserFromClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).UnbanUserFromClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/UnbanUserFromClub",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).UnbanUserFromClub(ctx, req.(*UnbanUserFromClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Club_ListBannedUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListBannedUsersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClubServer).ListBannedUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/club.Club/ListBannedUsers",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClubServer).ListBannedUsers(ctx, req.(*ListBannedUsersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Club_ServiceDesc is the grpc.ServiceDesc for Club service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -963,6 +1059,18 @@ var Club_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "KickMemberFromClub",
 			Handler:    _Club_KickMemberFromClub_Handler,
+		},
+		{
+			MethodName: "BanMemberFromClub",
+			Handler:    _Club_BanMemberFromClub_Handler,
+		},
+		{
+			MethodName: "UnbanUserFromClub",
+			Handler:    _Club_UnbanUserFromClub_Handler,
+		},
+		{
+			MethodName: "ListBannedUsers",
+			Handler:    _Club_ListBannedUsers_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
