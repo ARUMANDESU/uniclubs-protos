@@ -323,7 +323,7 @@ message BanRecord {
   UserObject user = 3;
   UserObject admin = 4;
   string reason = 5;
-  google.protobuf.Timestamp banned_at = 6;
+  string banned_at = 6;
 }
 
 message ListBannedUsersResponse {
