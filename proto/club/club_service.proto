@@ -320,8 +320,8 @@ message ListBannedUsersRequest {
 message BanRecord {
   int64 id = 1;
   int64 club_id = 2;
-  int64 user_id = 3;
-  int64 admin_id = 4;
+  UserObject user = 3;
+  UserObject admin = 4;
   string reason = 5;
   google.protobuf.Timestamp banned_at = 6;
 }
