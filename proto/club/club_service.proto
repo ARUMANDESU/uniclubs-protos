@@ -37,6 +37,7 @@ service Club {
   rpc BanMemberFromClub(BanMemberFromClubRequest) returns(google.protobuf.Empty);
   rpc UnbanUserFromClub(UnbanUserFromClubRequest) returns(google.protobuf.Empty);
   rpc ListBannedUsers(ListBannedUsersRequest) returns(ListBannedUsersResponse);
+  rpc TransferOwnership(TransferOwnershipRequest) returns(google.protobuf.Empty);
 }
 
 message CreateClubRequest {
@@ -329,4 +330,10 @@ message BanRecord {
 message ListBannedUsersResponse {
   repeated BanRecord bans = 1;
   PaginationMetadata metadata = 2;
+}
+
+message TransferOwnershipRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  int64 target_id = 3;
 }
