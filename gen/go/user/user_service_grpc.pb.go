@@ -35,7 +35,7 @@ type UserClient interface {
 	UnlockAccount(ctx context.Context, in *UnlockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	LockAccount(ctx context.Context, in *LockAccountRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
-	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UserObject, error)
+	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
 	ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -155,8 +155,8 @@ func (c *userClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, 
 	return out, nil
 }
 
-func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UserObject, error) {
-	out := new(UserObject)
+func (c *userClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error) {
+	out := new(UpdateAvatarResponse)
 	err := c.cc.Invoke(ctx, "/user.User/UpdateAvatar", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -189,7 +189,7 @@ type UserServer interface {
 	UnlockAccount(context.Context, *UnlockAccountRequest) (*empty.Empty, error)
 	LockAccount(context.Context, *LockAccountRequest) (*empty.Empty, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
-	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error)
+	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
 	ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
@@ -234,7 +234,7 @@ func (UnimplementedUserServer) LockAccount(context.Context, *LockAccountRequest)
 func (UnimplementedUserServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
-func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UserObject, error) {
+func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
 }
 func (UnimplementedUserServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*empty.Empty, error) {

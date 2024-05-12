@@ -38,8 +38,8 @@ type ClubClient interface {
 	ListClubMembers(ctx context.Context, in *ListClubMembersRequest, opts ...grpc.CallOption) (*ListClubMembersResponse, error)
 	ListMembershipRequests(ctx context.Context, in *ListMembershipRequestsRequest, opts ...grpc.CallOption) (*ListMembershipRequestsResponse, error)
 	LeaveClub(ctx context.Context, in *LeaveClubRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*ClubObject, error)
-	UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*ClubObject, error)
+	UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*UpdateLogoResponse, error)
+	UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*UpdateBannerResponse, error)
 	GetUserRoles(ctx context.Context, in *GetUserRolesRequest, opts ...grpc.CallOption) (*GetUserRolesResponse, error)
 	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*Role, error)
 	UpdateRole(ctx context.Context, in *UpdateRoleRequest, opts ...grpc.CallOption) (*Role, error)
@@ -197,8 +197,8 @@ func (c *clubClient) LeaveClub(ctx context.Context, in *LeaveClubRequest, opts .
 	return out, nil
 }
 
-func (c *clubClient) UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*ClubObject, error) {
-	out := new(ClubObject)
+func (c *clubClient) UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts ...grpc.CallOption) (*UpdateLogoResponse, error) {
+	out := new(UpdateLogoResponse)
 	err := c.cc.Invoke(ctx, "/club.Club/UpdateLogo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -206,8 +206,8 @@ func (c *clubClient) UpdateLogo(ctx context.Context, in *UpdateLogoRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*ClubObject, error) {
-	out := new(ClubObject)
+func (c *clubClient) UpdateBanner(ctx context.Context, in *UpdateBannerRequest, opts ...grpc.CallOption) (*UpdateBannerResponse, error) {
+	out := new(UpdateBannerResponse)
 	err := c.cc.Invoke(ctx, "/club.Club/UpdateBanner", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -342,8 +342,8 @@ type ClubServer interface {
 	ListClubMembers(context.Context, *ListClubMembersRequest) (*ListClubMembersResponse, error)
 	ListMembershipRequests(context.Context, *ListMembershipRequestsRequest) (*ListMembershipRequestsResponse, error)
 	LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error)
-	UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error)
-	UpdateBanner(context.Context, *UpdateBannerRequest) (*ClubObject, error)
+	UpdateLogo(context.Context, *UpdateLogoRequest) (*UpdateLogoResponse, error)
+	UpdateBanner(context.Context, *UpdateBannerRequest) (*UpdateBannerResponse, error)
 	GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error)
 	CreateRole(context.Context, *CreateRoleRequest) (*Role, error)
 	UpdateRole(context.Context, *UpdateRoleRequest) (*Role, error)
@@ -408,10 +408,10 @@ func (UnimplementedClubServer) ListMembershipRequests(context.Context, *ListMemb
 func (UnimplementedClubServer) LeaveClub(context.Context, *LeaveClubRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LeaveClub not implemented")
 }
-func (UnimplementedClubServer) UpdateLogo(context.Context, *UpdateLogoRequest) (*ClubObject, error) {
+func (UnimplementedClubServer) UpdateLogo(context.Context, *UpdateLogoRequest) (*UpdateLogoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateLogo not implemented")
 }
-func (UnimplementedClubServer) UpdateBanner(context.Context, *UpdateBannerRequest) (*ClubObject, error) {
+func (UnimplementedClubServer) UpdateBanner(context.Context, *UpdateBannerRequest) (*UpdateBannerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBanner not implemented")
 }
 func (UnimplementedClubServer) GetUserRoles(context.Context, *GetUserRolesRequest) (*GetUserRolesResponse, error) {

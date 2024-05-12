@@ -24,8 +24,8 @@ service Club {
   rpc ListClubMembers(ListClubMembersRequest) returns (ListClubMembersResponse);
   rpc ListMembershipRequests(ListMembershipRequestsRequest) returns (ListMembershipRequestsResponse);
   rpc LeaveClub(LeaveClubRequest) returns(google.protobuf.Empty);
-  rpc UpdateLogo(UpdateLogoRequest) returns(ClubObject);
-  rpc UpdateBanner(UpdateBannerRequest) returns(ClubObject);
+  rpc UpdateLogo(UpdateLogoRequest) returns(UpdateLogoResponse);
+  rpc UpdateBanner(UpdateBannerRequest) returns(UpdateBannerResponse);
   rpc GetUserRoles(GetUserRolesRequest) returns(GetUserRolesResponse);
   rpc CreateRole(CreateRoleRequest) returns(Role);
   rpc UpdateRole(UpdateRoleRequest) returns(Role);
@@ -198,12 +198,21 @@ message UpdateLogoRequest {
   int64 club_id = 3;
 }
 
+message UpdateLogoResponse {
+  ClubObject club = 1;
+  string prev_logo_url = 2;
+}
+
 message UpdateBannerRequest {
   string banner_url = 1;
   int64 user_id = 2;
   int64 club_id = 3;
 }
 
+message UpdateBannerResponse {
+  ClubObject club = 1;
+  string prev_banner_url = 2;
+}
 
 message GetUserRolesRequest {
   int64 club_id = 1;

@@ -21,7 +21,7 @@ service User{
     rpc UnlockAccount(UnlockAccountRequest) returns (google.protobuf.Empty);
     rpc LockAccount(LockAccountRequest) returns (google.protobuf.Empty);
     rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-    rpc UpdateAvatar(UpdateAvatarRequest) returns (UserObject);
+    rpc UpdateAvatar(UpdateAvatarRequest) returns (UpdateAvatarResponse);
     rpc ChangeUserRole(ChangeUserRoleRequest) returns (google.protobuf.Empty);
 }
 
@@ -141,6 +141,11 @@ message LockAccountRequest {
 message UpdateAvatarRequest {
     int64 user_id = 1;
     string image_url = 2;
+}
+
+message UpdateAvatarResponse {
+    UserObject user = 1;
+    string prev_avatar_url = 2;
 }
 
 message ChangeUserRoleRequest{
