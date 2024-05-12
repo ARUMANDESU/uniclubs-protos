@@ -1,0 +1,114 @@
+syntax = "proto3";
+
+package posts;
+
+option go_package = "uniclubs.posts_service.v1.eventv1";
+
+import "google/protobuf/field_mask.proto";
+
+service Event {
+  rpc CreateEvent(CreateEventRequest) returns (EventObject);
+  rpc GetEvent(GetEventRequest) returns (EventObject);
+  rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
+  //todo: add rest of the methods
+}
+
+message EventObject {
+  int64 id = 1;
+  ClubObject club = 2;
+  UserObject user = 3;
+  repeated ClubObject collaborator_clubs = 4;
+  repeated OrganizerObject organizers = 5;
+  string type = 6;
+  string title = 7;
+  string description = 8;
+  string tags = 9;
+  uint32 max_participants = 10;
+  uint32 participants_count = 11;
+  string start_time = 12;
+  string end_time = 13;
+  string location_university = 14;
+  string location_link = 15;
+  repeated CoverImage cover_images = 16;
+  repeated FileObject attached_files = 17;
+  repeated FileObject attached_images = 18;
+  string created_at = 19;
+  string updated_at = 20;
+  string deleted_at = 21;
+}
+
+message ClubObject {
+  int64 id = 1;
+  string name = 2;
+  string logo_url = 3;
+}
+
+message UserObject {
+  int64 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string barcode = 4;
+  string avatar_url = 5;
+}
+
+message OrganizerObject {
+  int64 id = 1;
+  string name = 2;
+  string logo_url = 3;
+  int64 club_id = 4;
+}
+
+message CoverImage {
+  string url = 1;
+  string name = 2;
+  string type = 3;
+  int32 position = 4;
+}
+
+message FileObject {
+  string url = 1;
+  string name = 2;
+  string type = 3;
+}
+
+message CreateEventRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  repeated int64 collaborator_clubs = 3;
+  string type = 4;
+  string title = 5;
+  string description = 6;
+  string tags = 7;
+  int32  max_participants = 8;
+  string start_time = 9;
+  string end_time = 10;
+  string location_university = 11;
+  string location_link = 12;
+  repeated CoverImage cover_images = 13;
+  repeated FileObject attached_files = 14;
+  repeated FileObject attached_images = 15;
+  google.protobuf.FieldMask update_mask = 16;
+}
+
+message GetEventRequest {
+  int64 id = 1;
+  int64 user_id = 2;
+}
+
+message UpdateEventRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  string type = 3;
+  string title = 4;
+  string description = 5;
+  string tags = 6;
+  int32  max_participants = 7;
+  string start_time = 8;
+  string end_time = 9;
+  string location_university = 10;
+  string location_link = 11;
+  repeated CoverImage cover_images = 12;
+  repeated FileObject attached_files = 13;
+  repeated FileObject attached_images = 14;
+  google.protobuf.FieldMask update_mask = 15;
+}
