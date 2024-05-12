@@ -193,13 +193,13 @@ message LeaveClubRequest {
 }
 
 message UpdateLogoRequest {
-  bytes logo = 1;
+  string logo_url = 1;
   int64 user_id = 2;
   int64 club_id = 3;
 }
 
 message UpdateBannerRequest {
-  bytes banner = 1;
+  string banner_url = 1;
   int64 user_id = 2;
   int64 club_id = 3;
 }
