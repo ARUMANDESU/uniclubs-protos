@@ -14,7 +14,7 @@ service Event {
 }
 
 message EventObject {
-  int64 id = 1;
+  string id = 1;
   ClubObject club = 2;
   UserObject user = 3;
   repeated ClubObject collaborator_clubs = 4;
@@ -53,9 +53,11 @@ message UserObject {
 
 message OrganizerObject {
   int64 id = 1;
-  string name = 2;
-  string logo_url = 3;
-  int64 club_id = 4;
+  string first_name = 2;
+  string last_name = 3;
+  string barcode = 4;
+  string avatar_url = 5;
+  int64 club_id = 6;
 }
 
 message CoverImage {
