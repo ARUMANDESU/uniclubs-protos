@@ -10,6 +10,14 @@ service Event {
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc GetEvent(GetEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
+  rpc DeleteEvent(DeleteEventRequest) returns (EventObject);
+  rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc PublishEvent(PublishEventRequest) returns (EventObject);
+  rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
+  rpc AddCollaborator(AddCollaboratorRequest) returns (EventObject);
+  rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
+  rpc AddOrganizer(AddOrganizerRequest) returns (EventObject);
+  rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
   //todo: add rest of the methods
 }
 
@@ -35,6 +43,7 @@ message EventObject {
   string created_at = 19;
   string updated_at = 20;
   string deleted_at = 21;
+  string status = 22;
 }
 
 message ClubObject {
@@ -73,6 +82,14 @@ message FileObject {
   string type = 3;
 }
 
+message PaginationMetadata {
+  int32 current_page = 1;
+  int32 page_size = 2;
+  int32 first_page = 3;
+  int32 last_page = 4;
+  int32 total_records = 5;
+}
+
 message CreateEventRequest {
   int64 club_id = 1;
   int64 user_id = 2;
@@ -99,4 +116,56 @@ message UpdateEventRequest {
   repeated FileObject attached_files = 13;
   repeated FileObject attached_images = 14;
   google.protobuf.FieldMask update_mask = 15;
+}
+
+message DeleteEventRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+}
+
+message ListEventsRequest {
+  int64 club_id = 1;
+  string query = 2;
+  string sort_by = 3;
+  int32 page_number = 4;
+  int32 page_size = 5;
+  string from_time = 6;
+  string till_time = 7;
+  int64 club_id_filter = 8;
+  int64 user_id_filter = 9;
+}
+
+message ListEventsResponse {
+  repeated EventObject events = 1;
+  PaginationMetadata metadata = 2;
+}
+
+message PublishEventRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+}
+
+message AddCollaboratorRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+  int64 club_id = 3;
+}
+
+message RemoveCollaboratorRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+  int64 club_id = 3;
+}
+
+message AddOrganizerRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+  int64 organizer_id = 3;
+  int64 organizer_club_id = 4;
+}
+
+message RemoveOrganizerRequest {
+  int64 event_id = 1;
+  int64 user_id = 2;
+  int64 organizer_id = 3;
 }
