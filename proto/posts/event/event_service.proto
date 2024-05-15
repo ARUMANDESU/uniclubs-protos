@@ -22,7 +22,7 @@ message EventObject {
   string type = 6;
   string title = 7;
   string description = 8;
-  string tags = 9;
+  repeated string tags = 9;
   uint32 max_participants = 10;
   uint32 participants_count = 11;
   string start_time = 12;
@@ -80,7 +80,7 @@ message CreateEventRequest {
   string type = 4;
   string title = 5;
   string description = 6;
-  string tags = 7;
+  repeated string tags = 7;
   int32  max_participants = 8;
   string start_time = 9;
   string end_time = 10;
@@ -103,7 +103,7 @@ message UpdateEventRequest {
   string type = 3;
   string title = 4;
   string description = 5;
-  string tags = 6;
+  repeated string tags = 6;
   int32  max_participants = 7;
   string start_time = 8;
   string end_time = 9;
