@@ -76,20 +76,6 @@ message FileObject {
 message CreateEventRequest {
   int64 club_id = 1;
   int64 user_id = 2;
-  repeated int64 collaborator_clubs = 3;
-  string type = 4;
-  string title = 5;
-  string description = 6;
-  repeated string tags = 7;
-  int32  max_participants = 8;
-  string start_time = 9;
-  string end_time = 10;
-  string location_university = 11;
-  string location_link = 12;
-  repeated CoverImage cover_images = 13;
-  repeated FileObject attached_files = 14;
-  repeated FileObject attached_images = 15;
-  google.protobuf.FieldMask update_mask = 16;
 }
 
 message GetEventRequest {
