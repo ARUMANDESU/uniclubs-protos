@@ -38,6 +38,8 @@ service Club {
   rpc UnbanUserFromClub(UnbanUserFromClubRequest) returns(google.protobuf.Empty);
   rpc ListBannedUsers(ListBannedUsersRequest) returns(ListBannedUsersResponse);
   rpc TransferOwnership(TransferOwnershipRequest) returns(google.protobuf.Empty);
+  rpc DeleteClub(DeleteClubRequest) returns(google.protobuf.Empty);
+  rpc GetClubStatus(GetClubRequest) returns(ClubStatus);
 }
 
 message CreateClubRequest {
@@ -345,4 +347,15 @@ message TransferOwnershipRequest {
   int64 club_id = 1;
   int64 user_id = 2;
   int64 target_id = 3;
+}
+
+message DeleteClubRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  bool can_delete = 3;
+}
+
+message ClubStatus {
+  int64 club_id = 1;
+  string status = 2;
 }
