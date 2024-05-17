@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -29,10 +30,12 @@ type EventClient interface {
 	ListEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
-	AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error)
-	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error)
-	AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error)
-	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error)
+	AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RevokeInviteUser(ctx context.Context, in *RevokeInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type eventClient struct {
@@ -106,8 +109,8 @@ func (c *eventClient) UnpublishEvent(ctx context.Context, in *PublishEventReques
 	return out, nil
 }
 
-func (c *eventClient) AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/posts.Event/AddCollaborator", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -115,8 +118,8 @@ func (c *eventClient) AddCollaborator(ctx context.Context, in *AddCollaboratorRe
 	return out, nil
 }
 
-func (c *eventClient) RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/posts.Event/RemoveCollaborator", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -124,8 +127,8 @@ func (c *eventClient) RemoveCollaborator(ctx context.Context, in *RemoveCollabor
 	return out, nil
 }
 
-func (c *eventClient) AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/posts.Event/AddOrganizer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -133,9 +136,27 @@ func (c *eventClient) AddOrganizer(ctx context.Context, in *AddOrganizerRequest,
 	return out, nil
 }
 
-func (c *eventClient) RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/posts.Event/RemoveOrganizer", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/posts.Event/HandleInviteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) RevokeInviteUser(ctx context.Context, in *RevokeInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/posts.Event/RevokeInviteUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -153,10 +174,12 @@ type EventServer interface {
 	ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
 	PublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
 	UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
-	AddCollaborator(context.Context, *AddCollaboratorRequest) (*EventObject, error)
-	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error)
-	AddOrganizer(context.Context, *AddOrganizerRequest) (*EventObject, error)
-	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*EventObject, error)
+	AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error)
+	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*emptypb.Empty, error)
+	AddOrganizer(context.Context, *AddOrganizerRequest) (*emptypb.Empty, error)
+	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error)
+	HandleInviteUser(context.Context, *HandleInviteUserRequest) (*emptypb.Empty, error)
+	RevokeInviteUser(context.Context, *RevokeInviteUserRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedEventServer()
 }
 
@@ -185,17 +208,23 @@ func (UnimplementedEventServer) PublishEvent(context.Context, *PublishEventReque
 func (UnimplementedEventServer) UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnpublishEvent not implemented")
 }
-func (UnimplementedEventServer) AddCollaborator(context.Context, *AddCollaboratorRequest) (*EventObject, error) {
+func (UnimplementedEventServer) AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCollaborator not implemented")
 }
-func (UnimplementedEventServer) RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error) {
+func (UnimplementedEventServer) RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveCollaborator not implemented")
 }
-func (UnimplementedEventServer) AddOrganizer(context.Context, *AddOrganizerRequest) (*EventObject, error) {
+func (UnimplementedEventServer) AddOrganizer(context.Context, *AddOrganizerRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddOrganizer not implemented")
 }
-func (UnimplementedEventServer) RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*EventObject, error) {
+func (UnimplementedEventServer) RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveOrganizer not implemented")
+}
+func (UnimplementedEventServer) HandleInviteUser(context.Context, *HandleInviteUserRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleInviteUser not implemented")
+}
+func (UnimplementedEventServer) RevokeInviteUser(context.Context, *RevokeInviteUserRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeInviteUser not implemented")
 }
 func (UnimplementedEventServer) mustEmbedUnimplementedEventServer() {}
 
@@ -408,6 +437,42 @@ func _Event_RemoveOrganizer_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Event_HandleInviteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleInviteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).HandleInviteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/posts.Event/HandleInviteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).HandleInviteUser(ctx, req.(*HandleInviteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_RevokeInviteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeInviteUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).RevokeInviteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/posts.Event/RevokeInviteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).RevokeInviteUser(ctx, req.(*RevokeInviteUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Event_ServiceDesc is the grpc.ServiceDesc for Event service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -458,6 +523,14 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveOrganizer",
 			Handler:    _Event_RemoveOrganizer_Handler,
+		},
+		{
+			MethodName: "HandleInviteUser",
+			Handler:    _Event_HandleInviteUser_Handler,
+		},
+		{
+			MethodName: "RevokeInviteUser",
+			Handler:    _Event_RevokeInviteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

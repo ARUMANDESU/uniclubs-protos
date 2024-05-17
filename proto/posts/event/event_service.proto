@@ -5,6 +5,7 @@ package posts;
 option go_package = "uniclubs.posts_service.v1.eventv1";
 
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/empty.proto";
 
 service Event {
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
@@ -14,10 +15,12 @@ service Event {
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
   rpc PublishEvent(PublishEventRequest) returns (EventObject);
   rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
-  rpc AddCollaborator(AddCollaboratorRequest) returns (EventObject);
-  rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
-  rpc AddOrganizer(AddOrganizerRequest) returns (EventObject);
-  rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
+  rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
+  rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (google.protobuf.Empty);
+  rpc AddOrganizer(AddOrganizerRequest) returns (google.protobuf.Empty);
+  rpc RemoveOrganizer(RemoveOrganizerRequest) returns (google.protobuf.Empty);
+  rpc HandleInviteUser(HandleInviteUserRequest) returns (google.protobuf.Empty);
+  rpc RevokeInviteUser(RevokeInviteUserRequest) returns (google.protobuf.Empty);
   //todo: add rest of the methods
 }
 
@@ -169,4 +172,20 @@ message RemoveOrganizerRequest {
   string event_id = 1;
   int64 user_id = 2;
   int64 organizer_id = 3;
+}
+
+message RevokeInviteUserRequest {
+  string invite_id = 1;
+  int64 user_id = 2;
+}
+
+message HandleInviteUserRequest {
+  string invite_id = 1;
+  int64 user_id = 2;
+  HandleInviteUserRequest_Action action = 3;
+}
+
+enum HandleInviteUserRequest_Action {
+  ACCEPT = 0;
+  REJECT = 1;
 }
