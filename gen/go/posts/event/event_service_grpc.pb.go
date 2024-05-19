@@ -49,9 +49,9 @@ type EventClient interface {
 	PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error)
 	AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error)
 	HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*EventObject, error)
 	RevokeInviteUser(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	HandleInviteClub(ctx context.Context, in *HandleInviteClubRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -138,8 +138,8 @@ func (c *eventClient) AddCollaborator(ctx context.Context, in *AddCollaboratorRe
 	return out, nil
 }
 
-func (c *eventClient) RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *eventClient) RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_RemoveCollaborator_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -156,8 +156,8 @@ func (c *eventClient) AddOrganizer(ctx context.Context, in *AddOrganizerRequest,
 	return out, nil
 }
 
-func (c *eventClient) RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *eventClient) RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_RemoveOrganizer_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -213,9 +213,9 @@ type EventServer interface {
 	PublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
 	UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
 	AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error)
-	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*emptypb.Empty, error)
+	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error)
 	AddOrganizer(context.Context, *AddOrganizerRequest) (*emptypb.Empty, error)
-	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error)
+	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*EventObject, error)
 	HandleInviteUser(context.Context, *HandleInviteUserRequest) (*EventObject, error)
 	RevokeInviteUser(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error)
 	HandleInviteClub(context.Context, *HandleInviteClubRequest) (*EventObject, error)
@@ -251,13 +251,13 @@ func (UnimplementedEventServer) UnpublishEvent(context.Context, *PublishEventReq
 func (UnimplementedEventServer) AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCollaborator not implemented")
 }
-func (UnimplementedEventServer) RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*emptypb.Empty, error) {
+func (UnimplementedEventServer) RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveCollaborator not implemented")
 }
 func (UnimplementedEventServer) AddOrganizer(context.Context, *AddOrganizerRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddOrganizer not implemented")
 }
-func (UnimplementedEventServer) RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error) {
+func (UnimplementedEventServer) RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveOrganizer not implemented")
 }
 func (UnimplementedEventServer) HandleInviteUser(context.Context, *HandleInviteUserRequest) (*EventObject, error) {

@@ -16,9 +16,9 @@ service Event {
   rpc PublishEvent(PublishEventRequest) returns (EventObject);
   rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
   rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
-  rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (google.protobuf.Empty);
+  rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
   rpc AddOrganizer(AddOrganizerRequest) returns (google.protobuf.Empty);
-  rpc RemoveOrganizer(RemoveOrganizerRequest) returns (google.protobuf.Empty);
+  rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
   rpc HandleInviteUser(HandleInviteUserRequest) returns (EventObject);
   rpc RevokeInviteUser(RevokeInviteRequest) returns (google.protobuf.Empty);
   rpc HandleInviteClub(HandleInviteClubRequest) returns (EventObject);
