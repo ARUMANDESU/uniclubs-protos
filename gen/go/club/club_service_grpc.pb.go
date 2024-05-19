@@ -54,7 +54,7 @@ type ClubClient interface {
 	TransferOwnership(ctx context.Context, in *TransferOwnershipRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	DeleteClub(ctx context.Context, in *DeleteClubRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetClubStatus(ctx context.Context, in *GetClubRequest, opts ...grpc.CallOption) (*ClubStatus, error)
-	HavePermissionTo(ctx context.Context, in *HavePermissionToPermissionRequest, opts ...grpc.CallOption) (*HavePermissionToPermissionResponse, error)
+	HavePermissionTo(ctx context.Context, in *HavePermissionToRequest, opts ...grpc.CallOption) (*HavePermissionToResponse, error)
 }
 
 type clubClient struct {
@@ -344,8 +344,8 @@ func (c *clubClient) GetClubStatus(ctx context.Context, in *GetClubRequest, opts
 	return out, nil
 }
 
-func (c *clubClient) HavePermissionTo(ctx context.Context, in *HavePermissionToPermissionRequest, opts ...grpc.CallOption) (*HavePermissionToPermissionResponse, error) {
-	out := new(HavePermissionToPermissionResponse)
+func (c *clubClient) HavePermissionTo(ctx context.Context, in *HavePermissionToRequest, opts ...grpc.CallOption) (*HavePermissionToResponse, error) {
+	out := new(HavePermissionToResponse)
 	err := c.cc.Invoke(ctx, "/club.Club/HavePermissionTo", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -388,7 +388,7 @@ type ClubServer interface {
 	TransferOwnership(context.Context, *TransferOwnershipRequest) (*emptypb.Empty, error)
 	DeleteClub(context.Context, *DeleteClubRequest) (*emptypb.Empty, error)
 	GetClubStatus(context.Context, *GetClubRequest) (*ClubStatus, error)
-	HavePermissionTo(context.Context, *HavePermissionToPermissionRequest) (*HavePermissionToPermissionResponse, error)
+	HavePermissionTo(context.Context, *HavePermissionToRequest) (*HavePermissionToResponse, error)
 	mustEmbedUnimplementedClubServer()
 }
 
@@ -489,7 +489,7 @@ func (UnimplementedClubServer) DeleteClub(context.Context, *DeleteClubRequest) (
 func (UnimplementedClubServer) GetClubStatus(context.Context, *GetClubRequest) (*ClubStatus, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetClubStatus not implemented")
 }
-func (UnimplementedClubServer) HavePermissionTo(context.Context, *HavePermissionToPermissionRequest) (*HavePermissionToPermissionResponse, error) {
+func (UnimplementedClubServer) HavePermissionTo(context.Context, *HavePermissionToRequest) (*HavePermissionToResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HavePermissionTo not implemented")
 }
 func (UnimplementedClubServer) mustEmbedUnimplementedClubServer() {}
@@ -1064,7 +1064,7 @@ func _Club_GetClubStatus_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _Club_HavePermissionTo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HavePermissionToPermissionRequest)
+	in := new(HavePermissionToRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1076,7 +1076,7 @@ func _Club_HavePermissionTo_Handler(srv interface{}, ctx context.Context, dec fu
 		FullMethod: "/club.Club/HavePermissionTo",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ClubServer).HavePermissionTo(ctx, req.(*HavePermissionToPermissionRequest))
+		return srv.(ClubServer).HavePermissionTo(ctx, req.(*HavePermissionToRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
