@@ -194,5 +194,6 @@ enum HandleInvite_Action {
 message HandleInviteClubRequest {
   string invite_id = 1;
   UserObject user = 2;
-  HandleInvite_Action action = 3;
+  int64 club_id = 3;
+  HandleInvite_Action action = 4;
 }
