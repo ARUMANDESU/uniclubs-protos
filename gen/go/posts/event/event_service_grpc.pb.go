@@ -33,6 +33,8 @@ const (
 	Event_RemoveOrganizer_FullMethodName    = "/posts.Event/RemoveOrganizer"
 	Event_HandleInviteUser_FullMethodName   = "/posts.Event/HandleInviteUser"
 	Event_RevokeInviteUser_FullMethodName   = "/posts.Event/RevokeInviteUser"
+	Event_HandleInviteClub_FullMethodName   = "/posts.Event/HandleInviteClub"
+	Event_RevokeInviteClub_FullMethodName   = "/posts.Event/RevokeInviteClub"
 )
 
 // EventClient is the client API for Event service.
@@ -50,8 +52,10 @@ type EventClient interface {
 	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	AddOrganizer(ctx context.Context, in *AddOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	RevokeInviteUser(ctx context.Context, in *RevokeInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*EventObject, error)
+	RevokeInviteUser(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	HandleInviteClub(ctx context.Context, in *HandleInviteClubRequest, opts ...grpc.CallOption) (*EventObject, error)
+	RevokeInviteClub(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type eventClient struct {
@@ -161,8 +165,8 @@ func (c *eventClient) RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRe
 	return out, nil
 }
 
-func (c *eventClient) HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *eventClient) HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_HandleInviteUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -170,9 +174,27 @@ func (c *eventClient) HandleInviteUser(ctx context.Context, in *HandleInviteUser
 	return out, nil
 }
 
-func (c *eventClient) RevokeInviteUser(ctx context.Context, in *RevokeInviteUserRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+func (c *eventClient) RevokeInviteUser(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Event_RevokeInviteUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) HandleInviteClub(ctx context.Context, in *HandleInviteClubRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
+	err := c.cc.Invoke(ctx, Event_HandleInviteClub_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) RevokeInviteClub(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, Event_RevokeInviteClub_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -194,8 +216,10 @@ type EventServer interface {
 	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*emptypb.Empty, error)
 	AddOrganizer(context.Context, *AddOrganizerRequest) (*emptypb.Empty, error)
 	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error)
-	HandleInviteUser(context.Context, *HandleInviteUserRequest) (*emptypb.Empty, error)
-	RevokeInviteUser(context.Context, *RevokeInviteUserRequest) (*emptypb.Empty, error)
+	HandleInviteUser(context.Context, *HandleInviteUserRequest) (*EventObject, error)
+	RevokeInviteUser(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error)
+	HandleInviteClub(context.Context, *HandleInviteClubRequest) (*EventObject, error)
+	RevokeInviteClub(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedEventServer()
 }
 
@@ -236,11 +260,17 @@ func (UnimplementedEventServer) AddOrganizer(context.Context, *AddOrganizerReque
 func (UnimplementedEventServer) RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveOrganizer not implemented")
 }
-func (UnimplementedEventServer) HandleInviteUser(context.Context, *HandleInviteUserRequest) (*emptypb.Empty, error) {
+func (UnimplementedEventServer) HandleInviteUser(context.Context, *HandleInviteUserRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method HandleInviteUser not implemented")
 }
-func (UnimplementedEventServer) RevokeInviteUser(context.Context, *RevokeInviteUserRequest) (*emptypb.Empty, error) {
+func (UnimplementedEventServer) RevokeInviteUser(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeInviteUser not implemented")
+}
+func (UnimplementedEventServer) HandleInviteClub(context.Context, *HandleInviteClubRequest) (*EventObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method HandleInviteClub not implemented")
+}
+func (UnimplementedEventServer) RevokeInviteClub(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeInviteClub not implemented")
 }
 func (UnimplementedEventServer) mustEmbedUnimplementedEventServer() {}
 
@@ -472,7 +502,7 @@ func _Event_HandleInviteUser_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _Event_RevokeInviteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RevokeInviteUserRequest)
+	in := new(RevokeInviteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -484,7 +514,43 @@ func _Event_RevokeInviteUser_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: Event_RevokeInviteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).RevokeInviteUser(ctx, req.(*RevokeInviteUserRequest))
+		return srv.(EventServer).RevokeInviteUser(ctx, req.(*RevokeInviteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_HandleInviteClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleInviteClubRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).HandleInviteClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_HandleInviteClub_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).HandleInviteClub(ctx, req.(*HandleInviteClubRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_RevokeInviteClub_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RevokeInviteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).RevokeInviteClub(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_RevokeInviteClub_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).RevokeInviteClub(ctx, req.(*RevokeInviteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -547,6 +613,14 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RevokeInviteUser",
 			Handler:    _Event_RevokeInviteUser_Handler,
+		},
+		{
+			MethodName: "HandleInviteClub",
+			Handler:    _Event_HandleInviteClub_Handler,
+		},
+		{
+			MethodName: "RevokeInviteClub",
+			Handler:    _Event_RevokeInviteClub_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
