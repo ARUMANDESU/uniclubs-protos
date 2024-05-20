@@ -10,6 +10,10 @@ import "google/protobuf/empty.proto";
 service Event {
   rpc GetEvent(GetEventRequest) returns (EventObject);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListRejectedEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListApprovedEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListPendingEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListDraftEvents(ListEventsRequest) returns (ListEventsResponse);
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
@@ -17,6 +21,9 @@ service Event {
 
   rpc PublishEvent(PublishEventRequest) returns (EventObject);
   rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
+
+  rpc ApproveEvent(HandleEventRequest) returns (EventObject);
+  rpc RejectEvent(HandleEventRequest) returns (EventObject);
 
   rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
   rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
@@ -27,7 +34,6 @@ service Event {
   rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
   rpc HandleInviteUser(HandleInviteUserRequest) returns (EventObject);
   rpc RevokeInviteUser(RevokeInviteRequest) returns (google.protobuf.Empty);
-  //todo: add rest of the methods
 }
 
 message EventObject {
@@ -76,6 +82,7 @@ message OrganizerObject {
   string barcode = 4;
   string avatar_url = 5;
   int64 club_id = 6;
+  int64 by_who_id = 7;
 }
 
 message CoverImage {
@@ -207,4 +214,9 @@ message HandleInviteClubRequest {
   UserObject user = 2;
   int64 club_id = 3;
   HandleInvite_Action action = 4;
+}
+
+message HandleEventRequest {
+  string event_id = 1;
+  int64 user_id = 2;
 }

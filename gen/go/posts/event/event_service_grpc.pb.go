@@ -22,11 +22,17 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Event_GetEvent_FullMethodName           = "/posts.Event/GetEvent"
 	Event_ListEvents_FullMethodName         = "/posts.Event/ListEvents"
+	Event_ListRejectedEvents_FullMethodName = "/posts.Event/ListRejectedEvents"
+	Event_ListApprovedEvents_FullMethodName = "/posts.Event/ListApprovedEvents"
+	Event_ListPendingEvents_FullMethodName  = "/posts.Event/ListPendingEvents"
+	Event_ListDraftEvents_FullMethodName    = "/posts.Event/ListDraftEvents"
 	Event_CreateEvent_FullMethodName        = "/posts.Event/CreateEvent"
 	Event_UpdateEvent_FullMethodName        = "/posts.Event/UpdateEvent"
 	Event_DeleteEvent_FullMethodName        = "/posts.Event/DeleteEvent"
 	Event_PublishEvent_FullMethodName       = "/posts.Event/PublishEvent"
 	Event_UnpublishEvent_FullMethodName     = "/posts.Event/UnpublishEvent"
+	Event_ApproveEvent_FullMethodName       = "/posts.Event/ApproveEvent"
+	Event_RejectEvent_FullMethodName        = "/posts.Event/RejectEvent"
 	Event_AddCollaborator_FullMethodName    = "/posts.Event/AddCollaborator"
 	Event_RemoveCollaborator_FullMethodName = "/posts.Event/RemoveCollaborator"
 	Event_HandleInviteClub_FullMethodName   = "/posts.Event/HandleInviteClub"
@@ -43,11 +49,17 @@ const (
 type EventClient interface {
 	GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	ListEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
+	ListRejectedEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
+	ListApprovedEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
+	ListPendingEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
+	ListDraftEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UpdateEvent(ctx context.Context, in *UpdateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	DeleteEvent(ctx context.Context, in *DeleteEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
+	ApproveEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error)
+	RejectEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error)
 	HandleInviteClub(ctx context.Context, in *HandleInviteClubRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -78,6 +90,42 @@ func (c *eventClient) GetEvent(ctx context.Context, in *GetEventRequest, opts ..
 func (c *eventClient) ListEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error) {
 	out := new(ListEventsResponse)
 	err := c.cc.Invoke(ctx, Event_ListEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) ListRejectedEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error) {
+	out := new(ListEventsResponse)
+	err := c.cc.Invoke(ctx, Event_ListRejectedEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) ListApprovedEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error) {
+	out := new(ListEventsResponse)
+	err := c.cc.Invoke(ctx, Event_ListApprovedEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) ListPendingEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error) {
+	out := new(ListEventsResponse)
+	err := c.cc.Invoke(ctx, Event_ListPendingEvents_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) ListDraftEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error) {
+	out := new(ListEventsResponse)
+	err := c.cc.Invoke(ctx, Event_ListDraftEvents_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -123,6 +171,24 @@ func (c *eventClient) PublishEvent(ctx context.Context, in *PublishEventRequest,
 func (c *eventClient) UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
 	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_UnpublishEvent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) ApproveEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
+	err := c.cc.Invoke(ctx, Event_ApproveEvent_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) RejectEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
+	err := c.cc.Invoke(ctx, Event_RejectEvent_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -207,11 +273,17 @@ func (c *eventClient) RevokeInviteUser(ctx context.Context, in *RevokeInviteRequ
 type EventServer interface {
 	GetEvent(context.Context, *GetEventRequest) (*EventObject, error)
 	ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
+	ListRejectedEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
+	ListApprovedEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
+	ListPendingEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
+	ListDraftEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
 	CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error)
 	UpdateEvent(context.Context, *UpdateEventRequest) (*EventObject, error)
 	DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error)
 	PublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
 	UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
+	ApproveEvent(context.Context, *HandleEventRequest) (*EventObject, error)
+	RejectEvent(context.Context, *HandleEventRequest) (*EventObject, error)
 	AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error)
 	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error)
 	HandleInviteClub(context.Context, *HandleInviteClubRequest) (*EventObject, error)
@@ -233,6 +305,18 @@ func (UnimplementedEventServer) GetEvent(context.Context, *GetEventRequest) (*Ev
 func (UnimplementedEventServer) ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListEvents not implemented")
 }
+func (UnimplementedEventServer) ListRejectedEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListRejectedEvents not implemented")
+}
+func (UnimplementedEventServer) ListApprovedEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListApprovedEvents not implemented")
+}
+func (UnimplementedEventServer) ListPendingEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPendingEvents not implemented")
+}
+func (UnimplementedEventServer) ListDraftEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListDraftEvents not implemented")
+}
 func (UnimplementedEventServer) CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEvent not implemented")
 }
@@ -247,6 +331,12 @@ func (UnimplementedEventServer) PublishEvent(context.Context, *PublishEventReque
 }
 func (UnimplementedEventServer) UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnpublishEvent not implemented")
+}
+func (UnimplementedEventServer) ApproveEvent(context.Context, *HandleEventRequest) (*EventObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApproveEvent not implemented")
+}
+func (UnimplementedEventServer) RejectEvent(context.Context, *HandleEventRequest) (*EventObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RejectEvent not implemented")
 }
 func (UnimplementedEventServer) AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddCollaborator not implemented")
@@ -317,6 +407,78 @@ func _Event_ListEvents_Handler(srv interface{}, ctx context.Context, dec func(in
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EventServer).ListEvents(ctx, req.(*ListEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_ListRejectedEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).ListRejectedEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_ListRejectedEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).ListRejectedEvents(ctx, req.(*ListEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_ListApprovedEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).ListApprovedEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_ListApprovedEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).ListApprovedEvents(ctx, req.(*ListEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_ListPendingEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).ListPendingEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_ListPendingEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).ListPendingEvents(ctx, req.(*ListEventsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_ListDraftEvents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEventsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).ListDraftEvents(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_ListDraftEvents_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).ListDraftEvents(ctx, req.(*ListEventsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -407,6 +569,42 @@ func _Event_UnpublishEvent_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EventServer).UnpublishEvent(ctx, req.(*PublishEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_ApproveEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).ApproveEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_ApproveEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).ApproveEvent(ctx, req.(*HandleEventRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_RejectEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(HandleEventRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).RejectEvent(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_RejectEvent_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).RejectEvent(ctx, req.(*HandleEventRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -571,6 +769,22 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Event_ListEvents_Handler,
 		},
 		{
+			MethodName: "ListRejectedEvents",
+			Handler:    _Event_ListRejectedEvents_Handler,
+		},
+		{
+			MethodName: "ListApprovedEvents",
+			Handler:    _Event_ListApprovedEvents_Handler,
+		},
+		{
+			MethodName: "ListPendingEvents",
+			Handler:    _Event_ListPendingEvents_Handler,
+		},
+		{
+			MethodName: "ListDraftEvents",
+			Handler:    _Event_ListDraftEvents_Handler,
+		},
+		{
 			MethodName: "CreateEvent",
 			Handler:    _Event_CreateEvent_Handler,
 		},
@@ -589,6 +803,14 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UnpublishEvent",
 			Handler:    _Event_UnpublishEvent_Handler,
+		},
+		{
+			MethodName: "ApproveEvent",
+			Handler:    _Event_ApproveEvent_Handler,
+		},
+		{
+			MethodName: "RejectEvent",
+			Handler:    _Event_RejectEvent_Handler,
 		},
 		{
 			MethodName: "AddCollaborator",
