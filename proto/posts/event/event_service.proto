@@ -142,11 +142,13 @@ message DeleteEventRequest {
 }
 
 message ListEventsRequest {
-  string query = 2;
-  string sort_by = 3;
+  string query = 1;
+  string sort_by = 2;
+  string sort_order = 3;
   int32 page_number = 4;
   int32 page_size = 5;
   EventFilter filter = 6;
+  google.protobuf.FieldMask filter_mask = 15;
 }
 
 message ListEventsResponse {
