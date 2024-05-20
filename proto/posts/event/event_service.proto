@@ -8,21 +8,25 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
 
 service Event {
-  rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc GetEvent(GetEventRequest) returns (EventObject);
+  rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+
+  rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
   rpc DeleteEvent(DeleteEventRequest) returns (EventObject);
-  rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+
   rpc PublishEvent(PublishEventRequest) returns (EventObject);
   rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
+
   rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
   rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
+  rpc HandleInviteClub(HandleInviteClubRequest) returns (EventObject);
+  rpc RevokeInviteClub(RevokeInviteRequest) returns (google.protobuf.Empty);
+
   rpc AddOrganizer(AddOrganizerRequest) returns (google.protobuf.Empty);
   rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
   rpc HandleInviteUser(HandleInviteUserRequest) returns (EventObject);
   rpc RevokeInviteUser(RevokeInviteRequest) returns (google.protobuf.Empty);
-  rpc HandleInviteClub(HandleInviteClubRequest) returns (EventObject);
-  rpc RevokeInviteClub(RevokeInviteRequest) returns (google.protobuf.Empty);
   //todo: add rest of the methods
 }
 
@@ -95,6 +99,15 @@ message PaginationMetadata {
   int32 total_records = 5;
 }
 
+message EventFilter {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  repeated string tags = 3;
+  string from_date = 4;
+  string till_date = 5;
+  string status = 6;
+}
+
 message CreateEventRequest {
   ClubObject club = 1;
   UserObject user = 2;
@@ -129,15 +142,11 @@ message DeleteEventRequest {
 }
 
 message ListEventsRequest {
-  int64 club_id = 1;
   string query = 2;
   string sort_by = 3;
   int32 page_number = 4;
   int32 page_size = 5;
-  string from_date = 6;
-  string till_date = 7;
-  int64 club_id_filter = 8;
-  int64 user_id_filter = 9;
+  EventFilter filter = 6;
 }
 
 message ListEventsResponse {
