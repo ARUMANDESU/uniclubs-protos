@@ -10,10 +10,6 @@ import "google/protobuf/empty.proto";
 service Event {
   rpc GetEvent(GetEventRequest) returns (EventObject);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
-  rpc ListRejectedEvents(ListEventsRequest) returns (ListEventsResponse);
-  rpc ListApprovedEvents(ListEventsRequest) returns (ListEventsResponse);
-  rpc ListPendingEvents(ListEventsRequest) returns (ListEventsResponse);
-  rpc ListDraftEvents(ListEventsRequest) returns (ListEventsResponse);
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
