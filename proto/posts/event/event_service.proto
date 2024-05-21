@@ -15,11 +15,14 @@ service Event {
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
   rpc DeleteEvent(DeleteEventRequest) returns (EventObject);
 
-  rpc PublishEvent(PublishEventRequest) returns (EventObject);
-  rpc UnpublishEvent(PublishEventRequest) returns (EventObject);
+  rpc SendToReview(EventActionRequest) returns (EventObject);
+  rpc RevokeReview(EventActionRequest) returns (EventObject);
 
-  rpc ApproveEvent(HandleEventRequest) returns (EventObject);
-  rpc RejectEvent(HandleEventRequest) returns (EventObject);
+  rpc PublishEvent(EventActionRequest) returns (EventObject);
+  rpc UnpublishEvent(EventActionRequest) returns (EventObject);
+
+  rpc ApproveEvent(EventActionRequest) returns (EventObject);
+  rpc RejectEvent(EventActionRequest) returns (EventObject);
 
   rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
   rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
@@ -212,7 +215,7 @@ message HandleInviteClubRequest {
   HandleInvite_Action action = 4;
 }
 
-message HandleEventRequest {
+message EventActionRequest {
   string event_id = 1;
   int64 user_id = 2;
 }

@@ -25,6 +25,8 @@ const (
 	Event_CreateEvent_FullMethodName        = "/posts.Event/CreateEvent"
 	Event_UpdateEvent_FullMethodName        = "/posts.Event/UpdateEvent"
 	Event_DeleteEvent_FullMethodName        = "/posts.Event/DeleteEvent"
+	Event_SendToReview_FullMethodName       = "/posts.Event/SendToReview"
+	Event_RevokeReview_FullMethodName       = "/posts.Event/RevokeReview"
 	Event_PublishEvent_FullMethodName       = "/posts.Event/PublishEvent"
 	Event_UnpublishEvent_FullMethodName     = "/posts.Event/UnpublishEvent"
 	Event_ApproveEvent_FullMethodName       = "/posts.Event/ApproveEvent"
@@ -48,10 +50,12 @@ type EventClient interface {
 	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UpdateEvent(ctx context.Context, in *UpdateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	DeleteEvent(ctx context.Context, in *DeleteEventRequest, opts ...grpc.CallOption) (*EventObject, error)
-	PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
-	UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error)
-	ApproveEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error)
-	RejectEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error)
+	SendToReview(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
+	RevokeReview(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
+	PublishEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
+	UnpublishEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
+	ApproveEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
+	RejectEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
 	AddCollaborator(ctx context.Context, in *AddCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	RemoveCollaborator(ctx context.Context, in *RemoveCollaboratorRequest, opts ...grpc.CallOption) (*EventObject, error)
 	HandleInviteClub(ctx context.Context, in *HandleInviteClubRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -115,7 +119,25 @@ func (c *eventClient) DeleteEvent(ctx context.Context, in *DeleteEventRequest, o
 	return out, nil
 }
 
-func (c *eventClient) PublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+func (c *eventClient) SendToReview(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
+	err := c.cc.Invoke(ctx, Event_SendToReview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) RevokeReview(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
+	out := new(EventObject)
+	err := c.cc.Invoke(ctx, Event_RevokeReview_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) PublishEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
 	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_PublishEvent_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -124,7 +146,7 @@ func (c *eventClient) PublishEvent(ctx context.Context, in *PublishEventRequest,
 	return out, nil
 }
 
-func (c *eventClient) UnpublishEvent(ctx context.Context, in *PublishEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+func (c *eventClient) UnpublishEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
 	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_UnpublishEvent_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -133,7 +155,7 @@ func (c *eventClient) UnpublishEvent(ctx context.Context, in *PublishEventReques
 	return out, nil
 }
 
-func (c *eventClient) ApproveEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+func (c *eventClient) ApproveEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
 	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_ApproveEvent_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -142,7 +164,7 @@ func (c *eventClient) ApproveEvent(ctx context.Context, in *HandleEventRequest, 
 	return out, nil
 }
 
-func (c *eventClient) RejectEvent(ctx context.Context, in *HandleEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
+func (c *eventClient) RejectEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
 	out := new(EventObject)
 	err := c.cc.Invoke(ctx, Event_RejectEvent_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -232,10 +254,12 @@ type EventServer interface {
 	CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error)
 	UpdateEvent(context.Context, *UpdateEventRequest) (*EventObject, error)
 	DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error)
-	PublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
-	UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error)
-	ApproveEvent(context.Context, *HandleEventRequest) (*EventObject, error)
-	RejectEvent(context.Context, *HandleEventRequest) (*EventObject, error)
+	SendToReview(context.Context, *EventActionRequest) (*EventObject, error)
+	RevokeReview(context.Context, *EventActionRequest) (*EventObject, error)
+	PublishEvent(context.Context, *EventActionRequest) (*EventObject, error)
+	UnpublishEvent(context.Context, *EventActionRequest) (*EventObject, error)
+	ApproveEvent(context.Context, *EventActionRequest) (*EventObject, error)
+	RejectEvent(context.Context, *EventActionRequest) (*EventObject, error)
 	AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error)
 	RemoveCollaborator(context.Context, *RemoveCollaboratorRequest) (*EventObject, error)
 	HandleInviteClub(context.Context, *HandleInviteClubRequest) (*EventObject, error)
@@ -266,16 +290,22 @@ func (UnimplementedEventServer) UpdateEvent(context.Context, *UpdateEventRequest
 func (UnimplementedEventServer) DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEvent not implemented")
 }
-func (UnimplementedEventServer) PublishEvent(context.Context, *PublishEventRequest) (*EventObject, error) {
+func (UnimplementedEventServer) SendToReview(context.Context, *EventActionRequest) (*EventObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendToReview not implemented")
+}
+func (UnimplementedEventServer) RevokeReview(context.Context, *EventActionRequest) (*EventObject, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RevokeReview not implemented")
+}
+func (UnimplementedEventServer) PublishEvent(context.Context, *EventActionRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PublishEvent not implemented")
 }
-func (UnimplementedEventServer) UnpublishEvent(context.Context, *PublishEventRequest) (*EventObject, error) {
+func (UnimplementedEventServer) UnpublishEvent(context.Context, *EventActionRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnpublishEvent not implemented")
 }
-func (UnimplementedEventServer) ApproveEvent(context.Context, *HandleEventRequest) (*EventObject, error) {
+func (UnimplementedEventServer) ApproveEvent(context.Context, *EventActionRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ApproveEvent not implemented")
 }
-func (UnimplementedEventServer) RejectEvent(context.Context, *HandleEventRequest) (*EventObject, error) {
+func (UnimplementedEventServer) RejectEvent(context.Context, *EventActionRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RejectEvent not implemented")
 }
 func (UnimplementedEventServer) AddCollaborator(context.Context, *AddCollaboratorRequest) (*emptypb.Empty, error) {
@@ -405,8 +435,44 @@ func _Event_DeleteEvent_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Event_SendToReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).SendToReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_SendToReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).SendToReview(ctx, req.(*EventActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_RevokeReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventActionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).RevokeReview(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_RevokeReview_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).RevokeReview(ctx, req.(*EventActionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Event_PublishEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PublishEventRequest)
+	in := new(EventActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -418,13 +484,13 @@ func _Event_PublishEvent_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Event_PublishEvent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).PublishEvent(ctx, req.(*PublishEventRequest))
+		return srv.(EventServer).PublishEvent(ctx, req.(*EventActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Event_UnpublishEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PublishEventRequest)
+	in := new(EventActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -436,13 +502,13 @@ func _Event_UnpublishEvent_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: Event_UnpublishEvent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).UnpublishEvent(ctx, req.(*PublishEventRequest))
+		return srv.(EventServer).UnpublishEvent(ctx, req.(*EventActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Event_ApproveEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HandleEventRequest)
+	in := new(EventActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -454,13 +520,13 @@ func _Event_ApproveEvent_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Event_ApproveEvent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).ApproveEvent(ctx, req.(*HandleEventRequest))
+		return srv.(EventServer).ApproveEvent(ctx, req.(*EventActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Event_RejectEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(HandleEventRequest)
+	in := new(EventActionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -472,7 +538,7 @@ func _Event_RejectEvent_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: Event_RejectEvent_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).RejectEvent(ctx, req.(*HandleEventRequest))
+		return srv.(EventServer).RejectEvent(ctx, req.(*EventActionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -647,6 +713,14 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteEvent",
 			Handler:    _Event_DeleteEvent_Handler,
+		},
+		{
+			MethodName: "SendToReview",
+			Handler:    _Event_SendToReview_Handler,
+		},
+		{
+			MethodName: "RevokeReview",
+			Handler:    _Event_RevokeReview_Handler,
 		},
 		{
 			MethodName: "PublishEvent",
