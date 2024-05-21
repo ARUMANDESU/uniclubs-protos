@@ -21,8 +21,8 @@ service Event {
   rpc PublishEvent(EventActionRequest) returns (EventObject);
   rpc UnpublishEvent(EventActionRequest) returns (EventObject);
 
-  rpc ApproveEvent(EventActionRequest) returns (EventObject);
-  rpc RejectEvent(EventActionRequest) returns (EventObject);
+  rpc ApproveEvent(ApproveEventRequest) returns (EventObject);
+  rpc RejectEvent(RejectEventRequest) returns (EventObject);
 
   rpc AddCollaborator(AddCollaboratorRequest) returns (google.protobuf.Empty);
   rpc RemoveCollaborator(RemoveCollaboratorRequest) returns (EventObject);
@@ -58,6 +58,8 @@ message EventObject {
   string updated_at = 20;
   string deleted_at = 21;
   string status = 22;
+  ApproveMetadata approve_metadata = 23;
+  RejectMetadata reject_metadata = 24;
 }
 
 message ClubObject {
@@ -218,4 +220,26 @@ message HandleInviteClubRequest {
 message EventActionRequest {
   string event_id = 1;
   int64 user_id = 2;
+}
+
+message ApproveEventRequest {
+  string event_id = 1;
+  UserObject user = 2;
+}
+
+message RejectEventRequest {
+  string event_id = 1;
+  UserObject user = 2;
+  string reason = 3;
+}
+
+message ApproveMetadata {
+  string approved_at = 1;
+  UserObject approved_by = 2;
+}
+
+message RejectMetadata {
+  string rejected_at = 1;
+  UserObject rejected_by = 2;
+  string reason = 3;
 }
