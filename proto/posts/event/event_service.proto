@@ -113,7 +113,7 @@ message EventFilter {
   repeated string tags = 3;
   string from_date = 4;
   string till_date = 5;
-  string status = 6;
+  repeated string status = 6;
 }
 
 message CreateEventRequest {
