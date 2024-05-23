@@ -57,9 +57,10 @@ message EventObject {
   string created_at = 19;
   string updated_at = 20;
   string deleted_at = 21;
-  string status = 22;
-  ApproveMetadata approve_metadata = 23;
-  RejectMetadata reject_metadata = 24;
+  string published_at = 22;
+  string status = 23;
+  ApproveMetadata approve_metadata = 24;
+  RejectMetadata reject_metadata = 25;
 }
 
 message ClubObject {
@@ -147,6 +148,7 @@ message UpdateEventRequest {
 message DeleteEventRequest {
   string event_id = 1;
   int64 user_id = 2;
+  bool is_admin = 3;
 }
 
 message ListEventsRequest {
@@ -156,7 +158,6 @@ message ListEventsRequest {
   int32 page_number = 4;
   int32 page_size = 5;
   EventFilter filter = 6;
-  google.protobuf.FieldMask filter_mask = 15;
 }
 
 message ListEventsResponse {
