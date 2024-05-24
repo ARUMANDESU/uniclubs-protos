@@ -115,6 +115,8 @@ message EventFilter {
   string from_date = 4;
   string till_date = 5;
   repeated string status = 6;
+  repeated string type = 7;
+  bool is_visible_to_non_members = 8;
 }
 
 message CreateEventRequest {
@@ -143,6 +145,7 @@ message UpdateEventRequest {
   repeated FileObject attached_files = 13;
   repeated FileObject attached_images = 14;
   google.protobuf.FieldMask update_mask = 15;
+  bool is_visible_to_non_members = 16;
 }
 
 message DeleteEventRequest {
