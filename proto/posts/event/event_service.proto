@@ -162,6 +162,7 @@ message ListEventsRequest {
   int32 page_number = 4;
   int32 page_size = 5;
   EventFilter filter = 6;
+  google.protobuf.FieldMask filter_mask = 7;
 }
 
 message ListEventsResponse {
