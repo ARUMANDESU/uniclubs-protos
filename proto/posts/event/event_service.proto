@@ -61,6 +61,7 @@ message EventObject {
   string status = 23;
   ApproveMetadata approve_metadata = 24;
   RejectMetadata reject_metadata = 25;
+  bool is_hidden_for_non_members = 26;
 }
 
 message ClubObject {
