@@ -10,6 +10,8 @@ import "google/protobuf/empty.proto";
 service Event {
   rpc GetEvent(GetEventRequest) returns (EventObject);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
+  rpc ListParticipatedEvents(ListParticipatedEventsRequest) returns (ListEventsResponse);
+  rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
@@ -33,6 +35,11 @@ service Event {
   rpc RemoveOrganizer(RemoveOrganizerRequest) returns (EventObject);
   rpc HandleInviteUser(HandleInviteUserRequest) returns (EventObject);
   rpc RevokeInviteUser(RevokeInviteRequest) returns (google.protobuf.Empty);
+
+  rpc ParticipateEvent(EventActionRequest) returns (EventObject);
+  rpc CancelParticipation(EventActionRequest) returns (EventObject);
+  rpc KickParticipant(KickParticipantRequest) returns (EventObject);
+  rpc BanParticipant(BanParticipantRequest) returns (EventObject);
 }
 
 message EventObject {
@@ -248,4 +255,40 @@ message RejectMetadata {
   string rejected_at = 1;
   UserObject rejected_by = 2;
   string reason = 3;
+}
+
+message KickParticipantRequest {
+  string event_id = 1;
+  int64 user_id = 2;
+  int64 participant_id = 3;
+}
+
+message BanParticipantRequest {
+  string event_id = 1;
+  int64 user_id = 2;
+  int64 participant_id = 3;
+  string reason = 4;
+}
+
+message ListParticipantsRequest {
+  string event_id = 1;
+  string query = 2;
+  int32 page_number = 3;
+  int32 page_size = 4;
+  string sort_by = 5;
+  string sort_order = 6;
+}
+
+message ListParticipatedEventsRequest {
+  int64 user_id = 1;
+  string query = 2;
+  int32 page_number = 3;
+  int32 page_size = 4;
+  string sort_by = 5;
+  string sort_order = 6;
+}
+
+message ListParticipantsResponse {
+  repeated UserObject participants = 1;
+  PaginationMetadata metadata = 2;
 }
