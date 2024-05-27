@@ -24,6 +24,8 @@ const (
 	Event_ListEvents_FullMethodName             = "/posts.Event/ListEvents"
 	Event_ListParticipatedEvents_FullMethodName = "/posts.Event/ListParticipatedEvents"
 	Event_ListParticipants_FullMethodName       = "/posts.Event/ListParticipants"
+	Event_GetClubInvites_FullMethodName         = "/posts.Event/GetClubInvites"
+	Event_GetOrganizerInvites_FullMethodName    = "/posts.Event/GetOrganizerInvites"
 	Event_CreateEvent_FullMethodName            = "/posts.Event/CreateEvent"
 	Event_UpdateEvent_FullMethodName            = "/posts.Event/UpdateEvent"
 	Event_DeleteEvent_FullMethodName            = "/posts.Event/DeleteEvent"
@@ -55,6 +57,8 @@ type EventClient interface {
 	ListEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	ListParticipatedEvents(ctx context.Context, in *ListParticipatedEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
+	GetClubInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetClubInvitesResponse, error)
+	GetOrganizerInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetOrganizerInvitesResponse, error)
 	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UpdateEvent(ctx context.Context, in *UpdateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	DeleteEvent(ctx context.Context, in *DeleteEventRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -116,6 +120,24 @@ func (c *eventClient) ListParticipatedEvents(ctx context.Context, in *ListPartic
 func (c *eventClient) ListParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error) {
 	out := new(ListParticipantsResponse)
 	err := c.cc.Invoke(ctx, Event_ListParticipants_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) GetClubInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetClubInvitesResponse, error) {
+	out := new(GetClubInvitesResponse)
+	err := c.cc.Invoke(ctx, Event_GetClubInvites_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) GetOrganizerInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetOrganizerInvitesResponse, error) {
+	out := new(GetOrganizerInvitesResponse)
+	err := c.cc.Invoke(ctx, Event_GetOrganizerInvites_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -319,6 +341,8 @@ type EventServer interface {
 	ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
 	ListParticipatedEvents(context.Context, *ListParticipatedEventsRequest) (*ListEventsResponse, error)
 	ListParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
+	GetClubInvites(context.Context, *GetInvitesRequest) (*GetClubInvitesResponse, error)
+	GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error)
 	CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error)
 	UpdateEvent(context.Context, *UpdateEventRequest) (*EventObject, error)
 	DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error)
@@ -358,6 +382,12 @@ func (UnimplementedEventServer) ListParticipatedEvents(context.Context, *ListPar
 }
 func (UnimplementedEventServer) ListParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListParticipants not implemented")
+}
+func (UnimplementedEventServer) GetClubInvites(context.Context, *GetInvitesRequest) (*GetClubInvitesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetClubInvites not implemented")
+}
+func (UnimplementedEventServer) GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizerInvites not implemented")
 }
 func (UnimplementedEventServer) CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEvent not implemented")
@@ -503,6 +533,42 @@ func _Event_ListParticipants_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EventServer).ListParticipants(ctx, req.(*ListParticipantsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_GetClubInvites_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInvitesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).GetClubInvites(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_GetClubInvites_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).GetClubInvites(ctx, req.(*GetInvitesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_GetOrganizerInvites_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetInvitesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).GetOrganizerInvites(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_GetOrganizerInvites_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).GetOrganizerInvites(ctx, req.(*GetInvitesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -907,6 +973,14 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListParticipants",
 			Handler:    _Event_ListParticipants_Handler,
+		},
+		{
+			MethodName: "GetClubInvites",
+			Handler:    _Event_GetClubInvites_Handler,
+		},
+		{
+			MethodName: "GetOrganizerInvites",
+			Handler:    _Event_GetOrganizerInvites_Handler,
 		},
 		{
 			MethodName: "CreateEvent",

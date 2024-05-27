@@ -12,6 +12,9 @@ service Event {
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
   rpc ListParticipatedEvents(ListParticipatedEventsRequest) returns (ListEventsResponse);
   rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
+  rpc GetClubInvites(GetInvitesRequest) returns (GetClubInvitesResponse);
+  rpc GetOrganizerInvites(GetInvitesRequest) returns (GetOrganizerInvitesResponse);
+
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
   rpc UpdateEvent(UpdateEventRequest) returns (EventObject);
@@ -312,4 +315,32 @@ message ListParticipatedEventsRequest {
 message ListParticipantsResponse {
   repeated UserObject participants = 1;
   PaginationMetadata metadata = 2;
+}
+
+message GetInvitesRequest {
+  string event_id = 1;
+  int64 user_id = 2;
+  int64 club_id = 3;
+}
+
+message ClubInvite {
+  string id = 1;
+  string event_id = 2;
+  ClubObject club = 3;
+}
+
+message OrganizerInvite {
+  string id = 1;
+  string event_id = 2;
+  int64 club_id = 3;
+  int64 by_who_id = 4;
+  UserObject user = 5;
+}
+
+message GetClubInvitesResponse {
+  repeated ClubInvite invites = 1;
+}
+
+message GetOrganizerInvitesResponse {
+  repeated OrganizerInvite invites = 1;
 }
