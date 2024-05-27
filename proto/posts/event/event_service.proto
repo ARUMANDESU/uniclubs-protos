@@ -8,7 +8,7 @@ import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
 
 service Event {
-  rpc GetEvent(GetEventRequest) returns (EventObject);
+  rpc GetEvent(GetEventRequest) returns (GetEventResponse);
   rpc ListEvents(ListEventsRequest) returns (ListEventsResponse);
   rpc ListParticipatedEvents(ListParticipatedEventsRequest) returns (ListEventsResponse);
   rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
@@ -36,10 +36,10 @@ service Event {
   rpc HandleInviteUser(HandleInviteUserRequest) returns (EventObject);
   rpc RevokeInviteUser(RevokeInviteRequest) returns (google.protobuf.Empty);
 
-  rpc ParticipateEvent(EventActionRequest) returns (EventObject);
-  rpc CancelParticipation(EventActionRequest) returns (EventObject);
-  rpc KickParticipant(KickParticipantRequest) returns (EventObject);
-  rpc BanParticipant(BanParticipantRequest) returns (EventObject);
+  rpc ParticipateEvent(EventActionRequest) returns (google.protobuf.Empty);
+  rpc CancelParticipation(EventActionRequest) returns (google.protobuf.Empty);
+  rpc KickParticipant(KickParticipantRequest) returns (google.protobuf.Empty);
+  rpc BanParticipant(BanParticipantRequest) returns (google.protobuf.Empty);
 }
 
 message EventObject {
@@ -135,6 +135,27 @@ message CreateEventRequest {
 message GetEventRequest {
   string event_id = 1;
   int64 user_id = 2;
+}
+
+message GetEventResponse {
+  EventObject event = 1;
+  UserStatus user_status = 2;
+  ParticipantStatus participant_status = 3;
+}
+
+enum UserStatus {
+  USER_STATUS_UNKNOWN = 0;
+  USER_STATUS_ORGANIZER = 1;
+  USER_STATUS_OWNER = 2;
+}
+
+enum ParticipantStatus {
+  reserved  1,3;
+  PARTICIPANT_UNKNOWN = 0;
+//  PARTICIPANT_PENDING = 1;
+  PARTICIPANT_APPROVED = 2;
+//  PARTICIPANT_REJECTED = 3;
+  PARTICIPANT_BANNED = 4;
 }
 
 message UpdateEventRequest {

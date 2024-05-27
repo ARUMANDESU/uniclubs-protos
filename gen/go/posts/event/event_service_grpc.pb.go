@@ -51,7 +51,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EventClient interface {
-	GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*EventObject, error)
+	GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*GetEventResponse, error)
 	ListEvents(ctx context.Context, in *ListEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	ListParticipatedEvents(ctx context.Context, in *ListParticipatedEventsRequest, opts ...grpc.CallOption) (*ListEventsResponse, error)
 	ListParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
@@ -72,10 +72,10 @@ type EventClient interface {
 	RemoveOrganizer(ctx context.Context, in *RemoveOrganizerRequest, opts ...grpc.CallOption) (*EventObject, error)
 	HandleInviteUser(ctx context.Context, in *HandleInviteUserRequest, opts ...grpc.CallOption) (*EventObject, error)
 	RevokeInviteUser(ctx context.Context, in *RevokeInviteRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	ParticipateEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
-	CancelParticipation(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error)
-	KickParticipant(ctx context.Context, in *KickParticipantRequest, opts ...grpc.CallOption) (*EventObject, error)
-	BanParticipant(ctx context.Context, in *BanParticipantRequest, opts ...grpc.CallOption) (*EventObject, error)
+	ParticipateEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	CancelParticipation(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	KickParticipant(ctx context.Context, in *KickParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	BanParticipant(ctx context.Context, in *BanParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type eventClient struct {
@@ -86,8 +86,8 @@ func NewEventClient(cc grpc.ClientConnInterface) EventClient {
 	return &eventClient{cc}
 }
 
-func (c *eventClient) GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) GetEvent(ctx context.Context, in *GetEventRequest, opts ...grpc.CallOption) (*GetEventResponse, error) {
+	out := new(GetEventResponse)
 	err := c.cc.Invoke(ctx, Event_GetEvent_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -275,8 +275,8 @@ func (c *eventClient) RevokeInviteUser(ctx context.Context, in *RevokeInviteRequ
 	return out, nil
 }
 
-func (c *eventClient) ParticipateEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) ParticipateEvent(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Event_ParticipateEvent_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -284,8 +284,8 @@ func (c *eventClient) ParticipateEvent(ctx context.Context, in *EventActionReque
 	return out, nil
 }
 
-func (c *eventClient) CancelParticipation(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) CancelParticipation(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Event_CancelParticipation_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -293,8 +293,8 @@ func (c *eventClient) CancelParticipation(ctx context.Context, in *EventActionRe
 	return out, nil
 }
 
-func (c *eventClient) KickParticipant(ctx context.Context, in *KickParticipantRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) KickParticipant(ctx context.Context, in *KickParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Event_KickParticipant_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -302,8 +302,8 @@ func (c *eventClient) KickParticipant(ctx context.Context, in *KickParticipantRe
 	return out, nil
 }
 
-func (c *eventClient) BanParticipant(ctx context.Context, in *BanParticipantRequest, opts ...grpc.CallOption) (*EventObject, error) {
-	out := new(EventObject)
+func (c *eventClient) BanParticipant(ctx context.Context, in *BanParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, Event_BanParticipant_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -315,7 +315,7 @@ func (c *eventClient) BanParticipant(ctx context.Context, in *BanParticipantRequ
 // All implementations must embed UnimplementedEventServer
 // for forward compatibility
 type EventServer interface {
-	GetEvent(context.Context, *GetEventRequest) (*EventObject, error)
+	GetEvent(context.Context, *GetEventRequest) (*GetEventResponse, error)
 	ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error)
 	ListParticipatedEvents(context.Context, *ListParticipatedEventsRequest) (*ListEventsResponse, error)
 	ListParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
@@ -336,10 +336,10 @@ type EventServer interface {
 	RemoveOrganizer(context.Context, *RemoveOrganizerRequest) (*EventObject, error)
 	HandleInviteUser(context.Context, *HandleInviteUserRequest) (*EventObject, error)
 	RevokeInviteUser(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error)
-	ParticipateEvent(context.Context, *EventActionRequest) (*EventObject, error)
-	CancelParticipation(context.Context, *EventActionRequest) (*EventObject, error)
-	KickParticipant(context.Context, *KickParticipantRequest) (*EventObject, error)
-	BanParticipant(context.Context, *BanParticipantRequest) (*EventObject, error)
+	ParticipateEvent(context.Context, *EventActionRequest) (*emptypb.Empty, error)
+	CancelParticipation(context.Context, *EventActionRequest) (*emptypb.Empty, error)
+	KickParticipant(context.Context, *KickParticipantRequest) (*emptypb.Empty, error)
+	BanParticipant(context.Context, *BanParticipantRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedEventServer()
 }
 
@@ -347,7 +347,7 @@ type EventServer interface {
 type UnimplementedEventServer struct {
 }
 
-func (UnimplementedEventServer) GetEvent(context.Context, *GetEventRequest) (*EventObject, error) {
+func (UnimplementedEventServer) GetEvent(context.Context, *GetEventRequest) (*GetEventResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEvent not implemented")
 }
 func (UnimplementedEventServer) ListEvents(context.Context, *ListEventsRequest) (*ListEventsResponse, error) {
@@ -410,16 +410,16 @@ func (UnimplementedEventServer) HandleInviteUser(context.Context, *HandleInviteU
 func (UnimplementedEventServer) RevokeInviteUser(context.Context, *RevokeInviteRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RevokeInviteUser not implemented")
 }
-func (UnimplementedEventServer) ParticipateEvent(context.Context, *EventActionRequest) (*EventObject, error) {
+func (UnimplementedEventServer) ParticipateEvent(context.Context, *EventActionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ParticipateEvent not implemented")
 }
-func (UnimplementedEventServer) CancelParticipation(context.Context, *EventActionRequest) (*EventObject, error) {
+func (UnimplementedEventServer) CancelParticipation(context.Context, *EventActionRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelParticipation not implemented")
 }
-func (UnimplementedEventServer) KickParticipant(context.Context, *KickParticipantRequest) (*EventObject, error) {
+func (UnimplementedEventServer) KickParticipant(context.Context, *KickParticipantRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method KickParticipant not implemented")
 }
-func (UnimplementedEventServer) BanParticipant(context.Context, *BanParticipantRequest) (*EventObject, error) {
+func (UnimplementedEventServer) BanParticipant(context.Context, *BanParticipantRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BanParticipant not implemented")
 }
 func (UnimplementedEventServer) mustEmbedUnimplementedEventServer() {}
