@@ -325,13 +325,13 @@ message GetInvitesRequest {
 
 message ClubInvite {
   string id = 1;
-  string event_id = 2;
+  EventObject event = 2;
   ClubObject club = 3;
 }
 
 message OrganizerInvite {
   string id = 1;
-  string event_id = 2;
+  EventObject event = 2;
   int64 club_id = 3;
   int64 by_who_id = 4;
   UserObject user = 5;
