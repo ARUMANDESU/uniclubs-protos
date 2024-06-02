@@ -14,6 +14,7 @@ service Event {
   rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
   rpc GetClubInvites(GetInvitesRequest) returns (GetClubInvitesResponse);
   rpc GetOrganizerInvites(GetInvitesRequest) returns (GetOrganizerInvitesResponse);
+  rpc GetBannedParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
 
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
@@ -43,6 +44,7 @@ service Event {
   rpc CancelParticipation(EventActionRequest) returns (google.protobuf.Empty);
   rpc KickParticipant(KickParticipantRequest) returns (google.protobuf.Empty);
   rpc BanParticipant(BanParticipantRequest) returns (google.protobuf.Empty);
+  rpc UnbanParticipant(UnbanParticipantRequest) returns (google.protobuf.Empty);
 }
 
 message EventObject {
@@ -343,4 +345,10 @@ message GetClubInvitesResponse {
 
 message GetOrganizerInvitesResponse {
   repeated OrganizerInvite invites = 1;
+}
+
+message UnbanParticipantRequest {
+  string event_id = 1;
+  int64 user_id = 2;
+  int64 participant_id = 3;
 }

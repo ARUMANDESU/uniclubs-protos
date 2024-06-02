@@ -26,6 +26,7 @@ const (
 	Event_ListParticipants_FullMethodName       = "/posts.Event/ListParticipants"
 	Event_GetClubInvites_FullMethodName         = "/posts.Event/GetClubInvites"
 	Event_GetOrganizerInvites_FullMethodName    = "/posts.Event/GetOrganizerInvites"
+	Event_GetBannedParticipants_FullMethodName  = "/posts.Event/GetBannedParticipants"
 	Event_CreateEvent_FullMethodName            = "/posts.Event/CreateEvent"
 	Event_UpdateEvent_FullMethodName            = "/posts.Event/UpdateEvent"
 	Event_DeleteEvent_FullMethodName            = "/posts.Event/DeleteEvent"
@@ -47,6 +48,7 @@ const (
 	Event_CancelParticipation_FullMethodName    = "/posts.Event/CancelParticipation"
 	Event_KickParticipant_FullMethodName        = "/posts.Event/KickParticipant"
 	Event_BanParticipant_FullMethodName         = "/posts.Event/BanParticipant"
+	Event_UnbanParticipant_FullMethodName       = "/posts.Event/UnbanParticipant"
 )
 
 // EventClient is the client API for Event service.
@@ -59,6 +61,7 @@ type EventClient interface {
 	ListParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
 	GetClubInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetClubInvitesResponse, error)
 	GetOrganizerInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetOrganizerInvitesResponse, error)
+	GetBannedParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
 	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UpdateEvent(ctx context.Context, in *UpdateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	DeleteEvent(ctx context.Context, in *DeleteEventRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -80,6 +83,7 @@ type EventClient interface {
 	CancelParticipation(ctx context.Context, in *EventActionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	KickParticipant(ctx context.Context, in *KickParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	BanParticipant(ctx context.Context, in *BanParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UnbanParticipant(ctx context.Context, in *UnbanParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type eventClient struct {
@@ -138,6 +142,15 @@ func (c *eventClient) GetClubInvites(ctx context.Context, in *GetInvitesRequest,
 func (c *eventClient) GetOrganizerInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetOrganizerInvitesResponse, error) {
 	out := new(GetOrganizerInvitesResponse)
 	err := c.cc.Invoke(ctx, Event_GetOrganizerInvites_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *eventClient) GetBannedParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error) {
+	out := new(ListParticipantsResponse)
+	err := c.cc.Invoke(ctx, Event_GetBannedParticipants_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -333,6 +346,15 @@ func (c *eventClient) BanParticipant(ctx context.Context, in *BanParticipantRequ
 	return out, nil
 }
 
+func (c *eventClient) UnbanParticipant(ctx context.Context, in *UnbanParticipantRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, Event_UnbanParticipant_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // EventServer is the server API for Event service.
 // All implementations must embed UnimplementedEventServer
 // for forward compatibility
@@ -343,6 +365,7 @@ type EventServer interface {
 	ListParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
 	GetClubInvites(context.Context, *GetInvitesRequest) (*GetClubInvitesResponse, error)
 	GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error)
+	GetBannedParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
 	CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error)
 	UpdateEvent(context.Context, *UpdateEventRequest) (*EventObject, error)
 	DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error)
@@ -364,6 +387,7 @@ type EventServer interface {
 	CancelParticipation(context.Context, *EventActionRequest) (*emptypb.Empty, error)
 	KickParticipant(context.Context, *KickParticipantRequest) (*emptypb.Empty, error)
 	BanParticipant(context.Context, *BanParticipantRequest) (*emptypb.Empty, error)
+	UnbanParticipant(context.Context, *UnbanParticipantRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedEventServer()
 }
 
@@ -388,6 +412,9 @@ func (UnimplementedEventServer) GetClubInvites(context.Context, *GetInvitesReque
 }
 func (UnimplementedEventServer) GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizerInvites not implemented")
+}
+func (UnimplementedEventServer) GetBannedParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetBannedParticipants not implemented")
 }
 func (UnimplementedEventServer) CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEvent not implemented")
@@ -451,6 +478,9 @@ func (UnimplementedEventServer) KickParticipant(context.Context, *KickParticipan
 }
 func (UnimplementedEventServer) BanParticipant(context.Context, *BanParticipantRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method BanParticipant not implemented")
+}
+func (UnimplementedEventServer) UnbanParticipant(context.Context, *UnbanParticipantRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnbanParticipant not implemented")
 }
 func (UnimplementedEventServer) mustEmbedUnimplementedEventServer() {}
 
@@ -569,6 +599,24 @@ func _Event_GetOrganizerInvites_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EventServer).GetOrganizerInvites(ctx, req.(*GetInvitesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Event_GetBannedParticipants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListParticipantsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).GetBannedParticipants(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_GetBannedParticipants_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).GetBannedParticipants(ctx, req.(*ListParticipantsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -951,6 +999,24 @@ func _Event_BanParticipant_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Event_UnbanParticipant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnbanParticipantRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(EventServer).UnbanParticipant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Event_UnbanParticipant_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(EventServer).UnbanParticipant(ctx, req.(*UnbanParticipantRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Event_ServiceDesc is the grpc.ServiceDesc for Event service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -981,6 +1047,10 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOrganizerInvites",
 			Handler:    _Event_GetOrganizerInvites_Handler,
+		},
+		{
+			MethodName: "GetBannedParticipants",
+			Handler:    _Event_GetBannedParticipants_Handler,
 		},
 		{
 			MethodName: "CreateEvent",
@@ -1065,6 +1135,10 @@ var Event_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "BanParticipant",
 			Handler:    _Event_BanParticipant_Handler,
+		},
+		{
+			MethodName: "UnbanParticipant",
+			Handler:    _Event_UnbanParticipant_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
