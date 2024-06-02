@@ -14,7 +14,7 @@ service Event {
   rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
   rpc GetClubInvites(GetInvitesRequest) returns (GetClubInvitesResponse);
   rpc GetOrganizerInvites(GetInvitesRequest) returns (GetOrganizerInvitesResponse);
-  rpc GetBannedParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
+  rpc ListBannedParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
 
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
