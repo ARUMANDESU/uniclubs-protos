@@ -14,7 +14,7 @@ service Event {
   rpc ListParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
   rpc GetClubInvites(GetInvitesRequest) returns (GetClubInvitesResponse);
   rpc GetOrganizerInvites(GetInvitesRequest) returns (GetOrganizerInvitesResponse);
-  rpc ListBannedParticipants(ListParticipantsRequest) returns (ListParticipantsResponse);
+  rpc ListBannedParticipants(ListBannedParticipantsRequest) returns (ListBannedParticipantsResponse);
 
 
   rpc CreateEvent(CreateEventRequest) returns (EventObject);
@@ -88,6 +88,13 @@ message UserObject {
   string last_name = 3;
   string barcode = 4;
   string avatar_url = 5;
+}
+
+message BanRecord {
+  UserObject user = 1;
+  string reason = 2;
+  string banned_at = 3;
+  int64 banned_by = 4;
 }
 
 message OrganizerObject {
@@ -351,4 +358,17 @@ message UnbanParticipantRequest {
   string event_id = 1;
   int64 user_id = 2;
   int64 participant_id = 3;
+}
+
+message ListBannedParticipantsRequest {
+  string event_id = 1;
+  string query = 2;
+  int32 page_number = 3;
+  int32 page_size = 4;
+  int64 user_id = 5;
+}
+
+message ListBannedParticipantsResponse {
+  repeated BanRecord banned_participants = 1;
+  PaginationMetadata metadata = 2;
 }

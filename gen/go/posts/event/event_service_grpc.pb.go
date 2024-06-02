@@ -61,7 +61,7 @@ type EventClient interface {
 	ListParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
 	GetClubInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetClubInvitesResponse, error)
 	GetOrganizerInvites(ctx context.Context, in *GetInvitesRequest, opts ...grpc.CallOption) (*GetOrganizerInvitesResponse, error)
-	ListBannedParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error)
+	ListBannedParticipants(ctx context.Context, in *ListBannedParticipantsRequest, opts ...grpc.CallOption) (*ListBannedParticipantsResponse, error)
 	CreateEvent(ctx context.Context, in *CreateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	UpdateEvent(ctx context.Context, in *UpdateEventRequest, opts ...grpc.CallOption) (*EventObject, error)
 	DeleteEvent(ctx context.Context, in *DeleteEventRequest, opts ...grpc.CallOption) (*EventObject, error)
@@ -148,8 +148,8 @@ func (c *eventClient) GetOrganizerInvites(ctx context.Context, in *GetInvitesReq
 	return out, nil
 }
 
-func (c *eventClient) ListBannedParticipants(ctx context.Context, in *ListParticipantsRequest, opts ...grpc.CallOption) (*ListParticipantsResponse, error) {
-	out := new(ListParticipantsResponse)
+func (c *eventClient) ListBannedParticipants(ctx context.Context, in *ListBannedParticipantsRequest, opts ...grpc.CallOption) (*ListBannedParticipantsResponse, error) {
+	out := new(ListBannedParticipantsResponse)
 	err := c.cc.Invoke(ctx, Event_ListBannedParticipants_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -365,7 +365,7 @@ type EventServer interface {
 	ListParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
 	GetClubInvites(context.Context, *GetInvitesRequest) (*GetClubInvitesResponse, error)
 	GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error)
-	ListBannedParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error)
+	ListBannedParticipants(context.Context, *ListBannedParticipantsRequest) (*ListBannedParticipantsResponse, error)
 	CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error)
 	UpdateEvent(context.Context, *UpdateEventRequest) (*EventObject, error)
 	DeleteEvent(context.Context, *DeleteEventRequest) (*EventObject, error)
@@ -413,7 +413,7 @@ func (UnimplementedEventServer) GetClubInvites(context.Context, *GetInvitesReque
 func (UnimplementedEventServer) GetOrganizerInvites(context.Context, *GetInvitesRequest) (*GetOrganizerInvitesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizerInvites not implemented")
 }
-func (UnimplementedEventServer) ListBannedParticipants(context.Context, *ListParticipantsRequest) (*ListParticipantsResponse, error) {
+func (UnimplementedEventServer) ListBannedParticipants(context.Context, *ListBannedParticipantsRequest) (*ListBannedParticipantsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListBannedParticipants not implemented")
 }
 func (UnimplementedEventServer) CreateEvent(context.Context, *CreateEventRequest) (*EventObject, error) {
@@ -604,7 +604,7 @@ func _Event_GetOrganizerInvites_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _Event_ListBannedParticipants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListParticipantsRequest)
+	in := new(ListBannedParticipantsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -616,7 +616,7 @@ func _Event_ListBannedParticipants_Handler(srv interface{}, ctx context.Context,
 		FullMethod: Event_ListBannedParticipants_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventServer).ListBannedParticipants(ctx, req.(*ListParticipantsRequest))
+		return srv.(EventServer).ListBannedParticipants(ctx, req.(*ListBannedParticipantsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
