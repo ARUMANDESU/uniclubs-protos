@@ -8,6 +8,8 @@ import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/field_mask.proto";
 
+// todo: sort/group rpcs
+// or maybe split into multiple files, future me i believe in you
 service Club {
   rpc CreateClub(CreateClubRequest) returns (google.protobuf.Empty);
   rpc HandleNewClub(HandleNewClubRequest) returns (google.protobuf.Empty);
@@ -365,7 +367,19 @@ message ClubStatus {
 message HavePermissionToRequest {
   int64 club_id = 1;
   int64 user_id = 2;
-  uint64 permission = 3;
+  Permission permission = 3;
+}
+
+enum Permission {
+  PERMISSION_NONE = 0;
+  PERMISSION_ADMINISTRATOR = 1;
+  PERMISSION_MANAGE_CLUB = 2;
+  PERMISSION_MANAGE_MEMBERSHIP = 4;
+  PERMISSION_KICK_MEMBERS = 8;
+  PERMISSION_BAN_MEMBERS = 16;
+  PERMISSION_MANAGE_ROLES = 32;
+  PERMISSION_MANAGE_EVENTS = 64;
+  PERMISSION_MANAGE_POSTS = 128;
 }
 
 message HavePermissionToResponse {
