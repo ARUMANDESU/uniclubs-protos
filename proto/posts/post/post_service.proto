@@ -61,9 +61,13 @@ message UpdatePostRequest {
 
 message ListPostsRequest {
   int64 club_id = 1;
-  int64 user_id = 2;
-  int32 page = 3;
-  int32 page_size = 4;
+  int32 page = 2;
+  int32 page_size = 3;
+  string query = 4;
+  repeated string tags = 5;
+  repeated string sort = 6;
+  repeated string order = 7;
+  google.protobuf.FieldMask list_mask = 8;
 }
 
 message ListPostsResponse {
