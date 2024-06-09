@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package posts;
+
+option go_package = "uniclubs.posts_service.v1.postv1";
+
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+
+import "posts/messages.proto";
+
+
+service Post {
+  rpc CreatePost(CreatePostRequest) returns (PostObject);
+  rpc GetPost(GetPostRequest) returns (PostObject);
+  rpc UpdatePost(UpdatePostRequest) returns (PostObject);
+  rpc DeletePost(ActionRequest) returns (PostObject);
+  rpc ListPosts(ListPostsRequest) returns (ListPostsResponse);
+  rpc HidePost(ActionRequest) returns (PostObject);
+  rpc UnhidePost(ActionRequest) returns (PostObject);
+}
+
+message PostObject {
+  string id = 1;
+  ClubObject club = 2;
+  string title = 3;
+  string description = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+  repeated string tags = 7;
+  repeated CoverImage cover_images = 8;
+  repeated FileObject attached_files = 9;
+}
+
+message CreatePostRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  string title = 3;
+  string description = 4;
+  repeated string tags = 5;
+  repeated CoverImage cover_images = 6;
+  repeated FileObject attached_files = 7;
+  google.protobuf.FieldMask create_mask = 8;
+}
+
+message GetPostRequest {
+  string id = 1;
+  int64 user_id = 2;
+}
+
+message UpdatePostRequest {
+  string id = 1;
+  int64 user_id = 2;
+  string title = 3;
+  string description = 4;
+  repeated string tags = 5;
+  repeated CoverImage cover_images = 6;
+  repeated FileObject attached_files = 7;
+  google.protobuf.FieldMask update_mask = 8;
+}
+
+message ListPostsRequest {
+  int64 club_id = 1;
+  int64 user_id = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}
+
+message ListPostsResponse {
+  repeated PostObject posts = 1;
+  PaginationMetadata metadata = 2;
+}
+
+message ActionRequest {
+  string id = 1;
+  int64 user_id = 2;
+}

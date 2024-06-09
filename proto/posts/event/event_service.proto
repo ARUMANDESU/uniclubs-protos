@@ -4,6 +4,7 @@ package posts;
 
 option go_package = "uniclubs.posts_service.v1.eventv1";
 
+import "posts/messages.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/empty.proto";
 
@@ -76,12 +77,6 @@ message EventObject {
   bool is_hidden_for_non_members = 26;
 }
 
-message ClubObject {
-  int64 id = 1;
-  string name = 2;
-  string logo_url = 3;
-}
-
 message UserObject {
   int64 id = 1;
   string first_name = 2;
@@ -105,27 +100,6 @@ message OrganizerObject {
   string avatar_url = 5;
   int64 club_id = 6;
   int64 by_who_id = 7;
-}
-
-message CoverImage {
-  string url = 1;
-  string name = 2;
-  string type = 3;
-  int32 position = 4;
-}
-
-message FileObject {
-  string url = 1;
-  string name = 2;
-  string type = 3;
-}
-
-message PaginationMetadata {
-  int32 current_page = 1;
-  int32 page_size = 2;
-  int32 first_page = 3;
-  int32 last_page = 4;
-  int32 total_records = 5;
 }
 
 message EventFilter {
