@@ -4,7 +4,7 @@
 // - protoc             v4.25.3
 // source: posts/post/post_service.proto
 
-package uniclubs_posts_service_v1_postv1
+package post
 
 import (
 	context "context"

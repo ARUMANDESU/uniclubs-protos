@@ -7,13 +7,13 @@
 package uniclubs_posts_service_v1_eventv1
 
 import (
+	posts "github.com/ARUMANDESU/uniclubs-protos/gen/go/posts"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	reflect "reflect"
 	sync "sync"
-	uniclubs_posts_service_v1_posts "uniclubs.posts_service.v1.posts"
 )
 
 const (
@@ -174,32 +174,32 @@ type EventObject struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id                    string                                        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	ClubId                int64                                         `protobuf:"varint,2,opt,name=club_id,json=clubId,proto3" json:"club_id,omitempty"`
-	OwnerId               int64                                         `protobuf:"varint,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
-	CollaboratorClubs     []*uniclubs_posts_service_v1_posts.ClubObject `protobuf:"bytes,4,rep,name=collaborator_clubs,json=collaboratorClubs,proto3" json:"collaborator_clubs,omitempty"`
-	Organizers            []*OrganizerObject                            `protobuf:"bytes,5,rep,name=organizers,proto3" json:"organizers,omitempty"`
-	Type                  string                                        `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"`
-	Title                 string                                        `protobuf:"bytes,7,opt,name=title,proto3" json:"title,omitempty"`
-	Description           string                                        `protobuf:"bytes,8,opt,name=description,proto3" json:"description,omitempty"`
-	Tags                  []string                                      `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
-	MaxParticipants       uint32                                        `protobuf:"varint,10,opt,name=max_participants,json=maxParticipants,proto3" json:"max_participants,omitempty"`
-	ParticipantsCount     uint32                                        `protobuf:"varint,11,opt,name=participants_count,json=participantsCount,proto3" json:"participants_count,omitempty"`
-	StartDate             string                                        `protobuf:"bytes,12,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate               string                                        `protobuf:"bytes,13,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	LocationUniversity    string                                        `protobuf:"bytes,14,opt,name=location_university,json=locationUniversity,proto3" json:"location_university,omitempty"`
-	LocationLink          string                                        `protobuf:"bytes,15,opt,name=location_link,json=locationLink,proto3" json:"location_link,omitempty"`
-	CoverImages           []*uniclubs_posts_service_v1_posts.CoverImage `protobuf:"bytes,16,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
-	AttachedFiles         []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,17,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
-	AttachedImages        []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,18,rep,name=attached_images,json=attachedImages,proto3" json:"attached_images,omitempty"`
-	CreatedAt             string                                        `protobuf:"bytes,19,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt             string                                        `protobuf:"bytes,20,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	DeletedAt             string                                        `protobuf:"bytes,21,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
-	PublishedAt           string                                        `protobuf:"bytes,22,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
-	Status                string                                        `protobuf:"bytes,23,opt,name=status,proto3" json:"status,omitempty"`
-	ApproveMetadata       *ApproveMetadata                              `protobuf:"bytes,24,opt,name=approve_metadata,json=approveMetadata,proto3" json:"approve_metadata,omitempty"`
-	RejectMetadata        *RejectMetadata                               `protobuf:"bytes,25,opt,name=reject_metadata,json=rejectMetadata,proto3" json:"reject_metadata,omitempty"`
-	IsHiddenForNonMembers bool                                          `protobuf:"varint,26,opt,name=is_hidden_for_non_members,json=isHiddenForNonMembers,proto3" json:"is_hidden_for_non_members,omitempty"`
+	Id                    string              `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ClubId                int64               `protobuf:"varint,2,opt,name=club_id,json=clubId,proto3" json:"club_id,omitempty"`
+	OwnerId               int64               `protobuf:"varint,3,opt,name=owner_id,json=ownerId,proto3" json:"owner_id,omitempty"`
+	CollaboratorClubs     []*posts.ClubObject `protobuf:"bytes,4,rep,name=collaborator_clubs,json=collaboratorClubs,proto3" json:"collaborator_clubs,omitempty"`
+	Organizers            []*OrganizerObject  `protobuf:"bytes,5,rep,name=organizers,proto3" json:"organizers,omitempty"`
+	Type                  string              `protobuf:"bytes,6,opt,name=type,proto3" json:"type,omitempty"`
+	Title                 string              `protobuf:"bytes,7,opt,name=title,proto3" json:"title,omitempty"`
+	Description           string              `protobuf:"bytes,8,opt,name=description,proto3" json:"description,omitempty"`
+	Tags                  []string            `protobuf:"bytes,9,rep,name=tags,proto3" json:"tags,omitempty"`
+	MaxParticipants       uint32              `protobuf:"varint,10,opt,name=max_participants,json=maxParticipants,proto3" json:"max_participants,omitempty"`
+	ParticipantsCount     uint32              `protobuf:"varint,11,opt,name=participants_count,json=participantsCount,proto3" json:"participants_count,omitempty"`
+	StartDate             string              `protobuf:"bytes,12,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate               string              `protobuf:"bytes,13,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	LocationUniversity    string              `protobuf:"bytes,14,opt,name=location_university,json=locationUniversity,proto3" json:"location_university,omitempty"`
+	LocationLink          string              `protobuf:"bytes,15,opt,name=location_link,json=locationLink,proto3" json:"location_link,omitempty"`
+	CoverImages           []*posts.CoverImage `protobuf:"bytes,16,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
+	AttachedFiles         []*posts.FileObject `protobuf:"bytes,17,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
+	AttachedImages        []*posts.FileObject `protobuf:"bytes,18,rep,name=attached_images,json=attachedImages,proto3" json:"attached_images,omitempty"`
+	CreatedAt             string              `protobuf:"bytes,19,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt             string              `protobuf:"bytes,20,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	DeletedAt             string              `protobuf:"bytes,21,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
+	PublishedAt           string              `protobuf:"bytes,22,opt,name=published_at,json=publishedAt,proto3" json:"published_at,omitempty"`
+	Status                string              `protobuf:"bytes,23,opt,name=status,proto3" json:"status,omitempty"`
+	ApproveMetadata       *ApproveMetadata    `protobuf:"bytes,24,opt,name=approve_metadata,json=approveMetadata,proto3" json:"approve_metadata,omitempty"`
+	RejectMetadata        *RejectMetadata     `protobuf:"bytes,25,opt,name=reject_metadata,json=rejectMetadata,proto3" json:"reject_metadata,omitempty"`
+	IsHiddenForNonMembers bool                `protobuf:"varint,26,opt,name=is_hidden_for_non_members,json=isHiddenForNonMembers,proto3" json:"is_hidden_for_non_members,omitempty"`
 }
 
 func (x *EventObject) Reset() {
@@ -255,7 +255,7 @@ func (x *EventObject) GetOwnerId() int64 {
 	return 0
 }
 
-func (x *EventObject) GetCollaboratorClubs() []*uniclubs_posts_service_v1_posts.ClubObject {
+func (x *EventObject) GetCollaboratorClubs() []*posts.ClubObject {
 	if x != nil {
 		return x.CollaboratorClubs
 	}
@@ -339,21 +339,21 @@ func (x *EventObject) GetLocationLink() string {
 	return ""
 }
 
-func (x *EventObject) GetCoverImages() []*uniclubs_posts_service_v1_posts.CoverImage {
+func (x *EventObject) GetCoverImages() []*posts.CoverImage {
 	if x != nil {
 		return x.CoverImages
 	}
 	return nil
 }
 
-func (x *EventObject) GetAttachedFiles() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *EventObject) GetAttachedFiles() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedFiles
 	}
 	return nil
 }
 
-func (x *EventObject) GetAttachedImages() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *EventObject) GetAttachedImages() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedImages
 	}
@@ -769,8 +769,8 @@ type CreateEventRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Club *uniclubs_posts_service_v1_posts.ClubObject `protobuf:"bytes,1,opt,name=club,proto3" json:"club,omitempty"`
-	User *UserObject                                 `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
+	Club *posts.ClubObject `protobuf:"bytes,1,opt,name=club,proto3" json:"club,omitempty"`
+	User *UserObject       `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (x *CreateEventRequest) Reset() {
@@ -805,7 +805,7 @@ func (*CreateEventRequest) Descriptor() ([]byte, []int) {
 	return file_posts_event_event_service_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *CreateEventRequest) GetClub() *uniclubs_posts_service_v1_posts.ClubObject {
+func (x *CreateEventRequest) GetClub() *posts.ClubObject {
 	if x != nil {
 		return x.Club
 	}
@@ -942,22 +942,22 @@ type UpdateEventRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	EventId               string                                        `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
-	UserId                int64                                         `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Type                  string                                        `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
-	Title                 string                                        `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`
-	Description           string                                        `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	Tags                  []string                                      `protobuf:"bytes,6,rep,name=tags,proto3" json:"tags,omitempty"`
-	MaxParticipants       int32                                         `protobuf:"varint,7,opt,name=max_participants,json=maxParticipants,proto3" json:"max_participants,omitempty"`
-	StartDate             string                                        `protobuf:"bytes,8,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
-	EndDate               string                                        `protobuf:"bytes,9,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
-	LocationUniversity    string                                        `protobuf:"bytes,10,opt,name=location_university,json=locationUniversity,proto3" json:"location_university,omitempty"`
-	LocationLink          string                                        `protobuf:"bytes,11,opt,name=location_link,json=locationLink,proto3" json:"location_link,omitempty"`
-	CoverImages           []*uniclubs_posts_service_v1_posts.CoverImage `protobuf:"bytes,12,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
-	AttachedFiles         []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,13,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
-	AttachedImages        []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,14,rep,name=attached_images,json=attachedImages,proto3" json:"attached_images,omitempty"`
-	UpdateMask            *fieldmaskpb.FieldMask                        `protobuf:"bytes,15,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
-	IsHiddenForNonMembers bool                                          `protobuf:"varint,16,opt,name=is_hidden_for_non_members,json=isHiddenForNonMembers,proto3" json:"is_hidden_for_non_members,omitempty"`
+	EventId               string                 `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	UserId                int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Type                  string                 `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
+	Title                 string                 `protobuf:"bytes,4,opt,name=title,proto3" json:"title,omitempty"`
+	Description           string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	Tags                  []string               `protobuf:"bytes,6,rep,name=tags,proto3" json:"tags,omitempty"`
+	MaxParticipants       int32                  `protobuf:"varint,7,opt,name=max_participants,json=maxParticipants,proto3" json:"max_participants,omitempty"`
+	StartDate             string                 `protobuf:"bytes,8,opt,name=start_date,json=startDate,proto3" json:"start_date,omitempty"`
+	EndDate               string                 `protobuf:"bytes,9,opt,name=end_date,json=endDate,proto3" json:"end_date,omitempty"`
+	LocationUniversity    string                 `protobuf:"bytes,10,opt,name=location_university,json=locationUniversity,proto3" json:"location_university,omitempty"`
+	LocationLink          string                 `protobuf:"bytes,11,opt,name=location_link,json=locationLink,proto3" json:"location_link,omitempty"`
+	CoverImages           []*posts.CoverImage    `protobuf:"bytes,12,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
+	AttachedFiles         []*posts.FileObject    `protobuf:"bytes,13,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
+	AttachedImages        []*posts.FileObject    `protobuf:"bytes,14,rep,name=attached_images,json=attachedImages,proto3" json:"attached_images,omitempty"`
+	UpdateMask            *fieldmaskpb.FieldMask `protobuf:"bytes,15,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	IsHiddenForNonMembers bool                   `protobuf:"varint,16,opt,name=is_hidden_for_non_members,json=isHiddenForNonMembers,proto3" json:"is_hidden_for_non_members,omitempty"`
 }
 
 func (x *UpdateEventRequest) Reset() {
@@ -1069,21 +1069,21 @@ func (x *UpdateEventRequest) GetLocationLink() string {
 	return ""
 }
 
-func (x *UpdateEventRequest) GetCoverImages() []*uniclubs_posts_service_v1_posts.CoverImage {
+func (x *UpdateEventRequest) GetCoverImages() []*posts.CoverImage {
 	if x != nil {
 		return x.CoverImages
 	}
 	return nil
 }
 
-func (x *UpdateEventRequest) GetAttachedFiles() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *UpdateEventRequest) GetAttachedFiles() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedFiles
 	}
 	return nil
 }
 
-func (x *UpdateEventRequest) GetAttachedImages() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *UpdateEventRequest) GetAttachedImages() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedImages
 	}
@@ -1267,8 +1267,8 @@ type ListEventsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Events   []*EventObject                                      `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
-	Metadata *uniclubs_posts_service_v1_posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Events   []*EventObject            `protobuf:"bytes,1,rep,name=events,proto3" json:"events,omitempty"`
+	Metadata *posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (x *ListEventsResponse) Reset() {
@@ -1310,7 +1310,7 @@ func (x *ListEventsResponse) GetEvents() []*EventObject {
 	return nil
 }
 
-func (x *ListEventsResponse) GetMetadata() *uniclubs_posts_service_v1_posts.PaginationMetadata {
+func (x *ListEventsResponse) GetMetadata() *posts.PaginationMetadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -1377,9 +1377,9 @@ type AddCollaboratorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	EventId string                                      `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
-	UserId  int64                                       `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Club    *uniclubs_posts_service_v1_posts.ClubObject `protobuf:"bytes,3,opt,name=club,proto3" json:"club,omitempty"`
+	EventId string            `protobuf:"bytes,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
+	UserId  int64             `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Club    *posts.ClubObject `protobuf:"bytes,3,opt,name=club,proto3" json:"club,omitempty"`
 }
 
 func (x *AddCollaboratorRequest) Reset() {
@@ -1428,7 +1428,7 @@ func (x *AddCollaboratorRequest) GetUserId() int64 {
 	return 0
 }
 
-func (x *AddCollaboratorRequest) GetClub() *uniclubs_posts_service_v1_posts.ClubObject {
+func (x *AddCollaboratorRequest) GetClub() *posts.ClubObject {
 	if x != nil {
 		return x.Club
 	}
@@ -2425,8 +2425,8 @@ type ListParticipantsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Participants []*UserObject                                       `protobuf:"bytes,1,rep,name=participants,proto3" json:"participants,omitempty"`
-	Metadata     *uniclubs_posts_service_v1_posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Participants []*UserObject             `protobuf:"bytes,1,rep,name=participants,proto3" json:"participants,omitempty"`
+	Metadata     *posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (x *ListParticipantsResponse) Reset() {
@@ -2468,7 +2468,7 @@ func (x *ListParticipantsResponse) GetParticipants() []*UserObject {
 	return nil
 }
 
-func (x *ListParticipantsResponse) GetMetadata() *uniclubs_posts_service_v1_posts.PaginationMetadata {
+func (x *ListParticipantsResponse) GetMetadata() *posts.PaginationMetadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -2543,9 +2543,9 @@ type ClubInvite struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id    string                                      `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Event *EventObject                                `protobuf:"bytes,2,opt,name=event,proto3" json:"event,omitempty"`
-	Club  *uniclubs_posts_service_v1_posts.ClubObject `protobuf:"bytes,3,opt,name=club,proto3" json:"club,omitempty"`
+	Id    string            `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Event *EventObject      `protobuf:"bytes,2,opt,name=event,proto3" json:"event,omitempty"`
+	Club  *posts.ClubObject `protobuf:"bytes,3,opt,name=club,proto3" json:"club,omitempty"`
 }
 
 func (x *ClubInvite) Reset() {
@@ -2594,7 +2594,7 @@ func (x *ClubInvite) GetEvent() *EventObject {
 	return nil
 }
 
-func (x *ClubInvite) GetClub() *uniclubs_posts_service_v1_posts.ClubObject {
+func (x *ClubInvite) GetClub() *posts.ClubObject {
 	if x != nil {
 		return x.Club
 	}
@@ -2921,8 +2921,8 @@ type ListBannedParticipantsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	BannedParticipants []*BanRecord                                        `protobuf:"bytes,1,rep,name=banned_participants,json=bannedParticipants,proto3" json:"banned_participants,omitempty"`
-	Metadata           *uniclubs_posts_service_v1_posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	BannedParticipants []*BanRecord              `protobuf:"bytes,1,rep,name=banned_participants,json=bannedParticipants,proto3" json:"banned_participants,omitempty"`
+	Metadata           *posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (x *ListBannedParticipantsResponse) Reset() {
@@ -2964,7 +2964,7 @@ func (x *ListBannedParticipantsResponse) GetBannedParticipants() []*BanRecord {
 	return nil
 }
 
-func (x *ListBannedParticipantsResponse) GetMetadata() *uniclubs_posts_service_v1_posts.PaginationMetadata {
+func (x *ListBannedParticipantsResponse) GetMetadata() *posts.PaginationMetadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -3554,53 +3554,53 @@ func file_posts_event_event_service_proto_rawDescGZIP() []byte {
 var file_posts_event_event_service_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_posts_event_event_service_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_posts_event_event_service_proto_goTypes = []interface{}{
-	(UserStatus)(0),                                            // 0: posts.UserStatus
-	(ParticipantStatus)(0),                                     // 1: posts.ParticipantStatus
-	(HandleInvite_Action)(0),                                   // 2: posts.HandleInvite_Action
-	(*EventObject)(nil),                                        // 3: posts.EventObject
-	(*UserObject)(nil),                                         // 4: posts.UserObject
-	(*BanRecord)(nil),                                          // 5: posts.BanRecord
-	(*OrganizerObject)(nil),                                    // 6: posts.OrganizerObject
-	(*EventFilter)(nil),                                        // 7: posts.EventFilter
-	(*CreateEventRequest)(nil),                                 // 8: posts.CreateEventRequest
-	(*GetEventRequest)(nil),                                    // 9: posts.GetEventRequest
-	(*GetEventResponse)(nil),                                   // 10: posts.GetEventResponse
-	(*UpdateEventRequest)(nil),                                 // 11: posts.UpdateEventRequest
-	(*DeleteEventRequest)(nil),                                 // 12: posts.DeleteEventRequest
-	(*ListEventsRequest)(nil),                                  // 13: posts.ListEventsRequest
-	(*ListEventsResponse)(nil),                                 // 14: posts.ListEventsResponse
-	(*PublishEventRequest)(nil),                                // 15: posts.PublishEventRequest
-	(*AddCollaboratorRequest)(nil),                             // 16: posts.AddCollaboratorRequest
-	(*RemoveCollaboratorRequest)(nil),                          // 17: posts.RemoveCollaboratorRequest
-	(*AddOrganizerRequest)(nil),                                // 18: posts.AddOrganizerRequest
-	(*RemoveOrganizerRequest)(nil),                             // 19: posts.RemoveOrganizerRequest
-	(*RevokeInviteRequest)(nil),                                // 20: posts.RevokeInviteRequest
-	(*HandleInviteUserRequest)(nil),                            // 21: posts.HandleInviteUserRequest
-	(*HandleInviteClubRequest)(nil),                            // 22: posts.HandleInviteClubRequest
-	(*EventActionRequest)(nil),                                 // 23: posts.EventActionRequest
-	(*ApproveEventRequest)(nil),                                // 24: posts.ApproveEventRequest
-	(*RejectEventRequest)(nil),                                 // 25: posts.RejectEventRequest
-	(*ApproveMetadata)(nil),                                    // 26: posts.ApproveMetadata
-	(*RejectMetadata)(nil),                                     // 27: posts.RejectMetadata
-	(*KickParticipantRequest)(nil),                             // 28: posts.KickParticipantRequest
-	(*BanParticipantRequest)(nil),                              // 29: posts.BanParticipantRequest
-	(*ListParticipantsRequest)(nil),                            // 30: posts.ListParticipantsRequest
-	(*ListParticipatedEventsRequest)(nil),                      // 31: posts.ListParticipatedEventsRequest
-	(*ListParticipantsResponse)(nil),                           // 32: posts.ListParticipantsResponse
-	(*GetInvitesRequest)(nil),                                  // 33: posts.GetInvitesRequest
-	(*ClubInvite)(nil),                                         // 34: posts.ClubInvite
-	(*OrganizerInvite)(nil),                                    // 35: posts.OrganizerInvite
-	(*GetClubInvitesResponse)(nil),                             // 36: posts.GetClubInvitesResponse
-	(*GetOrganizerInvitesResponse)(nil),                        // 37: posts.GetOrganizerInvitesResponse
-	(*UnbanParticipantRequest)(nil),                            // 38: posts.UnbanParticipantRequest
-	(*ListBannedParticipantsRequest)(nil),                      // 39: posts.ListBannedParticipantsRequest
-	(*ListBannedParticipantsResponse)(nil),                     // 40: posts.ListBannedParticipantsResponse
-	(*uniclubs_posts_service_v1_posts.ClubObject)(nil),         // 41: posts.ClubObject
-	(*uniclubs_posts_service_v1_posts.CoverImage)(nil),         // 42: posts.CoverImage
-	(*uniclubs_posts_service_v1_posts.FileObject)(nil),         // 43: posts.FileObject
-	(*fieldmaskpb.FieldMask)(nil),                              // 44: google.protobuf.FieldMask
-	(*uniclubs_posts_service_v1_posts.PaginationMetadata)(nil), // 45: posts.PaginationMetadata
-	(*emptypb.Empty)(nil),                                      // 46: google.protobuf.Empty
+	(UserStatus)(0),                        // 0: posts.UserStatus
+	(ParticipantStatus)(0),                 // 1: posts.ParticipantStatus
+	(HandleInvite_Action)(0),               // 2: posts.HandleInvite_Action
+	(*EventObject)(nil),                    // 3: posts.EventObject
+	(*UserObject)(nil),                     // 4: posts.UserObject
+	(*BanRecord)(nil),                      // 5: posts.BanRecord
+	(*OrganizerObject)(nil),                // 6: posts.OrganizerObject
+	(*EventFilter)(nil),                    // 7: posts.EventFilter
+	(*CreateEventRequest)(nil),             // 8: posts.CreateEventRequest
+	(*GetEventRequest)(nil),                // 9: posts.GetEventRequest
+	(*GetEventResponse)(nil),               // 10: posts.GetEventResponse
+	(*UpdateEventRequest)(nil),             // 11: posts.UpdateEventRequest
+	(*DeleteEventRequest)(nil),             // 12: posts.DeleteEventRequest
+	(*ListEventsRequest)(nil),              // 13: posts.ListEventsRequest
+	(*ListEventsResponse)(nil),             // 14: posts.ListEventsResponse
+	(*PublishEventRequest)(nil),            // 15: posts.PublishEventRequest
+	(*AddCollaboratorRequest)(nil),         // 16: posts.AddCollaboratorRequest
+	(*RemoveCollaboratorRequest)(nil),      // 17: posts.RemoveCollaboratorRequest
+	(*AddOrganizerRequest)(nil),            // 18: posts.AddOrganizerRequest
+	(*RemoveOrganizerRequest)(nil),         // 19: posts.RemoveOrganizerRequest
+	(*RevokeInviteRequest)(nil),            // 20: posts.RevokeInviteRequest
+	(*HandleInviteUserRequest)(nil),        // 21: posts.HandleInviteUserRequest
+	(*HandleInviteClubRequest)(nil),        // 22: posts.HandleInviteClubRequest
+	(*EventActionRequest)(nil),             // 23: posts.EventActionRequest
+	(*ApproveEventRequest)(nil),            // 24: posts.ApproveEventRequest
+	(*RejectEventRequest)(nil),             // 25: posts.RejectEventRequest
+	(*ApproveMetadata)(nil),                // 26: posts.ApproveMetadata
+	(*RejectMetadata)(nil),                 // 27: posts.RejectMetadata
+	(*KickParticipantRequest)(nil),         // 28: posts.KickParticipantRequest
+	(*BanParticipantRequest)(nil),          // 29: posts.BanParticipantRequest
+	(*ListParticipantsRequest)(nil),        // 30: posts.ListParticipantsRequest
+	(*ListParticipatedEventsRequest)(nil),  // 31: posts.ListParticipatedEventsRequest
+	(*ListParticipantsResponse)(nil),       // 32: posts.ListParticipantsResponse
+	(*GetInvitesRequest)(nil),              // 33: posts.GetInvitesRequest
+	(*ClubInvite)(nil),                     // 34: posts.ClubInvite
+	(*OrganizerInvite)(nil),                // 35: posts.OrganizerInvite
+	(*GetClubInvitesResponse)(nil),         // 36: posts.GetClubInvitesResponse
+	(*GetOrganizerInvitesResponse)(nil),    // 37: posts.GetOrganizerInvitesResponse
+	(*UnbanParticipantRequest)(nil),        // 38: posts.UnbanParticipantRequest
+	(*ListBannedParticipantsRequest)(nil),  // 39: posts.ListBannedParticipantsRequest
+	(*ListBannedParticipantsResponse)(nil), // 40: posts.ListBannedParticipantsResponse
+	(*posts.ClubObject)(nil),               // 41: posts.ClubObject
+	(*posts.CoverImage)(nil),               // 42: posts.CoverImage
+	(*posts.FileObject)(nil),               // 43: posts.FileObject
+	(*fieldmaskpb.FieldMask)(nil),          // 44: google.protobuf.FieldMask
+	(*posts.PaginationMetadata)(nil),       // 45: posts.PaginationMetadata
+	(*emptypb.Empty)(nil),                  // 46: google.protobuf.Empty
 }
 var file_posts_event_event_service_proto_depIdxs = []int32{
 	41, // 0: posts.EventObject.collaborator_clubs:type_name -> posts.ClubObject

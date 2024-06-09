@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package posts;
 
-option go_package = "uniclubs.posts_service.v1.posts";
+option go_package = "github.com/ARUMANDESU/uniclubs-protos/gen/go/posts";
 
 message ClubObject {
   int64 id = 1;

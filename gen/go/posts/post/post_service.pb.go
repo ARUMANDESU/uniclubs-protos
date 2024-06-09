@@ -4,16 +4,16 @@
 // 	protoc        v4.25.3
 // source: posts/post/post_service.proto
 
-package uniclubs_posts_service_v1_postv1
+package post
 
 import (
+	posts "github.com/ARUMANDESU/uniclubs-protos/gen/go/posts"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
-	uniclubs_posts_service_v1_posts "uniclubs.posts_service.v1.posts"
 )
 
 const (
@@ -28,15 +28,15 @@ type PostObject struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id            string                                        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Club          *uniclubs_posts_service_v1_posts.ClubObject   `protobuf:"bytes,2,opt,name=club,proto3" json:"club,omitempty"`
-	Title         string                                        `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                                        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt     *timestamppb.Timestamp                        `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp                        `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	Tags          []string                                      `protobuf:"bytes,7,rep,name=tags,proto3" json:"tags,omitempty"`
-	CoverImages   []*uniclubs_posts_service_v1_posts.CoverImage `protobuf:"bytes,8,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
-	AttachedFiles []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,9,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Club          *posts.ClubObject      `protobuf:"bytes,2,opt,name=club,proto3" json:"club,omitempty"`
+	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Tags          []string               `protobuf:"bytes,7,rep,name=tags,proto3" json:"tags,omitempty"`
+	CoverImages   []*posts.CoverImage    `protobuf:"bytes,8,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
+	AttachedFiles []*posts.FileObject    `protobuf:"bytes,9,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
 }
 
 func (x *PostObject) Reset() {
@@ -78,7 +78,7 @@ func (x *PostObject) GetId() string {
 	return ""
 }
 
-func (x *PostObject) GetClub() *uniclubs_posts_service_v1_posts.ClubObject {
+func (x *PostObject) GetClub() *posts.ClubObject {
 	if x != nil {
 		return x.Club
 	}
@@ -120,14 +120,14 @@ func (x *PostObject) GetTags() []string {
 	return nil
 }
 
-func (x *PostObject) GetCoverImages() []*uniclubs_posts_service_v1_posts.CoverImage {
+func (x *PostObject) GetCoverImages() []*posts.CoverImage {
 	if x != nil {
 		return x.CoverImages
 	}
 	return nil
 }
 
-func (x *PostObject) GetAttachedFiles() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *PostObject) GetAttachedFiles() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedFiles
 	}
@@ -139,14 +139,14 @@ type CreatePostRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ClubId        int64                                         `protobuf:"varint,1,opt,name=club_id,json=clubId,proto3" json:"club_id,omitempty"`
-	UserId        int64                                         `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Title         string                                        `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                                        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Tags          []string                                      `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
-	CoverImages   []*uniclubs_posts_service_v1_posts.CoverImage `protobuf:"bytes,6,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
-	AttachedFiles []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,7,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
-	CreateMask    *fieldmaskpb.FieldMask                        `protobuf:"bytes,8,opt,name=create_mask,json=createMask,proto3" json:"create_mask,omitempty"`
+	ClubId        int64                  `protobuf:"varint,1,opt,name=club_id,json=clubId,proto3" json:"club_id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
+	CoverImages   []*posts.CoverImage    `protobuf:"bytes,6,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
+	AttachedFiles []*posts.FileObject    `protobuf:"bytes,7,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
+	CreateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,8,opt,name=create_mask,json=createMask,proto3" json:"create_mask,omitempty"`
 }
 
 func (x *CreatePostRequest) Reset() {
@@ -216,14 +216,14 @@ func (x *CreatePostRequest) GetTags() []string {
 	return nil
 }
 
-func (x *CreatePostRequest) GetCoverImages() []*uniclubs_posts_service_v1_posts.CoverImage {
+func (x *CreatePostRequest) GetCoverImages() []*posts.CoverImage {
 	if x != nil {
 		return x.CoverImages
 	}
 	return nil
 }
 
-func (x *CreatePostRequest) GetAttachedFiles() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *CreatePostRequest) GetAttachedFiles() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedFiles
 	}
@@ -297,14 +297,14 @@ type UpdatePostRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id            string                                        `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        int64                                         `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Title         string                                        `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
-	Description   string                                        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	Tags          []string                                      `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
-	CoverImages   []*uniclubs_posts_service_v1_posts.CoverImage `protobuf:"bytes,6,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
-	AttachedFiles []*uniclubs_posts_service_v1_posts.FileObject `protobuf:"bytes,7,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
-	UpdateMask    *fieldmaskpb.FieldMask                        `protobuf:"bytes,8,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Tags          []string               `protobuf:"bytes,5,rep,name=tags,proto3" json:"tags,omitempty"`
+	CoverImages   []*posts.CoverImage    `protobuf:"bytes,6,rep,name=cover_images,json=coverImages,proto3" json:"cover_images,omitempty"`
+	AttachedFiles []*posts.FileObject    `protobuf:"bytes,7,rep,name=attached_files,json=attachedFiles,proto3" json:"attached_files,omitempty"`
+	UpdateMask    *fieldmaskpb.FieldMask `protobuf:"bytes,8,opt,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 }
 
 func (x *UpdatePostRequest) Reset() {
@@ -374,14 +374,14 @@ func (x *UpdatePostRequest) GetTags() []string {
 	return nil
 }
 
-func (x *UpdatePostRequest) GetCoverImages() []*uniclubs_posts_service_v1_posts.CoverImage {
+func (x *UpdatePostRequest) GetCoverImages() []*posts.CoverImage {
 	if x != nil {
 		return x.CoverImages
 	}
 	return nil
 }
 
-func (x *UpdatePostRequest) GetAttachedFiles() []*uniclubs_posts_service_v1_posts.FileObject {
+func (x *UpdatePostRequest) GetAttachedFiles() []*posts.FileObject {
 	if x != nil {
 		return x.AttachedFiles
 	}
@@ -471,8 +471,8 @@ type ListPostsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Posts    []*PostObject                                       `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
-	Metadata *uniclubs_posts_service_v1_posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Posts    []*PostObject             `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
+	Metadata *posts.PaginationMetadata `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (x *ListPostsResponse) Reset() {
@@ -514,7 +514,7 @@ func (x *ListPostsResponse) GetPosts() []*PostObject {
 	return nil
 }
 
-func (x *ListPostsResponse) GetMetadata() *uniclubs_posts_service_v1_posts.PaginationMetadata {
+func (x *ListPostsResponse) GetMetadata() *posts.PaginationMetadata {
 	if x != nil {
 		return x.Metadata
 	}
@@ -697,10 +697,11 @@ var file_posts_post_post_service_proto_rawDesc = []byte{
 	0x74, 0x12, 0x35, 0x0a, 0x0a, 0x55, 0x6e, 0x68, 0x69, 0x64, 0x65, 0x50, 0x6f, 0x73, 0x74, 0x12,
 	0x14, 0x2e, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2e, 0x41, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x11, 0x2e, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2e, 0x50, 0x6f,
-	0x73, 0x74, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x42, 0x22, 0x5a, 0x20, 0x75, 0x6e, 0x69, 0x63,
-	0x6c, 0x75, 0x62, 0x73, 0x2e, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69,
-	0x63, 0x65, 0x2e, 0x76, 0x31, 0x2e, 0x70, 0x6f, 0x73, 0x74, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x74, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x42, 0x39, 0x5a, 0x37, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x41, 0x52, 0x55, 0x4d, 0x41, 0x4e, 0x44, 0x45, 0x53,
+	0x55, 0x2f, 0x75, 0x6e, 0x69, 0x63, 0x6c, 0x75, 0x62, 0x73, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x73, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x67, 0x6f, 0x2f, 0x70, 0x6f, 0x73, 0x74, 0x73, 0x2f, 0x70,
+	0x6f, 0x73, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -717,19 +718,19 @@ func file_posts_post_post_service_proto_rawDescGZIP() []byte {
 
 var file_posts_post_post_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_posts_post_post_service_proto_goTypes = []interface{}{
-	(*PostObject)(nil),                                         // 0: posts.PostObject
-	(*CreatePostRequest)(nil),                                  // 1: posts.CreatePostRequest
-	(*GetPostRequest)(nil),                                     // 2: posts.GetPostRequest
-	(*UpdatePostRequest)(nil),                                  // 3: posts.UpdatePostRequest
-	(*ListPostsRequest)(nil),                                   // 4: posts.ListPostsRequest
-	(*ListPostsResponse)(nil),                                  // 5: posts.ListPostsResponse
-	(*ActionRequest)(nil),                                      // 6: posts.ActionRequest
-	(*uniclubs_posts_service_v1_posts.ClubObject)(nil),         // 7: posts.ClubObject
-	(*timestamppb.Timestamp)(nil),                              // 8: google.protobuf.Timestamp
-	(*uniclubs_posts_service_v1_posts.CoverImage)(nil),         // 9: posts.CoverImage
-	(*uniclubs_posts_service_v1_posts.FileObject)(nil),         // 10: posts.FileObject
-	(*fieldmaskpb.FieldMask)(nil),                              // 11: google.protobuf.FieldMask
-	(*uniclubs_posts_service_v1_posts.PaginationMetadata)(nil), // 12: posts.PaginationMetadata
+	(*PostObject)(nil),               // 0: posts.PostObject
+	(*CreatePostRequest)(nil),        // 1: posts.CreatePostRequest
+	(*GetPostRequest)(nil),           // 2: posts.GetPostRequest
+	(*UpdatePostRequest)(nil),        // 3: posts.UpdatePostRequest
+	(*ListPostsRequest)(nil),         // 4: posts.ListPostsRequest
+	(*ListPostsResponse)(nil),        // 5: posts.ListPostsResponse
+	(*ActionRequest)(nil),            // 6: posts.ActionRequest
+	(*posts.ClubObject)(nil),         // 7: posts.ClubObject
+	(*timestamppb.Timestamp)(nil),    // 8: google.protobuf.Timestamp
+	(*posts.CoverImage)(nil),         // 9: posts.CoverImage
+	(*posts.FileObject)(nil),         // 10: posts.FileObject
+	(*fieldmaskpb.FieldMask)(nil),    // 11: google.protobuf.FieldMask
+	(*posts.PaginationMetadata)(nil), // 12: posts.PaginationMetadata
 }
 var file_posts_post_post_service_proto_depIdxs = []int32{
 	7,  // 0: posts.PostObject.club:type_name -> posts.ClubObject
