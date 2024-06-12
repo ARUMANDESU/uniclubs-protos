@@ -74,6 +74,8 @@ message UpdateClubRequest {
   string description = 4;
   string club_type = 5;
   google.protobuf.FieldMask update_mask = 6;
+  repeated string social_links = 7;
+  string location = 8;
 }
 
 message GetClubRequest {
@@ -91,6 +93,8 @@ message ClubObject {
   google.protobuf.Timestamp created_at = 8;
   repeated Role roles = 9;
   int64 owner_id = 10;
+  repeated string social_links = 11;
+  string location = 12;
 }
 
 message Role {
