@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package comment;
+
+option go_package = "github.com/ARUMANDESU/uniclubs-protos/gen/go/comment";
+
+import "google/protobuf/field_mask.proto";
+
+service Comment {
+  rpc GetCommentByID(GetCommentByIDRequest) returns (GetCommentByIDResponse);
+  rpc ListPostComments(ListPostCommentsRequest) returns (ListPostCommentsResponse);
+}
+
+message CommentObject {
+  string id = 1;
+  UserObject user = 2;
+  string post_id = 3;
+  string body = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message UserObject {
+  string id = 1;
+  string first_name = 2;
+  string last_name = 3;
+  string avatar_url = 4;
+}
+
+message PaginationMetadata {
+  int32 current_page = 1;
+  int32 page_size = 2;
+  int32 first_page = 3;
+  int32 last_page = 4;
+  int32 total_records = 5;
+}
+
+enum SortBy {
+  SORT_BY_UNSPECIFIED = 0;
+  SORT_BY_CREATED_AT = 1;
+  SORT_BY_UPDATED_AT = 2;
+}
+
+enum SortOrder {
+  SORT_ORDER_UNSPECIFIED = 0;
+  SORT_ORDER_ASC = 1;
+  SORT_ORDER_DESC = 2;
+}
+
+message GetCommentByIDRequest {
+  string id = 1;
+}
+
+message GetCommentByIDResponse {
+  CommentObject comment = 1;
+}
+
+message ListPostCommentsRequest {
+  string post_id = 1;
+  int32 page = 2;
+  int32 page_size = 3;
+  SortBy sort_by = 4;
+  SortOrder sort_order = 5;
+  google.protobuf.FieldMask filter_mask = 6;
+}
+
+
+message ListPostCommentsResponse {
+  repeated CommentObject comments = 1;
+  PaginationMetadata pagination_metadata = 2;
+}
