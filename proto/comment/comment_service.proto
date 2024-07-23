@@ -21,7 +21,7 @@ message CommentObject {
 }
 
 message UserObject {
-  string id = 1;
+  int64 id = 1;
   string first_name = 2;
   string last_name = 3;
   string avatar_url = 4;
@@ -67,5 +67,5 @@ message ListPostCommentsRequest {
 
 message ListPostCommentsResponse {
   repeated CommentObject comments = 1;
-  PaginationMetadata pagination_metadata = 2;
+  PaginationMetadata metadata = 2;
 }
