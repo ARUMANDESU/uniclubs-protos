@@ -20,20 +20,23 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	User_Register_FullMethodName       = "/user.User/Register"
-	User_UpdateUser_FullMethodName     = "/user.User/UpdateUser"
-	User_DeleteUser_FullMethodName     = "/user.User/DeleteUser"
-	User_Login_FullMethodName          = "/user.User/Login"
-	User_Logout_FullMethodName         = "/user.User/Logout"
-	User_CheckUserRole_FullMethodName  = "/user.User/CheckUserRole"
-	User_GetUser_FullMethodName        = "/user.User/GetUser"
-	User_SearchUsers_FullMethodName    = "/user.User/SearchUsers"
-	User_ActivateUser_FullMethodName   = "/user.User/ActivateUser"
-	User_UnlockAccount_FullMethodName  = "/user.User/UnlockAccount"
-	User_LockAccount_FullMethodName    = "/user.User/LockAccount"
-	User_RefreshToken_FullMethodName   = "/user.User/RefreshToken"
-	User_UpdateAvatar_FullMethodName   = "/user.User/UpdateAvatar"
-	User_ChangeUserRole_FullMethodName = "/user.User/ChangeUserRole"
+	User_Register_FullMethodName           = "/user.User/Register"
+	User_UpdateUser_FullMethodName         = "/user.User/UpdateUser"
+	User_DeleteUser_FullMethodName         = "/user.User/DeleteUser"
+	User_Login_FullMethodName              = "/user.User/Login"
+	User_Logout_FullMethodName             = "/user.User/Logout"
+	User_CheckUserRole_FullMethodName      = "/user.User/CheckUserRole"
+	User_GetUser_FullMethodName            = "/user.User/GetUser"
+	User_SearchUsers_FullMethodName        = "/user.User/SearchUsers"
+	User_ActivateUser_FullMethodName       = "/user.User/ActivateUser"
+	User_UnlockAccount_FullMethodName      = "/user.User/UnlockAccount"
+	User_LockAccount_FullMethodName        = "/user.User/LockAccount"
+	User_RefreshToken_FullMethodName       = "/user.User/RefreshToken"
+	User_UpdateAvatar_FullMethodName       = "/user.User/UpdateAvatar"
+	User_ChangeUserRole_FullMethodName     = "/user.User/ChangeUserRole"
+	User_ChangeUserPassword_FullMethodName = "/user.User/ChangeUserPassword"
+	User_ForgotPassword_FullMethodName     = "/user.User/ForgotPassword"
+	User_ResetPassword_FullMethodName      = "/user.User/ResetPassword"
 )
 
 // UserClient is the client API for User service.
@@ -54,6 +57,9 @@ type UserClient interface {
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
 	ChangeUserRole(ctx context.Context, in *ChangeUserRoleRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ChangeUserPassword(ctx context.Context, in *ChangeUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type userClient struct {
@@ -190,6 +196,33 @@ func (c *userClient) ChangeUserRole(ctx context.Context, in *ChangeUserRoleReque
 	return out, nil
 }
 
+func (c *userClient) ChangeUserPassword(ctx context.Context, in *ChangeUserPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, User_ChangeUserPassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, User_ForgotPassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userClient) ResetPassword(ctx context.Context, in *ResetPasswordRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, User_ResetPassword_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility
@@ -208,6 +241,9 @@ type UserServer interface {
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
 	ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*emptypb.Empty, error)
+	ChangeUserPassword(context.Context, *ChangeUserPasswordRequest) (*emptypb.Empty, error)
+	ForgotPassword(context.Context, *ForgotPasswordRequest) (*emptypb.Empty, error)
+	ResetPassword(context.Context, *ResetPasswordRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -256,6 +292,15 @@ func (UnimplementedUserServer) UpdateAvatar(context.Context, *UpdateAvatarReques
 }
 func (UnimplementedUserServer) ChangeUserRole(context.Context, *ChangeUserRoleRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangeUserRole not implemented")
+}
+func (UnimplementedUserServer) ChangeUserPassword(context.Context, *ChangeUserPasswordRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeUserPassword not implemented")
+}
+func (UnimplementedUserServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
+}
+func (UnimplementedUserServer) ResetPassword(context.Context, *ResetPasswordRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 
@@ -522,6 +567,60 @@ func _User_ChangeUserRole_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ChangeUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ChangeUserPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ChangeUserPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ChangeUserPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ChangeUserPassword(ctx, req.(*ChangeUserPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ForgotPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _User_ResetPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ResetPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ResetPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ResetPassword(ctx, req.(*ResetPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -584,6 +683,18 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ChangeUserRole",
 			Handler:    _User_ChangeUserRole_Handler,
+		},
+		{
+			MethodName: "ChangeUserPassword",
+			Handler:    _User_ChangeUserPassword_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _User_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "ResetPassword",
+			Handler:    _User_ResetPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

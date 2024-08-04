@@ -23,6 +23,10 @@ service User{
     rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
     rpc UpdateAvatar(UpdateAvatarRequest) returns (UpdateAvatarResponse);
     rpc ChangeUserRole(ChangeUserRoleRequest) returns (google.protobuf.Empty);
+
+    rpc ChangeUserPassword(ChangeUserPasswordRequest) returns (google.protobuf.Empty);
+    rpc ForgotPassword(ForgotPasswordRequest) returns (google.protobuf.Empty);
+    rpc ResetPassword(ResetPasswordRequest) returns (google.protobuf.Empty);
 }
 
 message RegisterRequest {
@@ -163,4 +167,20 @@ message RefreshTokenResponse {
     string jwt_token = 1;
     string rt_token = 2;
     UserObject user = 3;
+}
+
+message ChangeUserPasswordRequest {
+    int64 user_id = 1;
+    string old_password = 2;
+    string new_password = 3;
+}
+
+message ForgotPasswordRequest {
+    string email = 1;
+    string barcode = 2;
+}
+
+message ResetPasswordRequest {
+    string verification_token = 1;
+    string new_password = 2;
 }
